@@ -13,6 +13,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@maxgraph/core": "^0.1.0",
     "vue": "^3.3.2",
     "vue-router": "^4.2.0"
   },
