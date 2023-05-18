@@ -3,7 +3,7 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-  <div>
+  <div class="app-container">
     <header>
       <div class="wrapper">
 
@@ -18,6 +18,11 @@ import { RouterLink, RouterView } from 'vue-router'
 </template>
 
 <style scoped>
+.app-container {
+  display: flex;
+  flex-direction: column;
+}
+
 header {
   line-height: 1.5;
   max-height: 100vh;

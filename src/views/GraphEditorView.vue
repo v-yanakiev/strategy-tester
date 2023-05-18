@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import GraphEditor from '@/components/GraphEditor/GraphEditor.vue';
 </script>
 
 <template>
-    <main>
-        <h1>Hello. This is the Graph Editor. You can design your own strategy here.</h1>
-    </main>
+    <h1>This is the Graph Editor. You can design your own strategy here.</h1>
+    <GraphEditor></GraphEditor>
 </template>
