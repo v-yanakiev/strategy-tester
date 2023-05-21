@@ -1,0 +1,22 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+interface Props {
+    clickLabel: string;
+    statementLabel: string;
+}
+const emits = defineEmits(['finalized'])
+const menuActivated = ref(false);
+const statement = ref("");
+const finalize = () => {
+    menuActivated.value = false;
+    emits("finalized", statement)
+}
+</script>
+<template>
+    <button v-if="!menuActivated" @click="menuActivated = true"> Add Code Execution Block</button>
+    <div v-if="menuActivated">
+        <label>Code which is to be executed: </label>
+        <textarea v-model="statement" />
+        <button @click="finalize">Finalize</button>
+    </div>
+</template>

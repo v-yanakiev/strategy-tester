@@ -3,6 +3,7 @@ import { type CellStyle, Graph, InternalEvent, Cell } from '@maxgraph/core';
 import { onMounted, ref, type Ref } from 'vue';
 import AddConnection from './AddNewElement/AddConnection.vue';
 import ConditionedAdd from './AddNewElement/ConditionedAdd.vue';
+import AddCodeExecution from './AddNewElement/AddCodeExecution.vue';
 let graph: Graph;
 let beginningVertex: Cell;
 let endVertex: Cell;
@@ -58,6 +59,7 @@ function addDeleteFunctionality() {
 		<ConditionedAdd @finalized="addIfBlock" click-label="Add If" statement-label="If statement: " />
 		<ConditionedAdd @finalized="addWhileBlock" click-label="Add While" statement-label="While statement: " />
 		<AddConnection />
+		<AddCodeExecution />
 	</div>
 	<br />
 	<div id="graph-container" style="background-color:white;"></div>
