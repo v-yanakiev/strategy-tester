@@ -24,7 +24,6 @@ onMounted(() => {
 		beginningVertex = graph.insertVertex(getParent(), null, 'Start', 10, 10, 100, 100, <CellStyle>{ deletable: true, fillColor: 'pink' });
 		endVertex = graph.insertVertex(getParent(), null, 'End', 400, 400, 100, 100, <CellStyle>{ deletable: true, fillColor: 'pink' });
 	})
-	console.log(graph.getDataModel());
 
 })
 function addIfBlock(statement: string) {
