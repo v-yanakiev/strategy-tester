@@ -3,5 +3,5 @@ import GraphEditor from '@/components/GraphEditor/GraphEditor.vue';
 </script>
 
 <template>
-    <GraphEditor></GraphEditor>
+    <GraphEditor />
 </template>

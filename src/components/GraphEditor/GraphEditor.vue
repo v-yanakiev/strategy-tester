@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { type CellStyle, Graph, InternalEvent } from '@maxgraph/core';
 import { onMounted } from 'vue';
+import AddConnection from './AddNewElement/AddConnection.vue';
+import ConditionedAdd from './AddNewElement/ConditionedAdd.vue';
 onMounted(() => {
     const container = <HTMLElement>document.getElementById('graph-container');
     // Disables the built-in context menu
@@ -18,12 +20,32 @@ onMounted(() => {
         graph.insertEdge(parent, null, 'a regular edge', vertex01, vertex02);
         console.log(vertex01)
     })
+    console.log(graph.getDataModel());
 
 })
+function addIfBlock(statement: string) {
+
+}
+function addWhileBlock(statement: string) {
+
+}
 </script>
 
 <template>
     <h1>This is the Graph Editor. You can design your own strategy here.</h1>
-
-    <div id="graph-container"></div>
+    <br />
+    <div class="elementCreators">
+        <ConditionedAdd @finalized="addIfBlock" click-label="Add If" statement-label="If statement: " />
+        <ConditionedAdd @finalized="addWhileBlock" click-label="Add While" statement-label="While statement: " />
+        <AddConnection />
+    </div>
+    <br />
+    <div id="graph-container" style="background-color:white;"></div>
 </template>
+<style scoped>
+.elementCreators {
+    display: flex;
+    flex-direction: column;
+    ;
+}
+</style>
