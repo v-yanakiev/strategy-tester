@@ -1,34 +1,52 @@
 <script setup lang="ts">
-import { type CellStyle, Graph, InternalEvent } from '@maxgraph/core';
-import { onMounted } from 'vue';
+import { type CellStyle, Graph, InternalEvent, Cell } from '@maxgraph/core';
+import { onMounted, ref, type Ref } from 'vue';
 import AddConnection from './AddNewElement/AddConnection.vue';
 import ConditionedAdd from './AddNewElement/ConditionedAdd.vue';
+const graph = ref<Graph>();
+function getGraph() {
+    return graph.value!;
+}
+function getParent() {
+    return getGraph().getDefaultParent!();
+}
 onMounted(() => {
     const container = <HTMLElement>document.getElementById('graph-container');
     // Disables the built-in context menu
     InternalEvent.disableContextMenu(container);
-    const graph = new Graph(container);
-    graph.setPanning(true); // Use mouse right button for panning
-    // // Gets the default parent for inserting new cells. This
+    graph.value = new Graph(container, undefined,);
+    getGraph().setPanning(true); // Use mouse right button for panning
+    // // Gets the default getParent() for inserting new cells. This
     // // is normally the first child of the root (ie. layer 0).
-    const parent = graph.getDefaultParent();
 
     // Adds cells to the model in a single step
-    graph.batchUpdate(() => {
-        const vertex01 = graph.insertVertex(parent, null, 'a regular rectangle', 10, 10, 100, 100);
-        const vertex02 = graph.insertVertex(parent, null, 'a regular ellipse', 350, 90, 50, 50, <CellStyle>{ shape: 'ellipse', fillColor: 'orange' });
-        graph.insertEdge(parent, null, 'a regular edge', vertex01, vertex02);
+    getGraph().batchUpdate(() => {
+        const vertex01 = getGraph().insertVertex(getParent(), null, 'a regular rectangle', 10, 10, 100, 100, <CellStyle>{ deletable: true });
+        const vertex02 = getGraph().insertVertex(getParent(), null, 'a regular ellipse', 350, 90, 50, 50, <CellStyle>{ shape: 'ellipse', fillColor: 'orange' });
+        const edge = getGraph().insertEdge(getParent(), null, 'a regular edge', vertex01, vertex02);
         console.log(vertex01)
     })
-    console.log(graph.getDataModel());
+    console.log(getGraph().getDataModel());
 
 })
-function addIfBlock(statement: string) {
-
+function addIfBlock(statement: Ref<string>) {
+    const ifVertex = getGraph().insertVertex(getParent(), null, `If: ${statement.value}`, 10, 10, 200, 200, <CellStyle>{ deletable: true, shape: 'rhombus', fillColor: 'orange' });
 }
 function addWhileBlock(statement: string) {
 
 }
+document.onkeydown = function (evt) {
+    evt = evt || window.event;
+    if (evt.key === 'Delete') {
+        // Get the currently selected cells
+        var selectedCells = getGraph().getSelectionCells();
+        getGraph().removeCells(selectedCells);
+        // selectedCells.forEach(cell => { cell.removeFromParent(); cell.visible = false; cell.parent.re })
+        selectedCells.forEach(cell => getGraph().refresh(cell))
+        // Delete the selected cells
+    }
+};
+
 </script>
 
 <template>
