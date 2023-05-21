@@ -10,7 +10,7 @@ const menuActivated = ref(false);
 const statement = ref("");
 const finalize = () => {
     menuActivated.value = false;
-    emits("finalized", statement)
+    emits("finalized", statement.value)
 }
 </script>
 <template>

@@ -18,7 +18,7 @@ onMounted(() => {
 	graph.setPanning(true); // Use mouse right button for panning
 	// Gets the default getParent() for inserting new cells. This
 	// is normally the first child of the root (ie. layer 0).
-	addDeleteFunctionality();
+	attachDeleteFunctionality();
 	// Adds cells to the model in a single step
 	graph.batchUpdate(() => {
 		beginningVertex = graph.insertVertex(getParent(), null, 'Start', 10, 10, 100, 100, <CellStyle>{ deletable: true, fillColor: 'pink' });
@@ -27,18 +27,15 @@ onMounted(() => {
 	console.log(graph.getDataModel());
 
 })
-function addIfBlock(statement: Ref<string>) {
-	const ifVertex = graph.insertVertex(getParent(), null, `If: ${statement.value}`, 200, 200, 100, 100, <CellStyle>{ deletable: true, fillColor: 'orange' });
-	const yesPath = graph.insertEdge(getParent(), null, 'Yes', ifVertex, endVertex);
-	// const noPath = graph.insertEdge(getParent(), null, 'No', ifVertex, endVertex.value);
-	// graph.refresh();
-	getParent().children.forEach(cell => graph.refresh(cell))
+function addIfBlock(statement: string) {
+	const ifVertex = graph.insertVertex(getParent(), null, `If: ${statement}`, 200, 200, 100, 100, <CellStyle>{ deletable: true, fillColor: 'orange' });
 }
 function addWhileBlock(statement: string) {
-
 }
-
-function addDeleteFunctionality() {
+function addCodeExecution(statement: string) {
+	const codeExecution = graph.insertVertex(getParent(), null, `Execute code: ${statement}`, 250, 250, 100, 100, <CellStyle>{ deletable: true, fillColor: 'lightblue', whiteSpace: "wrap", overflow: "width", autosize: true });
+}
+function attachDeleteFunctionality() {
 	document.onkeydown = function (evt) {
 		evt = evt || window.event;
 		if (evt.key === 'Delete') {
@@ -59,7 +56,7 @@ function addDeleteFunctionality() {
 		<ConditionedAdd @finalized="addIfBlock" click-label="Add If" statement-label="If statement: " />
 		<ConditionedAdd @finalized="addWhileBlock" click-label="Add While" statement-label="While statement: " />
 		<AddConnection />
-		<AddCodeExecution />
+		<AddCodeExecution @finalized="addCodeExecution" />
 	</div>
 	<br />
 	<div id="graph-container" style="background-color:white;"></div>
