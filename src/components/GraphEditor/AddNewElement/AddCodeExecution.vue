@@ -1,10 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-interface Props {
-    clickLabel: string;
-    statementLabel: string;
-}
-const props = defineProps<Props>()
 const emits = defineEmits(['finalized'])
 const menuActivated = ref(false);
 const statement = ref("");

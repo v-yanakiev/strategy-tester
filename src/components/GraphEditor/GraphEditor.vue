@@ -5,10 +5,9 @@ import AddPath from './AddNewElement/AddPath.vue';
 import ConditionedAdd from './AddNewElement/ConditionedAdd.vue';
 import AddCodeExecution from './AddNewElement/AddCodeExecution.vue';
 let graph: Graph;
-let beginningVertex: Cell;
-let endVertex: Cell;
-let beginningOfConnector: Cell | null;
-let endOfConnector: Cell | null;
+let beginningNode: Cell;
+let endNode: Cell;
+const markedNode: Ref<Cell | undefined> = ref(undefined);
 function getParent() {
 	return graph.getDefaultParent!();
 }
@@ -21,9 +20,10 @@ onMounted(() => {
 	// Gets the default getParent() for inserting new cells. This
 	// is normally the first child of the root (ie. layer 0).
 	attachDeleteFunctionality();
+	attachNodeMarking();
 	// Adds cells to the model in a single step
 	graph.batchUpdate(() => {
-		beginningVertex = graph.insertVertex(
+		beginningNode = graph.insertVertex(
 			getParent(),
 			null,
 			'Start',
@@ -33,7 +33,7 @@ onMounted(() => {
 			100,
 			<CellStyle>{ deletable: true, fillColor: 'pink' }
 		);
-		endVertex = graph.insertVertex(
+		endNode = graph.insertVertex(
 			getParent(),
 			null,
 			'End',
@@ -44,6 +44,7 @@ onMounted(() => {
 			<CellStyle>{ deletable: true, fillColor: 'pink' }
 		);
 	});
+	refreshGraph();
 });
 function addIfBlock(statement: string) {
 	const ifVertex = graph.insertVertex(
@@ -56,6 +57,7 @@ function addIfBlock(statement: string) {
 		100,
 		<CellStyle>{ deletable: true, fillColor: 'orange' }
 	);
+	refreshGraph();
 }
 function addWhileBlock(statement: string) { }
 function addCodeExecution(statement: string) {
@@ -75,23 +77,32 @@ function addCodeExecution(statement: string) {
 			autosize: true
 		}
 	);
+
+	refreshGraph();
 }
 function attachDeleteFunctionality() {
 	document.onkeydown = function (evt) {
 		evt = evt || window.event;
 		if (evt.key === 'Delete') {
 			// Get the currently selected cells
-			var selectedCells = graph.getSelectionCells();
+			let selectedCells = graph.getSelectionCells();
 			graph.removeCells(selectedCells);
-			selectedCells.forEach((cell) => graph.refresh(cell));
+			refreshGraph();
 		}
 	};
 }
-function attachMousePressMonitoring() {
+function addPath(beginningNode: Cell, endNode: Cell) {
+	const edge = graph.insertEdge(getParent(), null, 'a regular edge', beginningNode, endNode);
+	refreshGraph();
+}
+function refreshGraph() {
+	getParent().children.forEach(cell => graph.refresh(cell));
+}
+function attachNodeMarking() {
 	document.onclick = function (evt) {
 		evt = evt || window.event;
-		var selectedCells = graph.getSelectionCells();
-		if ()
+		let selectedCells = graph.getSelectionCells();
+		markedNode.value = selectedCells[0];
 	}
 }
 </script>
@@ -102,8 +113,8 @@ function attachMousePressMonitoring() {
 	<div class="elementCreators">
 		<ConditionedAdd @finalized="addIfBlock" click-label="Add If" statement-label="If statement: " />
 		<ConditionedAdd @finalized="addWhileBlock" click-label="Add While" statement-label="While statement: " />
-		<AddConnection />
-		<AddPath @finalized="addCodeExecution" />
+		<AddCodeExecution @finalized="addCodeExecution" />
+		<AddPath :markedNode="markedNode" @finalized="addPath" />
 	</div>
 	<br />
 	<div id="graph-container" style="background-color: white"></div>
