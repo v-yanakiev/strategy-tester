@@ -4,6 +4,7 @@ interface Props {
     clickLabel: string;
     statementLabel: string;
 }
+const props = defineProps<Props>()
 const emits = defineEmits(['finalized'])
 const menuActivated = ref(false);
 const statement = ref("");
