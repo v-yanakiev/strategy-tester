@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { type CellStyle, Graph, InternalEvent, Cell } from '@maxgraph/core';
-import { onMounted, ref, type Ref } from 'vue';
+import { onMounted, ref, toRaw, type Ref } from 'vue';
 import AddPath from './AddNewElement/AddPath.vue';
 import ConditionedAdd from './AddNewElement/ConditionedAdd.vue';
 import AddCodeExecution from './AddNewElement/AddCodeExecution.vue';
@@ -92,10 +92,11 @@ function attachDeleteFunctionality() {
 	};
 }
 function addPath(beginningNode: Cell, endNode: Cell) {
-	const edge = graph.insertEdge(getParent(), null, 'a regular edge', beginningNode, endNode);
+	const edge = graph.insertEdge(getParent(), null, 'a regular edge', toRaw(beginningNode), toRaw(endNode));
 	refreshGraph();
 }
 function refreshGraph() {
+	graph.refresh();
 	getParent().children.forEach(cell => graph.refresh(cell));
 }
 function attachNodeMarking() {

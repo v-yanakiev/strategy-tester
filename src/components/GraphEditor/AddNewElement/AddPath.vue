@@ -20,11 +20,11 @@ function markPathBeginning() {
 }
 function markPathEnd() {
     endNode.value = props.markedNode;
+    finalize();
 }
 </script>
 <template>
-    <button @click="finalize" v-if="endNode">Create path</button>
-    <button @click="markPathEnd" v-else-if="beginningNode" :disabled="!markedNode || markedNode == beginningNode">
+    <button @click="markPathEnd" v-if="beginningNode" :disabled="!markedNode || markedNode == beginningNode">
         End path
     </button>
     <button @click="markPathBeginning" v-else :disabled="!markedNode">Start path</button>
