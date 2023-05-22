@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { type CellStyle, Graph, InternalEvent, Cell } from '@maxgraph/core';
 import { onMounted, ref, type Ref } from 'vue';
-import AddConnection from './AddNewElement/AddConnection.vue';
+import AddPath from './AddNewElement/AddPath.vue';
 import ConditionedAdd from './AddNewElement/ConditionedAdd.vue';
 import AddCodeExecution from './AddNewElement/AddCodeExecution.vue';
 let graph: Graph;
 let beginningVertex: Cell;
 let endVertex: Cell;
+let beginningOfConnector: Cell | null;
+let endOfConnector: Cell | null;
 function getParent() {
 	return graph.getDefaultParent!();
 }
@@ -85,6 +87,13 @@ function attachDeleteFunctionality() {
 		}
 	};
 }
+function attachMousePressMonitoring() {
+	document.onclick = function (evt) {
+		evt = evt || window.event;
+		var selectedCells = graph.getSelectionCells();
+		if ()
+	}
+}
 </script>
 
 <template>
@@ -94,7 +103,7 @@ function attachDeleteFunctionality() {
 		<ConditionedAdd @finalized="addIfBlock" click-label="Add If" statement-label="If statement: " />
 		<ConditionedAdd @finalized="addWhileBlock" click-label="Add While" statement-label="While statement: " />
 		<AddConnection />
-		<AddCodeExecution @finalized="addCodeExecution" />
+		<AddPath @finalized="addCodeExecution" />
 	</div>
 	<br />
 	<div id="graph-container" style="background-color: white"></div>
