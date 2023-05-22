@@ -24,7 +24,7 @@ function markPathStart(pathChosenSetting: PathChosen) {
 }
 function markPathEnd() {
     endNode.value = props.markedNode;
-    emits('endChosen', endNode.value, pathChosen.value!.toString());
+    emits('endChosen', endNode.value, PathChosen[pathChosen.value!]);
     startNode.value = undefined;
     endNode.value = undefined;
     pathChosen.value = undefined;
