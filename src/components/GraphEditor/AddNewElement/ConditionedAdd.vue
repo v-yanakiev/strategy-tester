@@ -5,16 +5,18 @@ interface Props {
     statementLabel: string;
 }
 const props = defineProps<Props>();
-const emits = defineEmits(['finalized'])
+const emits = defineEmits(['finalized']);
 const menuActivated = ref(false);
-const statement = ref("");
+const statement = ref('');
 const finalize = () => {
     menuActivated.value = false;
-    emits("finalized", statement.value)
-}
+    emits('finalized', statement.value);
+};
 </script>
 <template>
-    <button v-if="!menuActivated" @click="menuActivated = true">{{ clickLabel }}</button>
+    <button v-if="!menuActivated" @click="menuActivated = true">
+        {{ clickLabel }}
+    </button>
     <div v-if="menuActivated">
         <label>{{ statementLabel }}</label>
         <input v-model="statement" />

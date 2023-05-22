@@ -5,37 +5,32 @@ import { ref, type Ref } from 'vue';
 interface Props {
     markedNode: Cell | undefined;
 }
-let beginningNode: Ref<Cell | undefined> = ref(undefined);
+let startNode: Ref<Cell | undefined> = ref(undefined);
 let endNode: Ref<Cell | undefined> = ref(undefined);
 
 const props = defineProps<Props>();
-const emits = defineEmits(['finalized']);
-enum PathChosen {
-    Yes, No
-}
-const pathChosen = ref(undefined) as Ref<undefined | PathChosen>;
+const emits = defineEmits(['startChosen', 'endChosen']);
 
-function finalize() {
-    emits("finalized", beginningNode.value, endNode.value)
-    beginningNode.value = undefined;
-    endNode.value = undefined;
-    pathChosen.value = undefined;
-}
-function markPathBeginning(selectedPathChosen?: PathChosen) {
-    beginningNode.value = props.markedNode;
-    pathChosen.value = selectedPathChosen;
+function markPathStart() {
+    startNode.value = props.markedNode;
+    emits('startChosen', startNode.value);
 }
 function markPathEnd() {
     endNode.value = props.markedNode;
-    finalize();
-}
-function nodeIsConditionalNode() {
-    return (props.markedNode?.value as string | undefined)?.startsWith("If");
+    emits('endChosen', endNode.value, '');
+    startNode.value = undefined;
+    endNode.value = undefined;
 }
 </script>
 <template>
-    <button @click="markPathEnd" v-if="beginningNode" :disabled="!markedNode || markedNode == beginningNode">
+    <button
+        @click="markPathEnd"
+        v-if="startNode"
+        :disabled="!markedNode || markedNode == startNode"
+    >
         End path
     </button>
-    <button @click="markPathBeginning()" v-else :disabled="!markedNode">Start path</button>
+    <button @click="markPathStart()" v-else :disabled="!markedNode">
+        Start path
+    </button>
 </template>
