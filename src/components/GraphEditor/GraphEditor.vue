@@ -92,7 +92,7 @@ function attachDeleteFunctionality() {
 	};
 }
 function addPath(beginningNode: Cell, endNode: Cell) {
-	const edge = graph.insertEdge(getParent(), null, 'a regular edge', toRaw(beginningNode), toRaw(endNode));
+	const edge = graph.insertEdge(getParent(), null, '', toRaw(beginningNode), toRaw(endNode));
 	refreshGraph();
 }
 function refreshGraph() {
