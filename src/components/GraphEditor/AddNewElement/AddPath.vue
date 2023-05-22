@@ -21,10 +21,7 @@ function setPathEnd(node: Cell, text: string) {
 </script>
 <template>
     <AddConditionalPath
-        v-if="
-            (markedNode && isCondition(markedNode)) ||
-            (pathStart && isCondition(pathStart))
-        "
+        v-if="markedNode || (pathStart && isCondition(pathStart))"
         :marked-node="markedNode"
         @start-chosen="setPathStart"
         @end-chosen="setPathEnd"

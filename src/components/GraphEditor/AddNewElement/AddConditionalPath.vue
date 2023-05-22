@@ -12,8 +12,8 @@ const props = defineProps<Props>();
 const emits = defineEmits(['startChosen', 'endChosen']);
 
 enum PathChosen {
-    Yes,
-    No
+    Yes = 1,
+    No = 2
 }
 const pathChosen = ref(undefined) as Ref<undefined | PathChosen>;
 
