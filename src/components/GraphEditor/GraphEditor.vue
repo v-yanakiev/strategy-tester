@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { type CellStyle, Graph, InternalEvent, Cell } from '@maxgraph/core';
 import { onMounted, ref, toRaw, type Ref } from 'vue';
-import AddPath from './AddNewElement/AddPath.vue';
+import AddNormalPath from './AddNewElement/AddNormalPath.vue';
 import ConditionedAdd from './AddNewElement/ConditionedAdd.vue';
 import AddCodeExecution from './AddNewElement/AddCodeExecution.vue';
 let graph: Graph;
@@ -115,7 +115,8 @@ function attachNodeMarking() {
 		<ConditionedAdd @finalized="addIfBlock" click-label="Add If" statement-label="If statement: " />
 		<ConditionedAdd @finalized="addWhileBlock" click-label="Add While" statement-label="While statement: " />
 		<AddCodeExecution @finalized="addCodeExecution" />
-		<AddPath :markedNode="markedNode" @finalized="addPath" />
+		<AddNormalPath :markedNode="markedNode" @finalized="addPath" />
+
 	</div>
 	<br />
 	<div id="graph-container" style="background-color: white"></div>
