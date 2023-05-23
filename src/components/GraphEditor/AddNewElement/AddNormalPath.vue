@@ -21,6 +21,9 @@ function markPathEnd() {
     startNode.value = undefined;
     endNode.value = undefined;
 }
+function alreadyLeadsSomewhere() {
+    return props.markedNode?.getOutgoingEdges().length;
+}
 </script>
 <template>
     <button
@@ -30,7 +33,11 @@ function markPathEnd() {
     >
         End path
     </button>
-    <button @click="markPathStart()" v-else :disabled="!markedNode">
+    <button
+        @click="markPathStart()"
+        v-else-if="!alreadyLeadsSomewhere()"
+        :disabled="!markedNode"
+    >
         Start path
     </button>
 </template>

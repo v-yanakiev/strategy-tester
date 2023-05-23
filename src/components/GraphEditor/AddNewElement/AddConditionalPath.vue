@@ -29,6 +29,16 @@ function markPathEnd() {
     endNode.value = undefined;
     pathChosen.value = undefined;
 }
+function yesPathAlreadySelected() {
+    return props.markedNode
+        ?.getOutgoingEdges()
+        .some((a) => a.value.startsWith('Yes'));
+}
+function noPathAlreadySelected() {
+    return props.markedNode
+        ?.getOutgoingEdges()
+        .some((a) => a.value.startsWith('No'));
+}
 </script>
 <template>
     <button
@@ -40,7 +50,7 @@ function markPathEnd() {
     </button>
     <button
         @click="markPathStart(PathChosen.Yes)"
-        v-else-if="!pathChosen"
+        v-else-if="!pathChosen && !yesPathAlreadySelected()"
         :disabled="!markedNode"
     >
         Start Yes path
@@ -55,7 +65,7 @@ function markPathEnd() {
     </button>
     <button
         @click="markPathStart(PathChosen.No)"
-        v-else-if="!pathChosen"
+        v-else-if="!pathChosen && !noPathAlreadySelected()"
         :disabled="!markedNode"
     >
         Start No path
