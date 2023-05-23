@@ -124,8 +124,8 @@ function canAStrategyBeGenerated() {
     const allExceptEndHaveOutgoingEdges = getAllNodes().every(
         (a) =>
             a.value == 'End' ||
-            (isCondition(a) && a.getOutgoingEdges().length == 2) ||
-            (!isCondition(a) && a.getOutgoingEdges().length == 1)
+            (!isCondition(a) && a.getOutgoingEdges().length == 1) ||
+            a.getOutgoingEdges().length == 2
     );
     if (!allExceptEndHaveOutgoingEdges) {
         return false;
@@ -146,7 +146,7 @@ function attachNodeMarking() {
 </script>
 
 <template>
-    <h1 v-if="strategyCanBeGenerated">Valid graph!</h1>
+    <h2 v-if="strategyCanBeGenerated">Valid graph!</h2>
     <div class="elementCreators">
         <ConditionedAdd
             @finalized="addIfBlock"
