@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { ref, type Ref } from 'vue';
 import Papa from 'papaparse';
-const file: Ref<null | any> = ref(null);
+const droppedFile: Ref<null | any> = ref(null);
+const data: Ref<null | any> = ref(null);
 const parsing = ref(false);
 const onFileChange = (e: any) => {
     const files = e.target.files || e.dataTransfer.files;
     if (!files.length) return;
 
-    file.value = files[0];
-    parseCSV(file.value);
+    droppedFile.value = files[0];
+    parseCSV(droppedFile.value);
 };
 
 const parseCSV = (file: any) => {
@@ -18,7 +19,7 @@ const parseCSV = (file: any) => {
         header: true,
         dynamicTyping: true,
         complete: function (results) {
-            file.value = results.data;
+            data.value = results.data;
             parsing.value = false;
         },
         error: function (err) {
@@ -43,6 +44,7 @@ const preventDefault = (e: any) => {
         Drop your CSV file here
     </div>
     <h1 v-if="parsing">Parsing...</h1>
+    <h1 v-if="data">Parsed!</h1>
 </template>
 
 <style scoped>
