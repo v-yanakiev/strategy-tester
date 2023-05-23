@@ -37,8 +37,8 @@ onMounted(() => {
             getParent(),
             null,
             'End',
-            400,
-            400,
+            800,
+            200,
             100,
             100,
             <CellStyle>{
@@ -124,20 +124,23 @@ function attachNodeMarking() {
             click-label="Add If"
             statement-label="If statement: "
         />
-        <ConditionedAdd
-            @finalized="addWhileBlock"
-            click-label="Add While"
-            statement-label="While statement: "
-        />
         <AddCodeExecution @finalized="addCodeExecution" />
         <AddPath :marked-node="markedNode" @pathCreated="addPath" />
     </div>
     <br />
-    <div id="graph-container" style="background-color: white"></div>
+    <div id="graph-container"></div>
 </template>
 <style scoped>
 .elementCreators {
     display: flex;
     flex-direction: column;
+}
+#graph-container {
+    background-color: white;
+    width: 1000px;
+    height: 400px;
+    border-color: black;
+    border-width: 1px;
+    border: 2px solid black;
 }
 </style>
