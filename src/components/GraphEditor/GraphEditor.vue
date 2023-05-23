@@ -4,6 +4,7 @@ import { onMounted, ref, toRaw, type Ref } from 'vue';
 import ConditionedAdd from './AddNewElement/ConditionedAdd.vue';
 import AddCodeExecution from './AddNewElement/AddCodeExecution.vue';
 import AddPath from './AddNewElement/AddPath.vue';
+import { isCondition } from '@/common/nodeCalculator';
 let graph: Graph;
 let startNode: Cell;
 let endNode: Cell;
@@ -121,7 +122,10 @@ function canAStrategyBeGenerated() {
         return false;
     }
     const allExceptEndHaveOutgoingEdges = getAllNodes().every(
-        (a) => a.value == 'End' || a.getOutgoingEdges().length
+        (a) =>
+            a.value == 'End' ||
+            (isCondition(a) && a.getOutgoingEdges().length == 2) ||
+            (!isCondition(a) && a.getOutgoingEdges().length == 1)
     );
     if (!allExceptEndHaveOutgoingEdges) {
         return false;
