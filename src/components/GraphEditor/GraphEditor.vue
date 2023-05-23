@@ -111,7 +111,7 @@ function getAllNodes() {
 const strategyCanBeGenerated = ref(false);
 function canAStrategyBeGenerated() {
     const startDoesNotLeadDirectlyToEnd =
-        startNode.getOutgoingEdges()[0].target?.value != endNode.value;
+        startNode.getOutgoingEdges()[0]?.target?.value != endNode.value;
     if (!startDoesNotLeadDirectlyToEnd) {
         return false;
     }
