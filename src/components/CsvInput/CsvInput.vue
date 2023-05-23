@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, type Ref } from 'vue';
 import Papa from 'papaparse';
-let file = ref(null);
+const file: Ref<null | any> = ref(null);
 const parsing = ref(false);
 const onFileChange = (e: any) => {
     const files = e.target.files || e.dataTransfer.files;
@@ -18,7 +18,7 @@ const parseCSV = (file: any) => {
         header: true,
         dynamicTyping: true,
         complete: function (results) {
-            console.log(results.data);
+            file.value = results.data;
             parsing.value = false;
         },
         error: function (err) {
