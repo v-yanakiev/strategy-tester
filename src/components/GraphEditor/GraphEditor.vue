@@ -62,7 +62,6 @@ function addIfBlock(statement: string) {
     );
     refreshGraph();
 }
-function addWhileBlock(statement: string) {}
 function addCodeExecution(statement: string) {
     const codeExecution = graph.insertVertex(
         getParent(),
@@ -103,6 +102,31 @@ function addPath(startNode: Cell, endNode: Cell, text: string) {
         toRaw(endNode)
     );
     refreshGraph();
+    strategyCanBeGenerated.value = canAStrategyBeGenerated();
+}
+function getAllNodes() {
+    return getParent().children.filter((a) => a.vertex);
+}
+const strategyCanBeGenerated = ref(false);
+function canAStrategyBeGenerated() {
+    const startDoesNotLeadDirectlyToEnd =
+        startNode.getOutgoingEdges()[0].target?.value != endNode.value;
+    if (!startDoesNotLeadDirectlyToEnd) {
+        return false;
+    }
+    const allExceptStartHaveIncomingEdges = getAllNodes().every(
+        (a) => a.value == 'Start' || a.getIncomingEdges().length
+    );
+    if (!allExceptStartHaveIncomingEdges) {
+        return false;
+    }
+    const allExceptEndHaveOutgoingEdges = getAllNodes().every(
+        (a) => a.value == 'End' || a.getOutgoingEdges().length
+    );
+    if (!allExceptEndHaveOutgoingEdges) {
+        return false;
+    }
+    return true;
 }
 function refreshGraph() {
     graph.refresh();
@@ -118,6 +142,7 @@ function attachNodeMarking() {
 </script>
 
 <template>
+    <h1 v-if="strategyCanBeGenerated">Valid graph!</h1>
     <div class="elementCreators">
         <ConditionedAdd
             @finalized="addIfBlock"

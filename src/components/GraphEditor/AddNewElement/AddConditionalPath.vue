@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Cell } from '@maxgraph/core';
 import { ref, type Ref } from 'vue';
-
+import { isStart } from '@/common/nodeCalculator';
 interface Props {
     markedNode: Cell | undefined;
 }
@@ -44,7 +44,9 @@ function noPathAlreadySelected() {
     <button
         @click="markPathEnd"
         v-if="startNode && pathChosen == PathChosen.Yes"
-        :disabled="!markedNode || markedNode == startNode"
+        :disabled="
+            !markedNode || markedNode == startNode || isStart(markedNode)
+        "
     >
         End Yes path
     </button>
@@ -59,7 +61,9 @@ function noPathAlreadySelected() {
     <button
         @click="markPathEnd"
         v-if="startNode && pathChosen == PathChosen.No"
-        :disabled="!markedNode || markedNode == startNode"
+        :disabled="
+            !markedNode || markedNode == startNode || isStart(markedNode)
+        "
     >
         End No path
     </button>
