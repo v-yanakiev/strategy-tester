@@ -54,7 +54,7 @@ function addIfBlock(statement: string) {
     const ifVertex = graph.insertVertex(
         getParent(),
         null,
-        `If: ${statement}`,
+        `if (${statement})`,
         200,
         200,
         100,

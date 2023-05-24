@@ -18,7 +18,7 @@ const finalize = () => {
         {{ clickLabel }}
     </button>
     <div v-if="menuActivated">
-        <label>{{ statementLabel }}(</label>
+        <label>{{ statementLabel }} (</label>
         <input v-model="statement" />
         <label>) </label>
         <button @click="finalize">Finalize</button>
