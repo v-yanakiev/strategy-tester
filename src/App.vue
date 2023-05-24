@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { KeepAlive } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
 </script>
 
@@ -9,11 +10,16 @@ import { RouterLink, RouterView } from 'vue-router';
                 <nav>
                     <RouterLink to="/">Home</RouterLink>
                     <RouterLink to="csvInput">CSV Input</RouterLink>
-                    <RouterLink to="/graphEditor">Graph Editor</RouterLink>
+                    <RouterLink to="graphEditor">Graph Editor</RouterLink>
+                    <RouterLink to="runSimulation">Run Simulation</RouterLink>
                 </nav>
             </div>
         </header>
-        <RouterView />
+        <router-view v-slot="{ Component }">
+            <keep-alive>
+                <component :is="Component" />
+            </keep-alive>
+        </router-view>
     </div>
 </template>
 

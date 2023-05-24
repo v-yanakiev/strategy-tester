@@ -1,23 +1,23 @@
 import type { ParseResult } from 'papaparse';
 import { defineStore } from 'pinia';
-export const useParsedDataStore = defineStore('parsedData', {
-    state: () => {
-        return {
-            parsedData: null as null | ParseResult<any>,
-            timeVariable: null as string | null
-        };
-    },
-    actions: {
-        setParsedData(parsedData: any) {
-            this.parsedData = parsedData;
-        },
-        setTimeVariable(timeVariable: string) {
-            this.timeVariable = timeVariable;
-        }
-    },
-    getters: {
-        fields: (state) => {
-            return state.parsedData?.meta.fields;
-        }
+import { computed, ref, type Ref } from 'vue';
+export const useParsedDataStore = defineStore('parsedData', () => {
+    const parsedData = ref(null) as Ref<null | ParseResult<any>>;
+    const timeVariable = ref(null) as Ref<null | string>;
+    const fields = computed(() => {
+        return parsedData.value?.meta.fields;
+    });
+    function setParsedData(parsedDataValue: any) {
+        parsedData.value = parsedDataValue;
     }
+    function setTimeVariable(timeVariableValue: string) {
+        timeVariable.value = timeVariableValue;
+    }
+    return {
+        parsedData,
+        timeVariable,
+        setTimeVariable,
+        setParsedData,
+        fields
+    };
 });

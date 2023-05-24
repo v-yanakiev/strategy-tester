@@ -17,7 +17,7 @@ const onFileChange = (e: any) => {
 const parseCSV = (file: any) => {
     parsing.value = true;
     Papa.parse(file, {
-        worker: true, // Enable web worker
+        worker: true,
         header: true,
         dynamicTyping: true,
         complete: function (results) {
