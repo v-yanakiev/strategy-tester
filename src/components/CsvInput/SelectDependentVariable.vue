@@ -12,8 +12,8 @@ const onVariableChange = () => {
 <template>
     <h2>
         Set a name for a new variable, the evolution of the value of which will
-        be simulated according to your defined strategy (for instance,
-        "capital")
+        be simulated according to your defined strategy (for example,
+        "capital").
     </h2>
     <div>
         <input
