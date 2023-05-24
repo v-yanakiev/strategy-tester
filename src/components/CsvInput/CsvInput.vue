@@ -46,7 +46,7 @@ const preventDefault = (e: any) => {
         Drop your CSV file here
     </div>
     <h2 v-if="parsing">Parsing...</h2>
-    <div v-if="parsedDataStore.fields">
+    <div v-else-if="parsedDataStore.fields">
         <h2>Data parsed successfully.</h2>
         <br />
         <SelectTimeVariable :field-names="parsedDataStore.fields" />
