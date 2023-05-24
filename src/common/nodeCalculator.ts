@@ -13,8 +13,14 @@ export function leadsNowhere(node?: Cell) {
     return !node?.getOutgoingEdges().length;
 }
 export function getCondition(node: Cell) {
-    return (node.value as string).slice('if: '.length)[0];
+    return (node.value as string).slice(
+        'if ('.length,
+        (node.value as string).length - 2
+    )[0];
 }
-export function getCodeToExecute(node: Cell) {
-    return (node.value as string).slice('Execute code: '.length)[0];
+export function getQuantityToBuy(node: Cell) {
+    return (node.value as string).slice('Buy: '.length)[0];
+}
+export function getQuantityToSell(node: Cell) {
+    return (node.value as string).slice('Sell: '.length)[0];
 }

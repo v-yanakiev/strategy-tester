@@ -2,7 +2,7 @@
 import { type CellStyle, Graph, InternalEvent, Cell } from '@maxgraph/core';
 import { onMounted, ref, toRaw, type Ref } from 'vue';
 import ConditionedAdd from './AddNewElement/ConditionedAdd.vue';
-import AddCodeExecution from './AddNewElement/AddCodeExecution.vue';
+import AddAction from './AddNewElement/AddAction.vue';
 import AddPath from './AddNewElement/AddPath.vue';
 import { useParsedDataStore } from '@/stores/parsedDataStore';
 import { useGraphStore } from '@/stores/graphStore';
@@ -87,7 +87,16 @@ function attachNodeMarking() {
             click-label="Add If"
             statement-label="if"
         />
-        <AddCodeExecution @finalized="graphStore.addCodeExecution" />
+        <AddAction
+            click-label="Add Buy Action"
+            statement-label="Buy amount (quantity, not currency) ="
+            @finalized="graphStore.addBuy"
+        />
+        <AddAction
+            click-label="Add Sell Action"
+            statement-label="Sell amount (quantity, not currency) ="
+            @finalized="graphStore.addSell"
+        />
         <AddPath :marked-node="markedNode" @pathCreated="graphStore.addPath" />
     </div>
     <br />

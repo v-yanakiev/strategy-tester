@@ -67,11 +67,30 @@ export const useGraphStore = defineStore('graph', () => {
         );
         refreshGraph();
     }
-    function addCodeExecution(statement: string) {
-        const codeExecution = getGraph().insertVertex(
+    function addBuy(statement: string) {
+        const action = getGraph().insertVertex(
             getParent(),
             null,
-            `Execute code: ${statement}`,
+            `Buy: ${statement}`,
+            250,
+            250,
+            100,
+            100,
+            <CellStyle>{
+                deletable: true,
+                fillColor: 'lightblue',
+                whiteSpace: 'wrap',
+                overflow: 'width',
+                autosize: true
+            }
+        );
+        refreshGraph();
+    }
+    function addSell(statement: string) {
+        const action = getGraph().insertVertex(
+            getParent(),
+            null,
+            `Sell: ${statement}`,
             250,
             250,
             100,
@@ -122,6 +141,7 @@ export const useGraphStore = defineStore('graph', () => {
         canAStrategyBeGenerated,
         refreshGraph,
         addIfBlock,
-        addCodeExecution
+        addBuy,
+        addSell
     };
 });

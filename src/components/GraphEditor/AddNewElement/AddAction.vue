@@ -1,5 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+interface Props {
+    clickLabel: string;
+    statementLabel: string;
+}
+const props = defineProps<Props>();
 const emits = defineEmits(['finalized']);
 const menuActivated = ref(false);
 const statement = ref('');
@@ -10,12 +15,12 @@ const finalize = () => {
 </script>
 <template>
     <button v-if="!menuActivated" @click="menuActivated = true">
-        Add Code Execution
+        {{ clickLabel }}
     </button>
     <div v-if="menuActivated">
-        <label>Code which is to be executed: </label>
-        <textarea v-model="statement" />
-        <label> </label>
+        <label>{{ statementLabel }} (</label>
+        <input v-model="statement" />
+        <label>) </label>
         <button @click="finalize">Finalize</button>
     </div>
 </template>
