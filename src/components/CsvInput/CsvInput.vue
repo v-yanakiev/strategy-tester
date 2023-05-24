@@ -2,8 +2,8 @@
 import { ref, type Ref } from 'vue';
 import Papa from 'papaparse';
 import { useParsedDataStore } from '@/stores/parsedDataStore';
+import SelectTimeVariable from './SelectTimeVariable.vue';
 const parsedDataStore = useParsedDataStore();
-const dataParsed = ref(false);
 const droppedFile: Ref<null | any> = ref(null);
 const parsing = ref(false);
 const onFileChange = (e: any) => {
@@ -45,8 +45,12 @@ const preventDefault = (e: any) => {
     >
         Drop your CSV file here
     </div>
-    <h1 v-if="parsing">Parsing...</h1>
-    <h1 v-if="dataParsed">Parsed!</h1>
+    <h2 v-if="parsing">Parsing...</h2>
+    <div v-if="parsedDataStore.fields">
+        <h2>Data parsed successfully.</h2>
+        <br />
+        <SelectTimeVariable :field-names="parsedDataStore.fields" />
+    </div>
 </template>
 
 <style scoped>
