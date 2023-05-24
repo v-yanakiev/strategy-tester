@@ -21,43 +21,22 @@ onMounted(() => {
     // is normally the first child of the root (ie. layer 0).
     attachDeleteFunctionality();
     attachNodeMarking();
+    attachValueLabelNonEquivalence();
     // Adds cells to the model in a single step
     graphStore.getGraph().batchUpdate(() => {
-        graphStore.setStartNode(
-            graphStore
-                .getGraph()
-                .insertVertex(
-                    graphStore.getParent(),
-                    null,
-                    'Start',
-                    10,
-                    10,
-                    100,
-                    100,
-                    <CellStyle>{ deletable: true, fillColor: 'pink' }
-                )
-        );
-        graphStore.setEndNode(
-            graphStore
-                .getGraph()
-                .insertVertex(
-                    graphStore.getParent(),
-                    null,
-                    'End',
-                    800,
-                    200,
-                    100,
-                    100,
-                    <CellStyle>{
-                        deletable: true,
-                        fillColor: 'pink'
-                    }
-                )
-        );
+        graphStore.addStart();
+        graphStore.addEnd();
     });
     graphStore.refreshGraph();
 });
-
+function attachValueLabelNonEquivalence() {
+    graphStore.getGraph().convertValueToString = function (cell) {
+        if (typeof cell.value === 'object') {
+            return cell.value.label;
+        }
+        return cell.value;
+    };
+}
 function attachDeleteFunctionality() {
     document.onkeydown = function (evt) {
         evt = evt || window.event;

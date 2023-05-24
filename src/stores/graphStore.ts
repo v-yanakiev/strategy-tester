@@ -1,10 +1,9 @@
 import type { ParseResult } from 'papaparse';
 import { defineStore } from 'pinia';
 import { computed, ref, toRaw, type Ref } from 'vue';
-import { Cell, Graph, type CellStyle } from '@maxgraph/core';
-import { isCondition } from '@/common/nodeCalculator';
+import { Cell, Graph, type CellStyle, Geometry } from '@maxgraph/core';
+import { NodeType, isCondition } from '@/common/nodeCalculator';
 export const useGraphStore = defineStore('graph', () => {
-    const allNodes = ref(null) as Ref<null | Cell[]>;
     const strategyCanBeGenerated = ref(false);
     const startNode = ref(null) as Ref<Cell | null>;
     const endNode = ref(null) as Ref<Cell | null>;
@@ -58,7 +57,7 @@ export const useGraphStore = defineStore('graph', () => {
         const ifVertex = getGraph().insertVertex(
             getParent(),
             null,
-            `if (${statement})`,
+            { value: statement, label: `if (${statement})`, type: NodeType.If },
             200,
             200,
             100,
@@ -67,11 +66,46 @@ export const useGraphStore = defineStore('graph', () => {
         );
         refreshGraph();
     }
+    function addStart() {
+        setStartNode(
+            getGraph().insertVertex(
+                getParent(),
+                null,
+                'Start',
+                10,
+                10,
+                100,
+                100,
+                <CellStyle>{ deletable: true, fillColor: 'pink' }
+            )
+        );
+    }
+    function addEnd() {
+        setEndNode(
+            getGraph().insertVertex(
+                getParent(),
+                null,
+                'End',
+                800,
+                200,
+                100,
+                100,
+                <CellStyle>{
+                    deletable: true,
+                    fillColor: 'pink'
+                }
+            )
+        );
+    }
     function addBuy(statement: string) {
         const action = getGraph().insertVertex(
             getParent(),
             null,
-            `Buy: ${statement}`,
+            {
+                value: Number(statement),
+                label: `Buy: ${statement}`,
+                type: NodeType.Buy
+            },
             250,
             250,
             100,
@@ -90,7 +124,11 @@ export const useGraphStore = defineStore('graph', () => {
         const action = getGraph().insertVertex(
             getParent(),
             null,
-            `Sell: ${statement}`,
+            {
+                value: Number(statement),
+                label: `Sell: ${statement}`,
+                type: NodeType.Sell
+            },
             250,
             250,
             100,
@@ -105,8 +143,11 @@ export const useGraphStore = defineStore('graph', () => {
         );
         refreshGraph();
     }
+    function getAllConditions() {
+        return getAllNodes().filter((a) => isCondition(a));
+    }
     function getAllNodes() {
-        return toRaw(allNodes.value!);
+        return getParent().children;
     }
     function getStartNode() {
         return toRaw(startNode.value!);
@@ -128,8 +169,8 @@ export const useGraphStore = defineStore('graph', () => {
     }
     return {
         strategyCanBeGenerated,
-        setStartNode,
-        setEndNode,
+        addStart,
+        addEnd,
         getAllNodes,
         getEndNode,
         getStartNode,
@@ -142,6 +183,7 @@ export const useGraphStore = defineStore('graph', () => {
         refreshGraph,
         addIfBlock,
         addBuy,
-        addSell
+        addSell,
+        getAllConditions
     };
 });
