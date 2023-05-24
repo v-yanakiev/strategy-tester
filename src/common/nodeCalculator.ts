@@ -21,3 +21,12 @@ export function leadsNowhere(node?: Cell) {
 export function getNodeValue(node: Cell) {
     return node.value.value;
 }
+export function transformConditionIntoValueReturningFunction(
+    conditionNode: Cell
+) {
+    return new Function(
+        'ss',
+        'mathjs',
+        `return ${getNodeValue(conditionNode)}`
+    );
+}

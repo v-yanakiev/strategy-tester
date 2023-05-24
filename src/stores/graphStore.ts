@@ -71,7 +71,11 @@ export const useGraphStore = defineStore('graph', () => {
             getGraph().insertVertex(
                 getParent(),
                 null,
-                'Start',
+                {
+                    value: 'Start',
+                    label: `Start`,
+                    type: NodeType.Start
+                },
                 10,
                 10,
                 100,
@@ -85,7 +89,11 @@ export const useGraphStore = defineStore('graph', () => {
             getGraph().insertVertex(
                 getParent(),
                 null,
-                'End',
+                {
+                    value: 'End',
+                    label: `End`,
+                    type: NodeType.End
+                },
                 800,
                 200,
                 100,
