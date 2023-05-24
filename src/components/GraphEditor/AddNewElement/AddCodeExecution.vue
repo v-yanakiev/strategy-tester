@@ -15,6 +15,7 @@ const finalize = () => {
     <div v-if="menuActivated">
         <label>Code which is to be executed: </label>
         <textarea v-model="statement" />
+        <label> </label>
         <button @click="finalize">Finalize</button>
     </div>
 </template>

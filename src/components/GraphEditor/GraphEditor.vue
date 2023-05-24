@@ -151,7 +151,7 @@ function attachNodeMarking() {
         <ConditionedAdd
             @finalized="addIfBlock"
             click-label="Add If"
-            statement-label="If statement: "
+            statement-label="if"
         />
         <AddCodeExecution @finalized="addCodeExecution" />
         <AddPath :marked-node="markedNode" @pathCreated="addPath" />
