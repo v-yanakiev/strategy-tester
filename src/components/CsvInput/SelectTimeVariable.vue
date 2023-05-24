@@ -10,7 +10,6 @@ const selectedField = ref('');
 
 const onFieldChange = () => {
     useParsedDataStore().setTimeVariable(selectedField.value);
-    alert(`Selected field: ${selectedField.value}`);
 };
 </script>
 

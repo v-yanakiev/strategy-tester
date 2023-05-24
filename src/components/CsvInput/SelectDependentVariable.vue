@@ -1,34 +1,27 @@
 <script setup lang="ts">
-import { useParsedDataStore } from '@/stores/parsedDataStore';
+import { useSimulationStore } from '@/stores/simulationStore';
 import { ref } from 'vue';
 
-interface Props {
-    fieldNames: string[];
-}
-const props = defineProps<Props>();
-const selectedField = ref('');
+const selectedVariableName = ref('');
 
-const onFieldChange = () => {
-    useParsedDataStore().setTimeVariable(selectedField.value);
-    alert(`Selected field: ${selectedField.value}`);
+const onVariableChange = () => {
+    useSimulationStore().setDependentVariableName(selectedVariableName.value);
 };
 </script>
 
 <template>
     <h2>
-        Set a name for the new variable, the evolution of the value of which
-        will be simulated according to your defined strategy (for instance,
+        Set a name for a new variable, the evolution of the value of which will
+        be simulated according to your defined strategy (for instance,
         "capital")
     </h2>
-    <div v-for="(fieldName, index) in fieldNames" :key="index">
+    <div>
         <input
-            type="radio"
-            :id="fieldName"
-            :value="fieldName"
-            v-model="selectedField"
-            @change="onFieldChange"
+            type="text"
+            v-model="selectedVariableName"
+            placeholder="Enter variable name"
         />
-        <label :for="fieldName">{{ fieldName }}</label>
+        <button @click="onVariableChange">Set Variable Name</button>
     </div>
 </template>
 

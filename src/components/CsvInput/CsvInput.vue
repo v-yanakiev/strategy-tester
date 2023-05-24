@@ -3,6 +3,7 @@ import { ref, type Ref } from 'vue';
 import Papa from 'papaparse';
 import { useParsedDataStore } from '@/stores/parsedDataStore';
 import SelectTimeVariable from './SelectTimeVariable.vue';
+import SelectDependentVariable from './SelectDependentVariable.vue';
 const parsedDataStore = useParsedDataStore();
 const droppedFile: Ref<null | any> = ref(null);
 const parsing = ref(false);
@@ -50,6 +51,8 @@ const preventDefault = (e: any) => {
         <h2>Data parsed successfully.</h2>
         <br />
         <SelectTimeVariable :field-names="parsedDataStore.fields" />
+        <br />
+        <SelectDependentVariable />
     </div>
 </template>
 

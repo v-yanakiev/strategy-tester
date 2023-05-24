@@ -80,7 +80,7 @@ function attachNodeMarking() {
 </script>
 
 <template>
-    <CanSimulationBeRan />
+    <CanSimulationBeRan> </CanSimulationBeRan>
     <div class="elementCreators">
         <ConditionedAdd
             @finalized="graphStore.addIfBlock"
