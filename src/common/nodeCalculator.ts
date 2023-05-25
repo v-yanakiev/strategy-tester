@@ -3,8 +3,8 @@ export enum NodeType {
     If = 1,
     Buy = 2,
     Sell = 3,
-    Start,
-    End
+    Start = 4,
+    End = 5
 }
 export function isCondition(node: Cell) {
     return node.value.type == NodeType.If;
@@ -27,6 +27,11 @@ export function transformConditionIntoValueReturningFunction(
     return new Function(
         'ss',
         'mathjs',
+        'currentStep',
+        'previousSteps',
+        'allSteps',
+        'currentBalance',
+        'previousBalances',
         `return ${getNodeValue(conditionNode)}`
-    );
+    ) as any as (...args: any[]) => any;
 }

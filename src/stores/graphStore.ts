@@ -3,6 +3,7 @@ import { defineStore } from 'pinia';
 import { computed, ref, toRaw, type Ref } from 'vue';
 import { Cell, Graph, type CellStyle, Geometry } from '@maxgraph/core';
 import { NodeType, isCondition } from '@/common/nodeCalculator';
+import { v4 as genId } from 'uuid';
 export const useGraphStore = defineStore('graph', () => {
     const strategyCanBeGenerated = ref(false);
     const startNode = ref(null) as Ref<Cell | null>;
@@ -11,7 +12,7 @@ export const useGraphStore = defineStore('graph', () => {
     function addPath(startNode: Cell, endNode: Cell, text: string) {
         const edge = getGraph().insertEdge(
             getParent(),
-            null,
+            genId(),
             text,
             toRaw(startNode),
             toRaw(endNode)
@@ -56,7 +57,7 @@ export const useGraphStore = defineStore('graph', () => {
     function addIfBlock(statement: string) {
         const ifVertex = getGraph().insertVertex(
             getParent(),
-            null,
+            genId(),
             { value: statement, label: `if (${statement})`, type: NodeType.If },
             200,
             200,
@@ -70,7 +71,7 @@ export const useGraphStore = defineStore('graph', () => {
         setStartNode(
             getGraph().insertVertex(
                 getParent(),
-                null,
+                genId(),
                 {
                     value: 'Start',
                     label: `Start`,
@@ -88,7 +89,7 @@ export const useGraphStore = defineStore('graph', () => {
         setEndNode(
             getGraph().insertVertex(
                 getParent(),
-                null,
+                genId(),
                 {
                     value: 'End',
                     label: `End`,
@@ -108,7 +109,7 @@ export const useGraphStore = defineStore('graph', () => {
     function addBuy(statement: string) {
         const action = getGraph().insertVertex(
             getParent(),
-            null,
+            genId(),
             {
                 value: Number(statement),
                 label: `Buy: ${statement}`,
@@ -131,7 +132,7 @@ export const useGraphStore = defineStore('graph', () => {
     function addSell(statement: string) {
         const action = getGraph().insertVertex(
             getParent(),
-            null,
+            genId(),
             {
                 value: Number(statement),
                 label: `Sell: ${statement}`,
