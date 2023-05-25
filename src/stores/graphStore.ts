@@ -2,7 +2,7 @@ import type { ParseResult } from 'papaparse';
 import { defineStore } from 'pinia';
 import { computed, ref, toRaw, type Ref } from 'vue';
 import { Cell, Graph, type CellStyle, Geometry } from '@maxgraph/core';
-import { NodeType, isCondition } from '@/common/nodeCalculator';
+import { NodeType, isCondition, isEnd, isStart } from '@/common/nodeCalculator';
 import { v4 as genId } from 'uuid';
 export const useGraphStore = defineStore('graph', () => {
     const strategyCanBeGenerated = ref(false);
@@ -34,14 +34,14 @@ export const useGraphStore = defineStore('graph', () => {
             return false;
         }
         const allExceptStartHaveIncomingEdges = getAllVertices().every(
-            (a) => a.value == 'Start' || a.getIncomingEdges().length
+            (a) => isStart(a) || a.getIncomingEdges().length
         );
         if (!allExceptStartHaveIncomingEdges) {
             return false;
         }
         const allExceptEndHaveOutgoingEdges = getAllVertices().every(
             (a) =>
-                a.value == 'End' ||
+                isEnd(a) ||
                 (!isCondition(a) && a.getOutgoingEdges().length == 1) ||
                 a.getOutgoingEdges().length == 2
         );

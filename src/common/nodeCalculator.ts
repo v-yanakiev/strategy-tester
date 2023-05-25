@@ -25,13 +25,11 @@ export function transformConditionIntoValueReturningFunction(
     conditionNode: Cell
 ) {
     return new Function(
-        'ss',
-        'mathjs',
         'currentStep',
         'previousSteps',
-        'allSteps',
         'currentBalance',
         'previousBalances',
-        `return ${getNodeValue(conditionNode)}`
+        `let ss=globalThis.ss;let mathjs=globalThis.mathjs;
+        return ${getNodeValue(conditionNode)}`
     ) as any as (...args: any[]) => any;
 }

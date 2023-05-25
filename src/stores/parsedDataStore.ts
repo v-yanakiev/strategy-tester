@@ -1,6 +1,6 @@
 import type { ParseResult } from 'papaparse';
 import { defineStore } from 'pinia';
-import { computed, ref, type Ref } from 'vue';
+import { computed, ref, toRaw, type Ref } from 'vue';
 export const useParsedDataStore = defineStore('parsedData', () => {
     const parsedData = ref(null) as Ref<null | ParseResult<any>>;
     const timeVariable = ref(null) as Ref<null | string>;
@@ -10,10 +10,15 @@ export const useParsedDataStore = defineStore('parsedData', () => {
     function setParsedData(parsedDataValue: any) {
         parsedData.value = parsedDataValue;
     }
+    function getNonProxyParsedData() {
+        return toRaw(parsedData.value);
+    }
     function setTimeVariable(timeVariableValue: string) {
         timeVariable.value = timeVariableValue;
     }
+
     return {
+        getNonProxyParsedData,
         parsedData,
         timeVariable,
         setTimeVariable,

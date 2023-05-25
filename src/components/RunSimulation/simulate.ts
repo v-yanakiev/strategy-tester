@@ -9,14 +9,17 @@ import * as ss from 'simple-statistics';
 import * as mathjs from 'mathjs';
 import workerpool from 'workerpool';
 import type { Cell } from '@maxgraph/core';
-export function simulate() {
+export async function simulate() {
+    (globalThis as any).ss = ss;
+    (globalThis as any).mathjs = mathjs;
+
     const graphStore = useGraphStore();
     const simulationStore = useSimulationStore();
     const parsedDataStore = useParsedDataStore();
     const pool = workerpool.pool();
-    const steps = parsedDataStore.parsedData!.data.sort(
-        (a) => a[parsedDataStore.timeVariable!]
-    );
+    const steps = parsedDataStore
+        .getNonProxyParsedData()!
+        .data.sort((a) => a[parsedDataStore.timeVariable!]);
     const nodeAndItsConditionsResultOverTime = new Map<
         string,
         Function | boolean[]
@@ -35,7 +38,7 @@ export function simulate() {
         } else {
             //can be precalculated across all steps
             nodeAndItsConditionsResultOverTime.set(condition.id!, []);
-            for (let i = 0; i < steps.length; i++) {
+            for (let i = 0; i < 5000; i++) {
                 calculate(
                     pool,
                     condition,
@@ -59,11 +62,8 @@ function calculate(
     simulationStore: any
 ) {
     pool.exec(transformConditionIntoValueReturningFunction(condition), [
-        ss,
-        mathjs,
         steps[lockedIndex],
         steps.slice(0, lockedIndex),
-        steps,
         null,
         null
     ])
@@ -73,12 +73,16 @@ function calculate(
             ) as boolean[];
             array[lockedIndex] = result;
         })
+        .catch((error) => {
+            const a = 5;
+        })
         .then(() => {
             if (
                 pool.stats().pendingTasks === 0 &&
                 pool.stats().activeTasks === 0
             ) {
                 pool.terminate();
+                //console.log(nodeAndItsConditionsResultOverTime.values);
                 simulationStore.state =
                     SimulationState.InitialCalculationsFinished;
             }

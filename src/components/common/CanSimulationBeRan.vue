@@ -8,7 +8,7 @@ const simulationStore = useSimulationStore();
 const graphStore = useGraphStore();
 </script>
 <template>
-    <!-- <h2 v-if="!parsedDataStore.parsedData">You haven't loaded data yet.</h2>
+    <h2 v-if="!parsedDataStore.parsedData">You haven't loaded data yet.</h2>
     <h2 v-else-if="!parsedDataStore.timeVariable">
         You haven't set your time variable.
     </h2>
@@ -18,8 +18,8 @@ const graphStore = useGraphStore();
     <h2 v-else-if="!graphStore.strategyCanBeGenerated">
         The graph is not valid.
     </h2>
-    <div v-else> -->
-    <div>
+    <div v-else>
+        <!-- <div> -->
         <h2>You can run the simulation!</h2>
         <slot></slot>
     </div>

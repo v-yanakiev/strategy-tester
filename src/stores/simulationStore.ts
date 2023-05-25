@@ -2,9 +2,10 @@ import { defineStore } from 'pinia';
 import { ref, type Ref } from 'vue';
 export enum SimulationState {
     NotStarted = 1,
-    InitialCalculationsFinished = 2,
-    AllCalculationsFinished = 3,
-    SimulatedTimeSeriesGenerated = 4
+    StartingCalculations = 2,
+    InitialCalculationsFinished = 3,
+    AllCalculationsFinished = 4,
+    SimulatedTimeSeriesGenerated = 5
 }
 export const useSimulationStore = defineStore('simulation', () => {
     const dependentVariableName = ref(null) as Ref<null | string>;
