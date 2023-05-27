@@ -7,7 +7,7 @@ import { useParsedDataStore } from '@/stores/parsedDataStore';
 import { SimulationState, useSimulationStore } from '@/stores/simulationStore';
 import * as ss from 'simple-statistics';
 import * as mathjs from 'mathjs';
-import { pool } from 'workerpool';
+import * as workerpool from 'workerpool-passable-options';
 import type { Cell } from '@maxgraph/core';
 export async function simulate() {
     const graphStore = useGraphStore();
@@ -17,7 +17,7 @@ export async function simulate() {
         '../../workers/computeAnswerToConditionWorker.js',
         import.meta.url
     );
-    const poolToUse = (pool as any)(url.toString(), {
+    const poolToUse = (workerpool as any).pool(url.toString(), {
         type: 'module'
     });
     // const worker = new Worker(url, { type: 'module' });
