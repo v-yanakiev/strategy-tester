@@ -7,7 +7,7 @@ import { useParsedDataStore } from '@/stores/parsedDataStore';
 import { SimulationState, useSimulationStore } from '@/stores/simulationStore';
 import * as ss from 'simple-statistics';
 import * as mathjs from 'mathjs';
-import workerpool from 'workerpool';
+import { pool } from 'workerpool';
 import type { Cell } from '@maxgraph/core';
 export async function simulate() {
     const graphStore = useGraphStore();
@@ -17,7 +17,7 @@ export async function simulate() {
         '../../workers/computeAnswerToConditionWorker.js',
         import.meta.url
     );
-    const pool = (workerpool.pool as any)(url.toString(), {
+    const poolToUse = (pool as any)(url.toString(), {
         type: 'module'
     });
     // const worker = new Worker(url, { type: 'module' });
@@ -47,7 +47,7 @@ export async function simulate() {
             nodeAndItsConditionsResultOverTime.set(condition.id!, []);
             for (let i = 0; i < 5000; i++) {
                 calculate(
-                    pool,
+                    poolToUse,
                     condition,
                     steps,
                     nodeAndItsConditionsResultOverTime,
@@ -60,7 +60,7 @@ export async function simulate() {
     }
 }
 function calculate(
-    pool: workerpool.WorkerPool,
+    poolToUse: any,
     condition: Cell,
     steps: any[],
     nodeAndItsConditionsResultOverTime: Map<string, Function | boolean[]>,
@@ -68,12 +68,13 @@ function calculate(
     lockedConditionId: string,
     simulationStore: any
 ) {
-    pool.exec('computeAnswerToCondition', [
-        getNodeValue(condition),
-        steps[lockedIndex],
-        steps.slice(0, lockedIndex)
-    ])
-        .then((result) => {
+    poolToUse
+        .exec('computeAnswerToCondition', [
+            getNodeValue(condition),
+            steps[lockedIndex],
+            steps.slice(0, lockedIndex)
+        ])
+        .then((result: any) => {
             console.log('result:');
             console.log(result);
             const array = nodeAndItsConditionsResultOverTime.get(
@@ -81,17 +82,17 @@ function calculate(
             ) as boolean[];
             array[lockedIndex] = result;
         })
-        .catch((error) => {
+        .catch((error: any) => {
             console.log('error: ');
             console.log(error);
         })
-        .then((maybeAnswer) => {
+        .then((maybeAnswer: any) => {
             if (
-                pool.stats().pendingTasks === 0 &&
-                pool.stats().activeTasks === 0
+                poolToUse.stats().pendingTasks === 0 &&
+                poolToUse.stats().activeTasks === 0
             ) {
                 console.log(maybeAnswer);
-                pool.terminate();
+                poolToUse.terminate();
                 //console.log(nodeAndItsConditionsResultOverTime.values);
                 simulationStore.state =
                     SimulationState.InitialCalculationsFinished;
