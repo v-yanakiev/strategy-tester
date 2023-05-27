@@ -74,6 +74,8 @@ function calculate(
         steps.slice(0, lockedIndex)
     ])
         .then((result) => {
+            console.log('result:');
+            console.log(result);
             const array = nodeAndItsConditionsResultOverTime.get(
                 lockedConditionId
             ) as boolean[];
