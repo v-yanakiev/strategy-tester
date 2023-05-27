@@ -8,26 +8,26 @@ export enum SimulationState {
     SimulatedTimeSeriesGenerated = 5
 }
 export const useSimulationStore = defineStore('simulation', () => {
-    const dependentVariableName = ref(null) as Ref<null | string>;
-    const dependentVariableInitialValue = ref(null) as Ref<any>;
+    const priceVariableName = ref(null) as Ref<null | string>;
+    const priceVariableInitialValue = ref(null) as Ref<any>;
     const state = ref(SimulationState.NotStarted);
-    function setDependentVariableName(value: string) {
-        dependentVariableName.value = value;
+    function setPriceVariableName(value: string) {
+        priceVariableName.value = value;
     }
-    function getDependentVariableName() {
-        return dependentVariableName.value;
+    function getPriceVariableName() {
+        return priceVariableName.value;
     }
-    function setDependentVariableInitialValue(value: any) {
-        dependentVariableInitialValue.value = value;
+    function setPriceVariableInitialValue(value: any) {
+        priceVariableInitialValue.value = value;
     }
-    function getDependentVariableInitialValue() {
-        return dependentVariableInitialValue.value;
+    function getPriceVariableInitialValue() {
+        return priceVariableInitialValue.value;
     }
     return {
-        setDependentVariableName,
-        getDependentVariableName,
-        setDependentVariableInitialValue,
-        getDependentVariableInitialValue,
+        setPriceVariableName,
+        getPriceVariableName,
+        setPriceVariableInitialValue,
+        getPriceVariableInitialValue,
         state
     };
 });

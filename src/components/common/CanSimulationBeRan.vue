@@ -12,8 +12,8 @@ const graphStore = useGraphStore();
     <h2 v-else-if="!parsedDataStore.timeVariable">
         You haven't set your time variable.
     </h2>
-    <h2 v-else-if="!simulationStore.getDependentVariableName()">
-        You haven't set your dependent variable.
+    <h2 v-else-if="!simulationStore.getPriceVariableName()">
+        You haven't set your price variable.
     </h2>
     <h2 v-else-if="!graphStore.strategyCanBeGenerated">
         The graph is not valid.

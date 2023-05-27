@@ -13,7 +13,15 @@ export async function simulate() {
     const graphStore = useGraphStore();
     const simulationStore = useSimulationStore();
     const parsedDataStore = useParsedDataStore();
-    const pool = workerpool.pool('../../workers/workerTasks.js');
+    const pool = (workerpool.pool as any)(
+        new URL(
+            '../../workers/computeAnswerToConditionWorker.js',
+            import.meta.url
+        ),
+        {
+            type: 'module'
+        }
+    );
     const steps = parsedDataStore
         .getNonProxyParsedData()!
         .data.sort((a) => a[parsedDataStore.timeVariable!]);
@@ -60,7 +68,7 @@ function calculate(
     lockedConditionId: string,
     simulationStore: any
 ) {
-    pool.exec('calculateCondition', [
+    pool.exec('computeAnswerToCondition', [
         getNodeValue(condition),
         steps[lockedIndex],
         steps.slice(0, lockedIndex)
@@ -72,13 +80,15 @@ function calculate(
             array[lockedIndex] = result;
         })
         .catch((error) => {
-            const a = 5;
+            console.log('error: ');
+            console.log(error);
         })
-        .then(() => {
+        .then((maybeAnswer) => {
             if (
                 pool.stats().pendingTasks === 0 &&
                 pool.stats().activeTasks === 0
             ) {
+                console.log(maybeAnswer);
                 pool.terminate();
                 //console.log(nodeAndItsConditionsResultOverTime.values);
                 simulationStore.state =

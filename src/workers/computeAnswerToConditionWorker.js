@@ -1,9 +1,9 @@
-importScripts(
-    '../../node_modules/simple-statistics/dist/simple-statistics.js',
-    '../../node_modules/mathjs/dist/math.js'
-);
+import * as ss from 'simple-statistics';
+import * as mathjs from 'mathjs';
+import workerpool from 'workerpool';
+
 // worker task for calculating condition
-function calculateCondition(conditionValue, currentStep, previousSteps) {
+function computeAnswerToCondition(conditionValue, currentStep, previousSteps) {
     console.log(conditionValue);
     const calculateFunction =
         transformConditionValueIntoValueReturningFunction(conditionValue);
@@ -29,6 +29,6 @@ function transformConditionValueIntoValueReturningFunction(conditionValue) {
 }
 
 // export the worker tasks
-module.exports = {
-    calculateCondition
-};
+workerpool.worker({
+    computeAnswerToCondition: computeAnswerToCondition
+});

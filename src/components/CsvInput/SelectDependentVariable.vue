@@ -5,7 +5,7 @@ import { ref } from 'vue';
 const selectedVariableName = ref('');
 
 const onVariableChange = () => {
-    useSimulationStore().setDependentVariableName(selectedVariableName.value);
+    useSimulationStore().setPriceVariableName(selectedVariableName.value);
 };
 </script>
 
