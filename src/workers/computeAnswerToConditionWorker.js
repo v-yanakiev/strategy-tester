@@ -1,6 +1,6 @@
 import * as ss from 'simple-statistics';
 import * as mathjs from 'mathjs';
-import workerpool from 'workerpool';
+import * as workerpool from 'workerpool-passable-options';
 
 // worker task for calculating condition
 function computeAnswerToCondition(conditionValue, currentStep, previousSteps) {
