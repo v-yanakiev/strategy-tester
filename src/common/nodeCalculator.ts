@@ -21,15 +21,16 @@ export function leadsNowhere(node?: Cell) {
 export function getNodeValue(node: Cell) {
     return node.value.value;
 }
-export function transformConditionIntoValueReturningFunction(
-    conditionNode: Cell
+export function transformConditionValueIntoValueReturningFunction(
+    conditionValue: string
 ) {
     return new Function(
         'currentStep',
         'previousSteps',
         'currentBalance',
         'previousBalances',
-        `let ss=globalThis.ss;let mathjs=globalThis.mathjs;
-        return ${getNodeValue(conditionNode)}`
+        'ss',
+        'mathjs',
+        `return ${conditionValue}`
     ) as any as (...args: any[]) => any;
 }

@@ -1,6 +1,6 @@
 import {
     getNodeValue,
-    transformConditionIntoValueReturningFunction
+    transformConditionValueIntoValueReturningFunction
 } from '@/common/nodeCalculator';
 import { useGraphStore } from '@/stores/graphStore';
 import { useParsedDataStore } from '@/stores/parsedDataStore';
@@ -10,13 +10,10 @@ import * as mathjs from 'mathjs';
 import workerpool from 'workerpool';
 import type { Cell } from '@maxgraph/core';
 export async function simulate() {
-    (globalThis as any).ss = ss;
-    (globalThis as any).mathjs = mathjs;
-
     const graphStore = useGraphStore();
     const simulationStore = useSimulationStore();
     const parsedDataStore = useParsedDataStore();
-    const pool = workerpool.pool();
+    const pool = workerpool.pool('../../workers/workerTasks.js');
     const steps = parsedDataStore
         .getNonProxyParsedData()!
         .data.sort((a) => a[parsedDataStore.timeVariable!]);
@@ -33,7 +30,9 @@ export async function simulate() {
             //cannot be precalculated
             nodeAndItsConditionsResultOverTime.set(
                 condition.id!,
-                transformConditionIntoValueReturningFunction(condition)
+                transformConditionValueIntoValueReturningFunction(
+                    getNodeValue(condition)
+                )
             );
         } else {
             //can be precalculated across all steps
@@ -61,11 +60,10 @@ function calculate(
     lockedConditionId: string,
     simulationStore: any
 ) {
-    pool.exec(transformConditionIntoValueReturningFunction(condition), [
+    pool.exec('calculateCondition', [
+        getNodeValue(condition),
         steps[lockedIndex],
-        steps.slice(0, lockedIndex),
-        null,
-        null
+        steps.slice(0, lockedIndex)
     ])
         .then((result) => {
             const array = nodeAndItsConditionsResultOverTime.get(
