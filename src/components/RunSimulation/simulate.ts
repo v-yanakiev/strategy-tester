@@ -13,15 +13,15 @@ export async function simulate() {
     const graphStore = useGraphStore();
     const simulationStore = useSimulationStore();
     const parsedDataStore = useParsedDataStore();
-    const pool = (workerpool.pool as any)(
-        new URL(
-            '../../workers/computeAnswerToConditionWorker.js',
-            import.meta.url
-        ),
-        {
-            type: 'module'
-        }
+    const url = new URL(
+        '../../workers/computeAnswerToConditionWorker.js',
+        import.meta.url
     );
+    const pool = (workerpool.pool as any)(url.toString(), {
+        type: 'module'
+    });
+    // const worker = new Worker(url, { type: 'module' });
+    // worker.
     const steps = parsedDataStore
         .getNonProxyParsedData()!
         .data.sort((a) => a[parsedDataStore.timeVariable!]);
