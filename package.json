@@ -22,7 +22,7 @@
         "uuid": "^9.0.0",
         "vue": "^3.3.2",
         "vue-router": "^4.2.0",
-        "workerpool-passable-options": "^6.5.0"
+        "workerpool-passable-options": "^6.6.0"
     },
     "devDependencies": {
         "@tsconfig/node18": "^2.0.1",
