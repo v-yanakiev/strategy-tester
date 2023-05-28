@@ -1,10 +1,22 @@
 <script setup lang="ts">
-import { simulate } from './simulate';
-import { SimulationState, useSimulationStore } from '@/stores/simulationStore';
-
+import { onMounted, ref } from 'vue';
+import Dygraph from 'dygraphs';
+import { useSimulationStore } from '@/stores/simulationStore';
+import { useParsedDataStore } from '@/stores/parsedDataStore';
+const graphdiv = ref<HTMLDivElement>();
 const simulationStore = useSimulationStore();
-function runSimulation() {
-    simulate();
-}
+const parsedDataStore = useParsedDataStore();
+onMounted(() => {
+    const originalData = parsedDataStore.getNonProxyParsedData()!;
+    const graph = new Dygraph(
+        graphdiv.value!,
+        originalData.data.map((step) => [
+            step[parsedDataStore.timeVariableName!],
+            step[parsedDataStore.priceVariableName!]
+        ])
+    );
+});
 </script>
-<template></template>
+<template>
+    <div id="graphdiv"></div>
+</template>

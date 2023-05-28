@@ -61,6 +61,5 @@ export type ConditionToCalculate = (
     currentBalance: any,
     previousBalances: any,
     simplestats: any,
-    mathjs: any,
-    indicatorts: any
+    mathjs: any
 ) => boolean;
