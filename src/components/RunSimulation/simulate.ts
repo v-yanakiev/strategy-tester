@@ -32,6 +32,7 @@ export async function simulate() {
     const poolToUse = (workerpool as any).pool(url.toString(), {
         type: 'module'
     });
+    simulationStore.state = SimulationState.StartingCalculations;
     const steps = parsedDataStore
         .getNonProxyParsedData()!
         .data.sort((a) => a[parsedDataStore.timeVariableName!]);
@@ -59,6 +60,7 @@ export async function simulate() {
                 graphStore.getStartNode(),
                 nodeAndItsConditionsResultOverTime,
                 steps,
+                simulationStore,
                 simulationStore.moneyBalances,
                 simulationStore.quantitiesOfAssetInPossession,
                 parsedDataStore.priceVariableName!
@@ -72,6 +74,7 @@ function simulateEvolutionOfBalance(
         ConditionToCalculate | boolean[]
     >,
     steps: any[],
+    simulationStore: any,
     moneyBalances: number[],
     quantitiesOfAssetInPossession: number[],
     priceVariableName: string
@@ -136,6 +139,7 @@ function simulateEvolutionOfBalance(
             }
         }
     }
+    simulationStore.state = SimulationState.AllCalculationsFinished;
 }
 function preCalculateWherePossible(
     allConditions: Cell[],

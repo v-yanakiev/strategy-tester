@@ -2,7 +2,7 @@
 import { useGraphStore } from '@/stores/graphStore';
 import { useParsedDataStore } from '@/stores/parsedDataStore';
 import { ref } from 'vue';
-import CanSimulationBeRan from '../common/CanSimulationBeRan.vue';
+import TimeSeriesDisplay from './TimeSeriesDisplay.vue';
 import { simulate } from './simulate';
 import { SimulationState, useSimulationStore } from '@/stores/simulationStore';
 
@@ -19,7 +19,7 @@ function runSimulation() {
         Run simulation
     </button>
 
-    <div v-if="simulationStore.state == SimulationState.TimeSeriesGenerated">
-        Stop simulation
-    </div>
+    <TimeSeriesDisplay
+        v-if="simulationStore.state == SimulationState.TimeSeriesGenerated"
+    />
 </template>
