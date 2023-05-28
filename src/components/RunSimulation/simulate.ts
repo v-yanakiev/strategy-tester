@@ -43,7 +43,7 @@ export async function simulate() {
         } else {
             //can be precalculated across all steps
             nodeAndItsConditionsResultOverTime.set(condition.id!, []);
-            for (let i = 0; i < 5000; i++) {
+            for (let i = 0; i < steps.length; i++) {
                 calculate(
                     poolToUse,
                     condition,
