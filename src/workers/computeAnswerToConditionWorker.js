@@ -1,7 +1,7 @@
 import * as ss from 'simple-statistics';
 import * as mathjs from 'mathjs';
 import * as workerpool from 'workerpool-passable-options';
-
+import transformConditionValueIntoValueReturningFunction from '../common/nodeCalculator';
 // worker task for calculating condition
 function computeAnswerToCondition(conditionValue, currentStep, previousSteps) {
     const calculateFunction =
@@ -13,17 +13,6 @@ function computeAnswerToCondition(conditionValue, currentStep, previousSteps) {
         null,
         ss,
         mathjs
-    );
-}
-function transformConditionValueIntoValueReturningFunction(conditionValue) {
-    return new Function(
-        'currentStep',
-        'previousSteps',
-        'currentBalance',
-        'previousBalances',
-        'ss',
-        'mathjs',
-        `return ${conditionValue}`
     );
 }
 
