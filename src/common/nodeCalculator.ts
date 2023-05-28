@@ -31,6 +31,7 @@ export function transformConditionValueIntoValueReturningFunction(
         'previousBalances',
         'ss',
         'mathjs',
+        'indicatorts',
         `return ${conditionValue}`
     ) as any as (...args: any[]) => any;
 }

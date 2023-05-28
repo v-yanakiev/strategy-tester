@@ -15,6 +15,7 @@
     "dependencies": {
         "@maxgraph/core": "^0.1.0",
         "@types/papaparse": "^5.3.7",
+        "indicatorts": "^1.0.14",
         "mathjs": "^11.8.0",
         "papaparse": "^5.4.1",
         "pinia": "^2.1.3",
