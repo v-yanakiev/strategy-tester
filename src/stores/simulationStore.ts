@@ -8,26 +8,17 @@ export enum SimulationState {
     SimulatedTimeSeriesGenerated = 5
 }
 export const useSimulationStore = defineStore('simulation', () => {
-    const priceVariableName = ref(null) as Ref<null | string>;
-    const priceVariableInitialValue = ref(null) as Ref<any>;
+    const balance = ref(null) as Ref<null | number>;
     const state = ref(SimulationState.NotStarted);
-    function setPriceVariableName(value: string) {
-        priceVariableName.value = value;
+    function setBalance(value: number) {
+        balance.value = value;
     }
-    function getPriceVariableName() {
-        return priceVariableName.value;
-    }
-    function setPriceVariableInitialValue(value: any) {
-        priceVariableInitialValue.value = value;
-    }
-    function getPriceVariableInitialValue() {
-        return priceVariableInitialValue.value;
+    function getBalance() {
+        return balance.value;
     }
     return {
-        setPriceVariableName,
-        getPriceVariableName,
-        setPriceVariableInitialValue,
-        getPriceVariableInitialValue,
+        setBalance,
+        getBalance,
         state
     };
 });
