@@ -6,7 +6,7 @@ const selectedVariableName = ref('');
 
 const onVariableChange = () => {
     const balance = Number(selectedVariableName.value);
-    if (Number.isNaN(balance)) {
+    if (Number.isNaN(balance) && balance <= 0) {
         return;
     }
     useSimulationStore().setBalance(balance);

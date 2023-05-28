@@ -15,7 +15,7 @@ const graphStore = useGraphStore();
     <h2 v-else-if="!parsedDataStore.priceVariableName">
         You haven't set your price variable.
     </h2>
-    <h2 v-else-if="simulationStore.getBalance() === null">
+    <h2 v-else-if="!simulationStore.getBalance()">
         You haven't set your initial balance.
     </h2>
     <h2 v-else-if="!graphStore.strategyCanBeGenerated">
