@@ -5,11 +5,11 @@ import { ref } from 'vue';
 const selectedVariableName = ref('');
 
 const onVariableChange = () => {
-    const number = Number(selectedVariableName.value);
-    if (Number.isNaN(number)) {
+    const balance = Number(selectedVariableName.value);
+    if (Number.isNaN(balance)) {
         return;
     }
-    useSimulationStore().setBalance(number);
+    useSimulationStore().setBalance(balance);
 };
 </script>
 
