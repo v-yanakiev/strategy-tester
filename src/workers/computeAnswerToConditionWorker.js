@@ -1,4 +1,4 @@
-import * as ss from 'simple-statistics';
+import * as simplestats from 'simple-statistics';
 import * as mathjs from 'mathjs';
 import * as workerpool from 'workerpool-passable-options';
 import * as indicatorts from 'indicatorts';
@@ -12,7 +12,7 @@ function computeAnswerToCondition(conditionValue, currentStep, previousSteps) {
         previousSteps,
         null,
         null,
-        ss,
+        simplestats,
         mathjs,
         indicatorts
     );

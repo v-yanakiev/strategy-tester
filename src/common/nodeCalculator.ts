@@ -29,7 +29,7 @@ export function transformConditionValueIntoValueReturningFunction(
         'previousSteps',
         'currentBalance',
         'previousBalances',
-        'ss',
+        'simplestats',
         'mathjs',
         'indicatorts',
         `return ${conditionValue}`

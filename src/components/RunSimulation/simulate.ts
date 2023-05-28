@@ -5,8 +5,6 @@ import {
 import { useGraphStore } from '@/stores/graphStore';
 import { useParsedDataStore } from '@/stores/parsedDataStore';
 import { SimulationState, useSimulationStore } from '@/stores/simulationStore';
-import * as ss from 'simple-statistics';
-import * as mathjs from 'mathjs';
 import workerpool from 'workerpool-passable-options';
 import type { Cell } from '@maxgraph/core';
 export async function simulate() {
