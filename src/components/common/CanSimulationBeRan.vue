@@ -3,6 +3,7 @@ import { useGraphStore } from '@/stores/graphStore';
 import { useParsedDataStore } from '@/stores/parsedDataStore';
 import { useSimulationStore } from '@/stores/simulationStore';
 import { onMounted } from 'vue';
+import TimeSeriesDisplay from '../RunSimulation/TimeSeriesDisplay.vue';
 const parsedDataStore = useParsedDataStore();
 const simulationStore = useSimulationStore();
 const graphStore = useGraphStore();
@@ -19,6 +20,7 @@ const graphStore = useGraphStore();
         You haven't set your initial balance.
     </h2>
     <h2 v-else-if="!graphStore.strategyCanBeGenerated">
+        <TimeSeriesDisplay />
         The graph is not valid.
     </h2>
     <div v-else>
