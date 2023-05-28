@@ -38,14 +38,14 @@ const preventDefault = (e: any) => {
 </script>
 
 <template>
-    <h1>Here you can drag and drop your time series Data:</h1>
+    <h1>Here you can drag and drop your time series data:</h1>
     <div
         class="dropzone"
         @dragover.prevent="preventDefault"
         @dragenter.prevent="preventDefault"
         @drop.prevent="onFileChange"
     >
-        Drop your Data file here
+        Drop your CSV file here
     </div>
     <h2 v-if="parsing">Parsing...</h2>
     <div v-else-if="parsedDataStore.fields">

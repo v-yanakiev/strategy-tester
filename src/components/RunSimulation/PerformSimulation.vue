@@ -4,19 +4,27 @@ import { useParsedDataStore } from '@/stores/parsedDataStore';
 import { ref } from 'vue';
 import CanSimulationBeRan from '../common/CanSimulationBeRan.vue';
 import { simulate } from './simulate';
+import { SimulationState, useSimulationStore } from '@/stores/simulationStore';
 
-const simulationIsRunning = ref(false);
+const simulationStore = useSimulationStore();
 function runSimulation() {
-    simulationIsRunning.value = true;
     simulate();
-}
-function stopSimulation() {
-    simulationIsRunning.value = false;
 }
 </script>
 <template>
-    <button v-if="!simulationIsRunning" @click="runSimulation">
+    <button
+        v-if="simulationStore.state == SimulationState.NotStarted"
+        @click="runSimulation"
+    >
         Run simulation
     </button>
-    <button @click="stopSimulation" v-else>Stop simulation</button>
+
+    <div
+        v-if="
+            simulationStore.state ==
+            SimulationState.SimulatedTimeSeriesGenerated
+        "
+    >
+        Stop simulation
+    </div>
 </template>

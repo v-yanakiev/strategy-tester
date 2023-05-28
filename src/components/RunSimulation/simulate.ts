@@ -7,6 +7,7 @@ import { useParsedDataStore } from '@/stores/parsedDataStore';
 import { SimulationState, useSimulationStore } from '@/stores/simulationStore';
 import workerpool from 'workerpool-passable-options';
 import type { Cell } from '@maxgraph/core';
+import { watch } from 'vue';
 export async function simulate() {
     const graphStore = useGraphStore();
     const simulationStore = useSimulationStore();
@@ -18,8 +19,6 @@ export async function simulate() {
     const poolToUse = (workerpool as any).pool(url.toString(), {
         type: 'module'
     });
-    // const worker = new Worker(url, { type: 'module' });
-    // worker.
     const steps = parsedDataStore
         .getNonProxyParsedData()!
         .data.sort((a) => a[parsedDataStore.timeVariableName!]);
@@ -28,6 +27,22 @@ export async function simulate() {
         Function | boolean[]
     >();
     const allConditions = graphStore.getAllConditions();
+    preCalculateWherePossible(
+        allConditions,
+        nodeAndItsConditionsResultOverTime,
+        steps,
+        poolToUse,
+        simulationStore
+    );
+}
+function simulateEvolutionOfBalance() {}
+function preCalculateWherePossible(
+    allConditions: Cell[],
+    nodeAndItsConditionsResultOverTime: Map<string, Function | boolean[]>,
+    steps: any[],
+    poolToUse: any,
+    simulationStore: any
+) {
     for (const condition of allConditions) {
         if (
             (getNodeValue(condition) as string).includes('currentBalance') ||
@@ -57,6 +72,7 @@ export async function simulate() {
         }
     }
 }
+
 function calculate(
     poolToUse: any,
     condition: Cell,

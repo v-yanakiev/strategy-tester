@@ -5,20 +5,20 @@ export enum SimulationState {
     StartingCalculations = 2,
     InitialCalculationsFinished = 3,
     AllCalculationsFinished = 4,
-    SimulatedTimeSeriesGenerated = 5
+    TimeSeriesGenerated = 5
 }
 export const useSimulationStore = defineStore('simulation', () => {
-    const balance = ref(null) as Ref<null | number>;
+    const initialBalance = ref(null) as Ref<null | number>;
     const state = ref(SimulationState.NotStarted);
-    function setBalance(value: number) {
-        balance.value = value;
+    function setInitialBalance(value: number) {
+        initialBalance.value = value;
     }
-    function getBalance() {
-        return balance.value;
+    function getInitialBalance() {
+        return initialBalance.value;
     }
     return {
-        setBalance,
-        getBalance,
+        setInitialBalance,
+        getInitialBalance,
         state
     };
 });
