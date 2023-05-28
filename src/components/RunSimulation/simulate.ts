@@ -17,7 +17,7 @@ export async function simulate() {
         '../../workers/computeAnswerToConditionWorker.js',
         import.meta.url
     );
-    const poolToUse = workerpool.pool(url.toString(), {
+    const poolToUse = (workerpool as any).pool(url.toString(), {
         type: 'module'
     });
     // const worker = new Worker(url, { type: 'module' });
