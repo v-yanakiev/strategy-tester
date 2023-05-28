@@ -10,6 +10,7 @@ export enum SimulationState {
 export const useSimulationStore = defineStore('simulation', () => {
     const initialBalance = ref(null) as Ref<null | number>;
     const state = ref(SimulationState.NotStarted);
+    const balances: number[] = [];
     function setInitialBalance(value: number) {
         initialBalance.value = value;
     }
@@ -19,6 +20,7 @@ export const useSimulationStore = defineStore('simulation', () => {
     return {
         setInitialBalance,
         getInitialBalance,
-        state
+        state,
+        balances
     };
 });

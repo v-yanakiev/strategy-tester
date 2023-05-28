@@ -19,12 +19,7 @@ function runSimulation() {
         Run simulation
     </button>
 
-    <div
-        v-if="
-            simulationStore.state ==
-            SimulationState.SimulatedTimeSeriesGenerated
-        "
-    >
+    <div v-if="simulationStore.state == SimulationState.TimeSeriesGenerated">
         Stop simulation
     </div>
 </template>

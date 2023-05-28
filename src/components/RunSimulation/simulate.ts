@@ -1,13 +1,25 @@
 import {
     getNodeValue,
-    transformConditionValueIntoValueReturningFunction
+    isBuy,
+    isCondition,
+    isSell,
+    isStart,
+    transformConditionValueIntoValueReturningFunction,
+    type ConditionToCalculate,
+    isEnd,
+    returnNodeWhichFollowsFromTrue,
+    returnNodeWhichFollowsFromFalse
 } from '@/common/nodeCalculator';
 import { useGraphStore } from '@/stores/graphStore';
 import { useParsedDataStore } from '@/stores/parsedDataStore';
 import { SimulationState, useSimulationStore } from '@/stores/simulationStore';
-import workerpool from 'workerpool-passable-options';
 import type { Cell } from '@maxgraph/core';
 import { watch } from 'vue';
+import * as simplestats from 'simple-statistics';
+import * as mathjs from 'mathjs';
+import * as workerpool from 'workerpool-passable-options';
+import * as indicatorts from 'indicatorts';
+
 export async function simulate() {
     const graphStore = useGraphStore();
     const simulationStore = useSimulationStore();
@@ -24,7 +36,7 @@ export async function simulate() {
         .data.sort((a) => a[parsedDataStore.timeVariableName!]);
     const nodeAndItsConditionsResultOverTime = new Map<
         string,
-        Function | boolean[]
+        ConditionToCalculate | boolean[]
     >();
     const allConditions = graphStore.getAllConditions();
     preCalculateWherePossible(
@@ -37,18 +49,74 @@ export async function simulate() {
     watch(
         () => simulationStore.state,
         () =>
+            simulationStore.state ==
+                SimulationState.InitialCalculationsFinished &&
             simulateEvolutionOfBalance(
-                allConditions,
+                graphStore.getStartNode(),
                 nodeAndItsConditionsResultOverTime,
-                steps
+                steps,
+                simulationStore.balances
             )
     );
 }
 function simulateEvolutionOfBalance(
-    allConditions: Cell[],
-    nodeAndItsConditionsResultOverTime: Map<string, Function | boolean[]>,
-    steps: any[]
-) {}
+    startNode: Cell,
+    nodeAndItsConditionsResultOverTime: Map<
+        string,
+        ConditionToCalculate | boolean[]
+    >,
+    steps: any[],
+    balances: number[]
+) {
+    for (let stepIndex = 0; stepIndex < steps.length; stepIndex++) {
+        handleAllConnectedNodesInGraph(startNode);
+        function handleAllConnectedNodesInGraph(node: Cell): void {
+            if (isStart(node)) {
+                handleAllConnectedNodesInGraph(node.children[0]);
+            } else if (isCondition(node)) {
+                continueFromConditionNode(node);
+            } else {
+                executeActivityNode(node);
+            }
+        }
+        function continueFromConditionNode(node: Cell) {
+            const calculationOrResult = nodeAndItsConditionsResultOverTime.get(
+                node.id!
+            )!;
+            let outcome: boolean;
+            if (calculationOrResult instanceof Function) {
+                outcome = calculationOrResult(
+                    steps[stepIndex],
+                    steps.slice(0, stepIndex),
+                    balances[stepIndex],
+                    balances,
+                    simplestats,
+                    mathjs,
+                    indicatorts
+                );
+            } else {
+                outcome = calculationOrResult[stepIndex];
+            }
+            if (outcome == true) {
+                handleAllConnectedNodesInGraph(
+                    returnNodeWhichFollowsFromTrue(node)
+                );
+            } else {
+                handleAllConnectedNodesInGraph(
+                    returnNodeWhichFollowsFromFalse(node)
+                );
+            }
+        }
+        function executeActivityNode(node: Cell) {
+            if (isBuy(node)) {
+                steps[stepIndex]-=;
+            } else if (isSell(node)) {
+                steps
+            }
+            throw `Invalid node with id ${node.id}!`;
+        }
+    }
+}
 function preCalculateWherePossible(
     allConditions: Cell[],
     nodeAndItsConditionsResultOverTime: Map<string, Function | boolean[]>,

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Cell } from '@maxgraph/core';
 import { ref, type Ref } from 'vue';
-import { isStart } from '@/common/nodeCalculator';
+import { isStart, PathChosen } from '@/common/nodeCalculator';
 interface Props {
     markedNode: Cell | undefined;
 }
@@ -11,10 +11,6 @@ let endNode: Ref<Cell | undefined> = ref(undefined);
 const props = defineProps<Props>();
 const emits = defineEmits(['startChosen', 'endChosen']);
 
-enum PathChosen {
-    Yes = 1,
-    No = 2
-}
 const pathChosen = ref(undefined) as Ref<undefined | PathChosen>;
 
 function markPathStart(pathChosenSetting: PathChosen) {
@@ -32,46 +28,46 @@ function markPathEnd() {
 function yesPathAlreadySelected() {
     return props.markedNode
         ?.getOutgoingEdges()
-        .some((a) => a.value.startsWith('Yes'));
+        .some((a) => a.value.startsWith('True'));
 }
 function noPathAlreadySelected() {
     return props.markedNode
         ?.getOutgoingEdges()
-        .some((a) => a.value.startsWith('No'));
+        .some((a) => a.value.startsWith('False'));
 }
 </script>
 <template>
     <button
         @click="markPathEnd"
-        v-if="startNode && pathChosen == PathChosen.Yes"
+        v-if="startNode && pathChosen == PathChosen.True"
         :disabled="
             !markedNode || markedNode == startNode || isStart(markedNode)
         "
     >
-        End Yes path
+        End True path
     </button>
     <button
-        @click="markPathStart(PathChosen.Yes)"
+        @click="markPathStart(PathChosen.True)"
         v-else-if="!pathChosen && !yesPathAlreadySelected()"
         :disabled="!markedNode"
     >
-        Start Yes path
+        Start True path
     </button>
 
     <button
         @click="markPathEnd"
-        v-if="startNode && pathChosen == PathChosen.No"
+        v-if="startNode && pathChosen == PathChosen.False"
         :disabled="
             !markedNode || markedNode == startNode || isStart(markedNode)
         "
     >
-        End No path
+        End False path
     </button>
     <button
-        @click="markPathStart(PathChosen.No)"
+        @click="markPathStart(PathChosen.False)"
         v-else-if="!pathChosen && !noPathAlreadySelected()"
         :disabled="!markedNode"
     >
-        Start No path
+        Start False path
     </button>
 </template>
