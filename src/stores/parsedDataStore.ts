@@ -3,7 +3,8 @@ import { defineStore } from 'pinia';
 import { computed, ref, toRaw, type Ref } from 'vue';
 export const useParsedDataStore = defineStore('parsedData', () => {
     const parsedData = ref(null) as Ref<null | ParseResult<any>>;
-    const timeVariable = ref(null) as Ref<null | string>;
+    const timeVariableName = ref(null) as Ref<null | string>;
+    const priceVariableName = ref(null) as Ref<null | string>;
     const fields = computed(() => {
         return parsedData.value?.meta.fields;
     });
@@ -14,15 +15,16 @@ export const useParsedDataStore = defineStore('parsedData', () => {
         return toRaw(parsedData.value);
     }
     function setTimeVariable(timeVariableValue: string) {
-        timeVariable.value = timeVariableValue;
+        timeVariableName.value = timeVariableValue;
     }
 
     return {
         getNonProxyParsedData,
         parsedData,
-        timeVariable,
+        timeVariableName,
         setTimeVariable,
         setParsedData,
-        fields
+        fields,
+        priceVariableName
     };
 });

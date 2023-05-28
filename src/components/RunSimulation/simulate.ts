@@ -22,7 +22,7 @@ export async function simulate() {
     // worker.
     const steps = parsedDataStore
         .getNonProxyParsedData()!
-        .data.sort((a) => a[parsedDataStore.timeVariable!]);
+        .data.sort((a) => a[parsedDataStore.timeVariableName!]);
     const nodeAndItsConditionsResultOverTime = new Map<
         string,
         Function | boolean[]

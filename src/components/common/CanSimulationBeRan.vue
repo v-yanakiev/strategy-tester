@@ -9,10 +9,10 @@ const graphStore = useGraphStore();
 </script>
 <template>
     <h2 v-if="!parsedDataStore.parsedData">You haven't loaded data yet.</h2>
-    <h2 v-else-if="!parsedDataStore.timeVariable">
+    <h2 v-else-if="!parsedDataStore.timeVariableName">
         You haven't set your time variable.
     </h2>
-    <h2 v-else-if="!simulationStore.getPriceVariableName()">
+    <h2 v-else-if="!parsedDataStore.priceVariableName">
         You haven't set your price variable.
     </h2>
     <h2 v-else-if="!graphStore.strategyCanBeGenerated">

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useSimulationStore } from '@/stores/simulationStore';
+import { useParsedDataStore } from '@/stores/parsedDataStore';
 import { ref } from 'vue';
 
 interface Props {
@@ -9,7 +9,7 @@ const props = defineProps<Props>();
 const selectedField = ref('');
 
 const onVariableChange = () => {
-    useSimulationStore().setPriceVariableName(selectedField.value);
+    useParsedDataStore().priceVariableName = selectedField.value;
 };
 </script>
 
