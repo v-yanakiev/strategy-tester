@@ -34,8 +34,21 @@ export async function simulate() {
         poolToUse,
         simulationStore
     );
+    watch(
+        () => simulationStore.state,
+        () =>
+            simulateEvolutionOfBalance(
+                allConditions,
+                nodeAndItsConditionsResultOverTime,
+                steps
+            )
+    );
 }
-function simulateEvolutionOfBalance() {}
+function simulateEvolutionOfBalance(
+    allConditions: Cell[],
+    nodeAndItsConditionsResultOverTime: Map<string, Function | boolean[]>,
+    steps: any[]
+) {}
 function preCalculateWherePossible(
     allConditions: Cell[],
     nodeAndItsConditionsResultOverTime: Map<string, Function | boolean[]>,
