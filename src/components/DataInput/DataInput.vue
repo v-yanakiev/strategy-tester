@@ -13,10 +13,10 @@ const onFileChange = (e: any) => {
     if (!files.length) return;
 
     droppedFile.value = files[0];
-    parseCSV(droppedFile.value);
+    parseData(droppedFile.value);
 };
 
-const parseCSV = (file: any) => {
+const parseData = (file: any) => {
     parsing.value = true;
     Papa.parse(file, {
         worker: true,
@@ -38,14 +38,14 @@ const preventDefault = (e: any) => {
 </script>
 
 <template>
-    <h1>Here you can drag and drop your time series CSV:</h1>
+    <h1>Here you can drag and drop your time series Data:</h1>
     <div
         class="dropzone"
         @dragover.prevent="preventDefault"
         @dragenter.prevent="preventDefault"
         @drop.prevent="onFileChange"
     >
-        Drop your CSV file here
+        Drop your Data file here
     </div>
     <h2 v-if="parsing">Parsing...</h2>
     <div v-else-if="parsedDataStore.fields">

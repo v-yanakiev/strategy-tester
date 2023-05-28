@@ -9,7 +9,7 @@ import { RouterLink, RouterView } from 'vue-router';
             <div class="wrapper">
                 <nav>
                     <RouterLink to="/">Home</RouterLink>
-                    <RouterLink to="csvInput">CSV Input</RouterLink>
+                    <RouterLink to="dataInput">Data Input</RouterLink>
                     <RouterLink to="graphEditor">Graph Editor</RouterLink>
                     <RouterLink to="runSimulation">Run Simulation</RouterLink>
                 </nav>
