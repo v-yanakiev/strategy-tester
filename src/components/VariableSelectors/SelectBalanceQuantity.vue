@@ -9,7 +9,7 @@ const onVariableChange = () => {
     if (Number.isNaN(number)) {
         return;
     }
-    useSimulationStore().setBalance(Number());
+    useSimulationStore().setBalance(number);
 };
 </script>
 
