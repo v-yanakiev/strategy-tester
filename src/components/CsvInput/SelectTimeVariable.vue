@@ -8,20 +8,20 @@ interface Props {
 const props = defineProps<Props>();
 const selectedField = ref('');
 
-const onFieldChange = () => {
+const onTimeVariableChange = () => {
     useParsedDataStore().setTimeVariable(selectedField.value);
 };
 </script>
 
 <template>
-    <h2>Which variable is the time variable?</h2>
+    <h2>Select the time variable:</h2>
     <div v-for="(fieldName, index) in fieldNames" :key="index">
         <input
             type="radio"
             :id="fieldName"
             :value="fieldName"
             v-model="selectedField"
-            @change="onFieldChange"
+            @change="onTimeVariableChange"
         />
         <label :for="fieldName">{{ fieldName }}</label>
     </div>

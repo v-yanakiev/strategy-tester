@@ -52,7 +52,7 @@ const preventDefault = (e: any) => {
         <br />
         <SelectTimeVariable :field-names="parsedDataStore.fields" />
         <br />
-        <SelectPriceVariable />
+        <SelectPriceVariable :field-names="parsedDataStore.fields" />
     </div>
 </template>
 

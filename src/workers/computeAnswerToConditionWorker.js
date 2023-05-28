@@ -4,7 +4,6 @@ import * as workerpool from 'workerpool-passable-options';
 
 // worker task for calculating condition
 function computeAnswerToCondition(conditionValue, currentStep, previousSteps) {
-    console.log(conditionValue);
     const calculateFunction =
         transformConditionValueIntoValueReturningFunction(conditionValue);
     return calculateFunction(

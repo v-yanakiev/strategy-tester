@@ -2,26 +2,28 @@
 import { useSimulationStore } from '@/stores/simulationStore';
 import { ref } from 'vue';
 
-const selectedVariableName = ref('');
+interface Props {
+    fieldNames: string[];
+}
+const props = defineProps<Props>();
+const selectedField = ref('');
 
 const onVariableChange = () => {
-    useSimulationStore().setPriceVariableName(selectedVariableName.value);
+    useSimulationStore().setPriceVariableName(selectedField.value);
 };
 </script>
 
 <template>
-    <h2>
-        Set a name for a new variable, the evolution of the value of which will
-        be simulated according to your defined strategy (for example,
-        "capital").
-    </h2>
-    <div>
+    <h2>Select the price variable:</h2>
+    <div v-for="(fieldName, index) in fieldNames" :key="index">
         <input
-            type="text"
-            v-model="selectedVariableName"
-            placeholder="Enter variable name"
+            type="radio"
+            :id="fieldName"
+            :value="fieldName"
+            v-model="selectedField"
+            @change="onVariableChange"
         />
-        <button @click="onVariableChange">Set Variable Name</button>
+        <label :for="fieldName">{{ fieldName }}</label>
     </div>
 </template>
 

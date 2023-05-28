@@ -75,8 +75,7 @@ function calculate(
             steps.slice(0, lockedIndex)
         ])
         .then((result: any) => {
-            console.log('result:');
-            console.log(result);
+            console.log(`result: ${result}`);
             const array = nodeAndItsConditionsResultOverTime.get(
                 lockedConditionId
             ) as boolean[];
@@ -91,7 +90,6 @@ function calculate(
                 poolToUse.stats().pendingTasks === 0 &&
                 poolToUse.stats().activeTasks === 0
             ) {
-                console.log(maybeAnswer);
                 poolToUse.terminate();
                 //console.log(nodeAndItsConditionsResultOverTime.values);
                 simulationStore.state =
