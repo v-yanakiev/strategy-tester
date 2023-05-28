@@ -19,6 +19,7 @@ import * as simplestats from 'simple-statistics';
 import * as mathjs from 'mathjs';
 import * as workerpool from 'workerpool-passable-options';
 import * as indicatorts from 'indicatorts';
+import { getValue } from '@maxgraph/core/dist/types/util/Utils';
 
 export async function simulate() {
     const graphStore = useGraphStore();
@@ -34,6 +35,9 @@ export async function simulate() {
     const steps = parsedDataStore
         .getNonProxyParsedData()!
         .data.sort((a) => a[parsedDataStore.timeVariableName!]);
+    simulationStore.moneyBalances = [simulationStore.getInitialBalance()!];
+    simulationStore.quantitiesOfAssetInPossession = [0];
+
     const nodeAndItsConditionsResultOverTime = new Map<
         string,
         ConditionToCalculate | boolean[]
@@ -55,7 +59,9 @@ export async function simulate() {
                 graphStore.getStartNode(),
                 nodeAndItsConditionsResultOverTime,
                 steps,
-                simulationStore.balances
+                simulationStore.moneyBalances,
+                simulationStore.quantitiesOfAssetInPossession,
+                parsedDataStore.priceVariableName!
             )
     );
 }
@@ -66,10 +72,18 @@ function simulateEvolutionOfBalance(
         ConditionToCalculate | boolean[]
     >,
     steps: any[],
-    balances: number[]
+    moneyBalances: number[],
+    quantitiesOfAssetInPossession: number[],
+    priceVariableName: string
 ) {
     for (let stepIndex = 0; stepIndex < steps.length; stepIndex++) {
         handleAllConnectedNodesInGraph(startNode);
+        performContinuationOfTimeSeries();
+        function performContinuationOfTimeSeries() {
+            moneyBalances[stepIndex + 1] = moneyBalances[stepIndex];
+            quantitiesOfAssetInPossession[stepIndex + 1] =
+                quantitiesOfAssetInPossession[stepIndex];
+        }
         function handleAllConnectedNodesInGraph(node: Cell): void {
             if (isStart(node)) {
                 handleAllConnectedNodesInGraph(node.children[0]);
@@ -77,6 +91,7 @@ function simulateEvolutionOfBalance(
                 continueFromConditionNode(node);
             } else {
                 executeActivityNode(node);
+                handleAllConnectedNodesInGraph(node.children[0]);
             }
         }
         function continueFromConditionNode(node: Cell) {
@@ -88,8 +103,8 @@ function simulateEvolutionOfBalance(
                 outcome = calculationOrResult(
                     steps[stepIndex],
                     steps.slice(0, stepIndex),
-                    balances[stepIndex],
-                    balances,
+                    moneyBalances[stepIndex],
+                    moneyBalances,
                     simplestats,
                     mathjs,
                     indicatorts
@@ -109,11 +124,16 @@ function simulateEvolutionOfBalance(
         }
         function executeActivityNode(node: Cell) {
             if (isBuy(node)) {
-                steps[stepIndex]-=;
+                quantitiesOfAssetInPossession[stepIndex] += getNodeValue(node);
+                moneyBalances[stepIndex] -=
+                    steps[stepIndex][priceVariableName] * getNodeValue(node);
             } else if (isSell(node)) {
-                steps
+                quantitiesOfAssetInPossession[stepIndex] -= getNodeValue(node);
+                moneyBalances[stepIndex] +=
+                    steps[stepIndex][priceVariableName] * getNodeValue(node);
+            } else {
+                throw `Invalid node with id ${node.id}!`;
             }
-            throw `Invalid node with id ${node.id}!`;
         }
     }
 }
@@ -185,7 +205,6 @@ function calculate(
                 poolToUse.stats().activeTasks === 0
             ) {
                 poolToUse.terminate();
-                //console.log(nodeAndItsConditionsResultOverTime.values);
                 simulationStore.state =
                     SimulationState.InitialCalculationsFinished;
             }
