@@ -82,8 +82,7 @@ function calculate(
             array[lockedIndex] = result;
         })
         .catch((error: any) => {
-            console.log('error: ');
-            console.log(error);
+            console.log(`error: ${error}`);
         })
         .then((maybeAnswer: any) => {
             if (
