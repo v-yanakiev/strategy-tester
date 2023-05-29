@@ -14,15 +14,11 @@ export const useParsedDataStore = defineStore('parsedData', () => {
     function getNonProxyParsedData() {
         return toRaw(parsedData.value);
     }
-    function setTimeVariable(timeVariableValue: string) {
-        timeVariableName.value = timeVariableValue;
-    }
 
     return {
         getNonProxyParsedData,
         parsedData,
         timeVariableName,
-        setTimeVariable,
         setParsedData,
         fields,
         priceVariableName

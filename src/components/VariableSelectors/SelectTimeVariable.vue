@@ -7,9 +7,9 @@ interface Props {
 }
 const props = defineProps<Props>();
 const selectedField = ref('');
-
+const dataStore = useParsedDataStore();
 const onTimeVariableChange = () => {
-    useParsedDataStore().setTimeVariable(selectedField.value);
+    dataStore.timeVariableName = selectedField.value;
 };
 </script>
 
@@ -18,21 +18,13 @@ const onTimeVariableChange = () => {
     <div v-for="(fieldName, index) in fieldNames" :key="index">
         <input
             type="radio"
-            :id="fieldName"
             :value="fieldName"
             v-model="selectedField"
             @change="onTimeVariableChange"
+            name="timeVariable"
         />
         <label :for="fieldName">{{ fieldName }}</label>
     </div>
 </template>
 
-<style scoped>
-.dropzone {
-    border: 2px dashed #ccc;
-    border-radius: 10px;
-    padding: 30px;
-    text-align: center;
-    margin: 10px;
-}
-</style>
+<style scoped></style>

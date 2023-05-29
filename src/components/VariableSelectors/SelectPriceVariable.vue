@@ -7,9 +7,10 @@ interface Props {
 }
 const props = defineProps<Props>();
 const selectedField = ref('');
+const dataStore = useParsedDataStore();
 
 const onVariableChange = () => {
-    useParsedDataStore().priceVariableName = selectedField.value;
+    dataStore.priceVariableName = selectedField.value;
 };
 </script>
 
@@ -18,21 +19,13 @@ const onVariableChange = () => {
     <div v-for="(fieldName, index) in fieldNames" :key="index">
         <input
             type="radio"
-            :id="fieldName"
             :value="fieldName"
             v-model="selectedField"
             @change="onVariableChange"
+            name="priceVariable"
         />
         <label :for="fieldName">{{ fieldName }}</label>
     </div>
 </template>
 
-<style scoped>
-.dropzone {
-    border: 2px dashed #ccc;
-    border-radius: 10px;
-    padding: 30px;
-    text-align: center;
-    margin: 10px;
-}
-</style>
+<style scoped></style>
