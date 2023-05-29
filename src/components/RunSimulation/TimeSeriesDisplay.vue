@@ -9,7 +9,7 @@ onMounted(async () => {
     const originalData = parsedDataStore.getNonProxyParsedData()!;
     setTimeout(() => {
         const graph = new Dygraph(
-            'graphDiv',
+            document.getElementById('graphDiv')!,
             originalData.data.map((step) => {
                 const toReturn = [
                     new Date(step[parsedDataStore.timeVariableName!]),
