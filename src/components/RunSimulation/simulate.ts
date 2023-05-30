@@ -147,32 +147,32 @@ function preCalculateWherePossible(
     simulationStore: any
 ) {
     for (const condition of allConditions) {
-        if (
-            (getNodeValue(condition) as string).includes('currentBalance') ||
-            (getNodeValue(condition) as string).includes('previousBalances')
-        ) {
-            //cannot be precalculated
-            nodeAndItsConditionsResultOverTime.set(
-                condition.id!,
-                transformConditionValueIntoValueReturningFunction(
-                    getNodeValue(condition)
-                )
-            );
-        } else {
-            //can be precalculated across all steps
-            nodeAndItsConditionsResultOverTime.set(condition.id!, []);
-            for (let i = 0; i < steps.length; i++) {
-                calculate(
-                    poolToUse,
-                    condition,
-                    steps,
-                    nodeAndItsConditionsResultOverTime,
-                    i,
-                    condition.id!,
-                    simulationStore
-                );
-            }
-        }
+        // if (
+        //     (getNodeValue(condition) as string).includes('currentBalance') ||
+        //     (getNodeValue(condition) as string).includes('previousBalances')
+        // ) {
+        //cannot be precalculated
+        nodeAndItsConditionsResultOverTime.set(
+            condition.id!,
+            transformConditionValueIntoValueReturningFunction(
+                getNodeValue(condition)
+            )
+        );
+        // } else {
+        //     //can be precalculated across all steps
+        //     nodeAndItsConditionsResultOverTime.set(condition.id!, []);
+        //     for (let i = 0; i < steps.length; i++) {
+        //         calculate(
+        //             poolToUse,
+        //             condition,
+        //             steps,
+        //             nodeAndItsConditionsResultOverTime,
+        //             i,
+        //             condition.id!,
+        //             simulationStore
+        //         );
+        //     }
+        // }
     }
 }
 
