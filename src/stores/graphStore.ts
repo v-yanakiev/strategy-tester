@@ -9,11 +9,11 @@ export const useGraphStore = defineStore('graph', () => {
     const startNode = ref(null) as Ref<Cell | null>;
     const endNode = ref(null) as Ref<Cell | null>;
     const graph = ref(null) as Ref<Graph | null>;
-    function addPath(startNode: Cell, endNode: Cell, text: string) {
+    function addPath(startNode: Cell, endNode: Cell, value: any) {
         const edge = getGraph().insertEdge(
             getParent(),
             genId(),
-            text,
+            value,
             toRaw(startNode),
             toRaw(endNode)
         );

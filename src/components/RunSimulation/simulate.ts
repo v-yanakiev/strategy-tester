@@ -8,7 +8,8 @@ import {
     type ConditionToCalculate,
     isEnd,
     returnNodeWhichFollowsFromTrue,
-    returnNodeWhichFollowsFromFalse
+    returnNodeWhichFollowsFromFalse,
+    returnNodeWhichFollows
 } from '@/common/nodeCalculator';
 import { useGraphStore } from '@/stores/graphStore';
 import { useParsedDataStore } from '@/stores/parsedDataStore';
@@ -88,12 +89,14 @@ function simulateEvolutionOfBalance(
         }
         function handleAllConnectedNodesInGraph(node: Cell): void {
             if (isStart(node)) {
-                handleAllConnectedNodesInGraph(node.children[0]);
+                handleAllConnectedNodesInGraph(returnNodeWhichFollows(node));
             } else if (isCondition(node)) {
                 continueFromConditionNode(node);
-            } else {
+            } else if (isBuy(node) || isSell(node)) {
                 executeActivityNode(node);
-                handleAllConnectedNodesInGraph(node.children[0]);
+                handleAllConnectedNodesInGraph(returnNodeWhichFollows(node));
+            } else {
+                return;
             }
         }
         function continueFromConditionNode(node: Cell) {
@@ -173,6 +176,7 @@ function preCalculateWherePossible(
         //         );
         //     }
         // }
+        simulationStore.state = SimulationState.InitialCalculationsFinished;
     }
 }
 

@@ -20,20 +20,20 @@ function markPathStart(pathChosenSetting: PathChosen) {
 }
 function markPathEnd() {
     endNode.value = props.markedNode;
-    emits('endChosen', endNode.value, PathChosen[pathChosen.value!]);
+    emits('endChosen', endNode.value, pathChosen.value);
     startNode.value = undefined;
     endNode.value = undefined;
     pathChosen.value = undefined;
 }
-function yesPathAlreadySelected() {
+function truePathAlreadySelected() {
     return props.markedNode
         ?.getOutgoingEdges()
-        .some((a) => a.value.startsWith('True'));
+        .some((a) => a.value == PathChosen.True);
 }
-function noPathAlreadySelected() {
+function falsePathAlreadySelected() {
     return props.markedNode
         ?.getOutgoingEdges()
-        .some((a) => a.value.startsWith('False'));
+        .some((a) => a.value == PathChosen.False);
 }
 </script>
 <template>
@@ -48,7 +48,7 @@ function noPathAlreadySelected() {
     </button>
     <button
         @click="markPathStart(PathChosen.True)"
-        v-else-if="!pathChosen && !yesPathAlreadySelected()"
+        v-else-if="!pathChosen && !truePathAlreadySelected()"
         :disabled="!markedNode"
     >
         Start True path
@@ -65,7 +65,7 @@ function noPathAlreadySelected() {
     </button>
     <button
         @click="markPathStart(PathChosen.False)"
-        v-else-if="!pathChosen && !noPathAlreadySelected()"
+        v-else-if="!pathChosen && !falsePathAlreadySelected()"
         :disabled="!markedNode"
     >
         Start False path

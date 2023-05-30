@@ -10,14 +10,23 @@ const simulationStore = useSimulationStore();
 function runSimulation() {
     simulate();
 }
+function stopSimulation() {
+    simulationStore.moneyBalances = [];
+    simulationStore.quantitiesOfAssetInPossession = [];
+    simulationStore.state = SimulationState.NotStarted;
+}
 </script>
 <template>
     <button
-        v-if="simulationStore.state == SimulationState.NotStarted"
+        v-if="
+            simulationStore.state == SimulationState.NotStarted ||
+            simulationStore.state == SimulationState.TimeSeriesGenerated
+        "
         @click="runSimulation"
     >
         Run simulation
     </button>
+    <button v-else @click="stopSimulation">Stop stimulation</button>
 
     <TimeSeriesDisplay
         v-if="simulationStore.state == SimulationState.TimeSeriesGenerated"

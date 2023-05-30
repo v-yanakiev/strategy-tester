@@ -31,6 +31,9 @@ export function leadsNowhere(node?: Cell) {
 export function getNodeValue(node: Cell) {
     return node.value.value;
 }
+export function returnNodeWhichFollows(simpleNode: Cell) {
+    return simpleNode.getOutgoingEdges()[0].target!;
+}
 export function returnNodeWhichFollowsFromTrue(conditionalNode: Cell) {
     return conditionalNode
         .getOutgoingEdges()
