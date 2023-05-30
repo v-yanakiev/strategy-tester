@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, nextTick, onActivated } from 'vue';
+import { onMounted, ref, nextTick, onActivated, onDeactivated } from 'vue';
 import Dygraph from 'dygraphs';
 import { useSimulationStore } from '@/stores/simulationStore';
 import { useParsedDataStore } from '@/stores/parsedDataStore';
@@ -20,23 +20,47 @@ const dataToSend = originalData.data
             date,
             price,
             simulationStore.moneyBalances[index],
-            simulationStore.quantitiesOfAssetInPossession[index] * price
+            simulationStore.quantitiesOfAssetInPossession[index] * price,
+            simulationStore.maxQuantityThatCouldHaveBeenPurchasedInTheBeginning *
+                price
         ];
     })
     .filter((a) => a) as [Date, number, number, number][];
-
-onActivated(async () => {
-    await nextTick();
-    const graph = new Dygraph(
-        document.getElementById('graphDiv')!,
-        dataToSend,
-        {
-            labels: ['Date', 'Price', 'Money left', 'Value of assets'],
-            connectSeparatedPoints: false
-        }
-    );
+let graph: Dygraph | null;
+onMounted(() => {
+    mountGraph();
 });
+onActivated(async () => {
+    mountGraph();
+});
+onDeactivated(async () => {
+    await nextTick();
+    graph?.destroy();
+});
+async function mountGraph() {
+    await nextTick();
+    if (document.getElementById('graphDiv')) {
+        graph = new Dygraph(document.getElementById('graphDiv')!, dataToSend, {
+            labels: [
+                'Date',
+                'Price',
+                'Money left',
+                'Value of assets',
+                'Value of assets - all-in strategy'
+            ],
+            connectSeparatedPoints: false,
+            labelsSeparateLines: true,
+            logscale: true,
+            axisLabelWidth: 200
+        });
+    }
+}
 </script>
 <template>
     <div id="graphDiv"></div>
 </template>
+<style scoped>
+.dygraph-axis-label-y {
+    transform: translateX(10px);
+}
+</style>

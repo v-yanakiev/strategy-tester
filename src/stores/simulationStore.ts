@@ -11,6 +11,7 @@ export const useSimulationStore = defineStore('simulation', () => {
     const state = ref(SimulationState.NotStarted);
     const moneyBalances: number[] = [];
     const quantitiesOfAssetInPossession: number[] = [];
+    const maxQuantityThatCouldHaveBeenPurchasedInTheBeginning = ref(0);
     function setInitialBalance(value: number) {
         initialBalance.value = value;
     }
@@ -22,6 +23,7 @@ export const useSimulationStore = defineStore('simulation', () => {
         getInitialBalance,
         state,
         moneyBalances,
-        quantitiesOfAssetInPossession
+        quantitiesOfAssetInPossession,
+        maxQuantityThatCouldHaveBeenPurchasedInTheBeginning
     };
 });

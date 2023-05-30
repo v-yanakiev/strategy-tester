@@ -44,12 +44,6 @@ export async function simulate() {
         ConditionToCalculate | boolean[]
     >();
     const allConditions = graphStore.getAllConditions();
-    preCalculateWherePossible(
-        allConditions,
-        nodeAndItsConditionsResultOverTime,
-        steps
-        // poolToUse,
-    );
     watch(
         () => simulationStore.state,
         () =>
@@ -64,9 +58,13 @@ export async function simulate() {
                 parsedDataStore.priceVariableName!
             )
     );
-}
-function changed() {
-    const a = 5;
+
+    preCalculateWherePossible(
+        allConditions,
+        nodeAndItsConditionsResultOverTime,
+        steps
+        // poolToUse,
+    );
 }
 function simulateEvolutionOfBalance(
     startNode: Cell,
@@ -79,7 +77,9 @@ function simulateEvolutionOfBalance(
     quantitiesOfAssetInPossession: number[],
     priceVariableName: string
 ) {
-    console.log('entered');
+    const simulationStore = useSimulationStore();
+    simulationStore.maxQuantityThatCouldHaveBeenPurchasedInTheBeginning =
+        Math.floor(moneyBalances[0] / steps[0][priceVariableName]);
     for (let stepIndex = 0; stepIndex < steps.length; stepIndex++) {
         handleAllConnectedNodesInGraph(startNode);
         performContinuationOfTimeSeries();
@@ -174,8 +174,7 @@ function simulateEvolutionOfBalance(
             }
         }
     }
-    console.log('exited');
-    useSimulationStore().state = SimulationState.AllCalculationsFinished;
+    simulationStore.state = SimulationState.AllCalculationsFinished;
 }
 function preCalculateWherePossible(
     allConditions: Cell[],
@@ -211,7 +210,6 @@ function preCalculateWherePossible(
         //     }
         // }
     }
-    console.log('should be checked');
     useSimulationStore().state = SimulationState.InitialCalculationsFinished;
 }
 
