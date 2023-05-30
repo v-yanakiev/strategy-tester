@@ -37,12 +37,12 @@ export function returnNodeWhichFollows(simpleNode: Cell) {
 export function returnNodeWhichFollowsFromTrue(conditionalNode: Cell) {
     return conditionalNode
         .getOutgoingEdges()
-        .find((a) => a.value == PathChosen.True)!.target!;
+        .find((a) => a.value == PathChosen[PathChosen.True])!.target!;
 }
 export function returnNodeWhichFollowsFromFalse(conditionalNode: Cell) {
     return conditionalNode
         .getOutgoingEdges()
-        .find((a) => a.value == PathChosen.False)!.target!;
+        .find((a) => a.value == PathChosen[PathChosen.False])!.target!;
 }
 export function transformConditionValueIntoValueReturningFunction(
     conditionValue: string

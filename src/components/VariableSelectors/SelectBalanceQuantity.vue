@@ -19,7 +19,7 @@ const onVariableChange = () => {
         <input
             type="number"
             v-model="selectedVariableName"
-            placeholder="Enter variable name"
+            placeholder="Enter initial balance (in currency)"
         />
         <button @click="onVariableChange">Set Initial Balance</button>
     </div>
