@@ -28,12 +28,12 @@ function markPathEnd() {
 function truePathAlreadySelected() {
     return props.markedNode
         ?.getOutgoingEdges()
-        .some((a) => a.value == PathChosen.True);
+        .some((a) => a.value == PathChosen[PathChosen.True]);
 }
 function falsePathAlreadySelected() {
     return props.markedNode
         ?.getOutgoingEdges()
-        .some((a) => a.value == PathChosen.False);
+        .some((a) => a.value == PathChosen[PathChosen.False]);
 }
 </script>
 <template>
