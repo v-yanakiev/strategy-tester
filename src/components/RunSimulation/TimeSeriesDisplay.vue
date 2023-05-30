@@ -51,7 +51,7 @@ async function mountGraph() {
             connectSeparatedPoints: false,
             labelsSeparateLines: true,
             logscale: true,
-            axisLabelWidth: 200
+            axisLabelWidth: 400
         });
     }
 }

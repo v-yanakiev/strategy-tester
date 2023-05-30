@@ -24,7 +24,6 @@ const graphStore = useGraphStore();
     </h2>
     <div v-else>
         <!-- <div> -->
-        <h2>You can run the simulation!</h2>
         <slot></slot>
     </div>
 </template>
