@@ -25,13 +25,13 @@ export async function simulate() {
     const graphStore = useGraphStore();
     const simulationStore = useSimulationStore();
     const parsedDataStore = useParsedDataStore();
-    const url = new URL(
-        '../../workers/computeAnswerToConditionWorker.js',
-        import.meta.url
-    );
-    const poolToUse = (workerpool as any).pool(url.toString(), {
-        type: 'module'
-    });
+    // const url = new URL(
+    //     '../../workers/computeAnswerToConditionWorker.js',
+    //     import.meta.url
+    // );
+    // const poolToUse = (workerpool as any).pool(url.toString(), {
+    //     type: 'module'
+    // });
     simulationStore.state = SimulationState.StartingCalculations;
     const steps = parsedDataStore
         .getNonProxyParsedData()!
@@ -48,7 +48,7 @@ export async function simulate() {
         allConditions,
         nodeAndItsConditionsResultOverTime,
         steps,
-        poolToUse,
+        // poolToUse,
         simulationStore
     );
     watch(
@@ -146,7 +146,7 @@ function preCalculateWherePossible(
     allConditions: Cell[],
     nodeAndItsConditionsResultOverTime: Map<string, Function | boolean[]>,
     steps: any[],
-    poolToUse: any,
+    // poolToUse: any,
     simulationStore: any
 ) {
     for (const condition of allConditions) {
@@ -176,43 +176,43 @@ function preCalculateWherePossible(
         //         );
         //     }
         // }
-        simulationStore.state = SimulationState.InitialCalculationsFinished;
     }
+    simulationStore.state = SimulationState.InitialCalculationsFinished;
 }
 
-function calculate(
-    poolToUse: any,
-    condition: Cell,
-    steps: any[],
-    nodeAndItsConditionsResultOverTime: Map<string, Function | boolean[]>,
-    lockedIndex: number,
-    lockedConditionId: string,
-    simulationStore: any
-) {
-    poolToUse
-        .exec('computeAnswerToCondition', [
-            getNodeValue(condition),
-            steps[lockedIndex],
-            steps.slice(0, lockedIndex)
-        ])
-        .then((result: any) => {
-            console.log(`result: ${result}`);
-            const array = nodeAndItsConditionsResultOverTime.get(
-                lockedConditionId
-            ) as boolean[];
-            array[lockedIndex] = result;
-        })
-        .catch((error: any) => {
-            console.log(`error: ${error}`);
-        })
-        .then((maybeAnswer: any) => {
-            if (
-                poolToUse.stats().pendingTasks === 0 &&
-                poolToUse.stats().activeTasks === 0
-            ) {
-                poolToUse.terminate();
-                simulationStore.state =
-                    SimulationState.InitialCalculationsFinished;
-            }
-        });
-}
+// function calculate(
+//     poolToUse: any,
+//     condition: Cell,
+//     steps: any[],
+//     nodeAndItsConditionsResultOverTime: Map<string, Function | boolean[]>,
+//     lockedIndex: number,
+//     lockedConditionId: string,
+//     simulationStore: any
+// ) {
+//     poolToUse
+//         .exec('computeAnswerToCondition', [
+//             getNodeValue(condition),
+//             steps[lockedIndex],
+//             steps.slice(0, lockedIndex)
+//         ])
+//         .then((result: any) => {
+//             console.log(`result: ${result}`);
+//             const array = nodeAndItsConditionsResultOverTime.get(
+//                 lockedConditionId
+//             ) as boolean[];
+//             array[lockedIndex] = result;
+//         })
+//         .catch((error: any) => {
+//             console.log(`error: ${error}`);
+//         })
+//         .then((maybeAnswer: any) => {
+//             if (
+//                 poolToUse.stats().pendingTasks === 0 &&
+//                 poolToUse.stats().activeTasks === 0
+//             ) {
+//                 poolToUse.terminate();
+//                 simulationStore.state =
+//                     SimulationState.InitialCalculationsFinished;
+//             }
+//         });
+// }
