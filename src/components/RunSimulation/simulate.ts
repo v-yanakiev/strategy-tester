@@ -36,8 +36,11 @@ export async function simulate() {
     const steps = parsedDataStore
         .getNonProxyParsedData()!
         .data.sort((a) => a[parsedDataStore.timeVariableName!]);
-    simulationStore.moneyBalances = [simulationStore.getInitialBalance()!];
-    simulationStore.quantitiesOfAssetInPossession = [0];
+    simulationStore.moneyBalances = [
+        simulationStore.getInitialBalance()!,
+        simulationStore.getInitialBalance()!
+    ];
+    simulationStore.quantitiesOfAssetInPossession = [0, 0];
 
     const nodeAndItsConditionsResultOverTime = new Map<
         string,
@@ -79,8 +82,8 @@ function simulateEvolutionOfBalance(
 ) {
     const simulationStore = useSimulationStore();
     simulationStore.maxQuantityThatCouldHaveBeenPurchasedInTheBeginning =
-        Math.floor(moneyBalances[0] / steps[0][priceVariableName]);
-    for (let stepIndex = 0; stepIndex < steps.length; stepIndex++) {
+        Math.floor(moneyBalances[1] / steps[1][priceVariableName]);
+    for (let stepIndex = 1; stepIndex < steps.length; stepIndex++) {
         handleAllConnectedNodesInGraph(startNode);
         performContinuationOfTimeSeries();
         function performContinuationOfTimeSeries() {
@@ -141,15 +144,15 @@ function simulateEvolutionOfBalance(
                         steps[stepIndex][priceVariableName] *
                         getNodeValue(node);
                 } else {
-                    console.log(
-                        `You wanted to buy ${getNodeValue(
-                            node
-                        )} assets, at a price of ${
-                            steps[stepIndex][priceVariableName]
-                        } each, but you only had ${
-                            moneyBalances[stepIndex]
-                        } money`
-                    );
+                    // console.log(
+                    //     `You wanted to buy ${getNodeValue(
+                    //         node
+                    //     )} assets, at a price of ${
+                    //         steps[stepIndex][priceVariableName]
+                    //     } each, but you only had ${
+                    //         moneyBalances[stepIndex]
+                    //     } money`
+                    // );
                 }
             } else if (isSell(node)) {
                 if (
@@ -163,13 +166,13 @@ function simulateEvolutionOfBalance(
                         steps[stepIndex][priceVariableName] *
                         getNodeValue(node);
                 } else {
-                    console.log(
-                        `You wanted to sell ${getNodeValue(
-                            node
-                        )} assets, but you only had ${
-                            quantitiesOfAssetInPossession[stepIndex]
-                        }`
-                    );
+                    // console.log(
+                    //     `You wanted to sell ${getNodeValue(
+                    //         node
+                    //     )} assets, but you only had ${
+                    //         quantitiesOfAssetInPossession[stepIndex]
+                    //     }`
+                    // );
                 }
             }
         }
