@@ -20,7 +20,6 @@ const graphStore = useGraphStore();
         You haven't set your initial balance.
     </h2>
     <h2 v-else-if="!graphStore.strategyCanBeGenerated">
-        <TimeSeriesDisplay />
         The graph is not valid.
     </h2>
     <div v-else>

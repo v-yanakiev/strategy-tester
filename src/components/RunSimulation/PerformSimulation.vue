@@ -8,6 +8,8 @@ import { SimulationState, useSimulationStore } from '@/stores/simulationStore';
 
 const simulationStore = useSimulationStore();
 function runSimulation() {
+    simulationStore.moneyBalances = [];
+    simulationStore.quantitiesOfAssetInPossession = [];
     simulate();
 }
 function stopSimulation() {
@@ -20,7 +22,7 @@ function stopSimulation() {
     <button
         v-if="
             simulationStore.state == SimulationState.NotStarted ||
-            simulationStore.state == SimulationState.TimeSeriesGenerated
+            simulationStore.state == SimulationState.AllCalculationsFinished
         "
         @click="runSimulation"
     >
@@ -29,6 +31,6 @@ function stopSimulation() {
     <button v-else @click="stopSimulation">Stop stimulation</button>
 
     <TimeSeriesDisplay
-        v-if="simulationStore.state == SimulationState.TimeSeriesGenerated"
+        v-if="simulationStore.state == SimulationState.AllCalculationsFinished"
     />
 </template>

@@ -16,16 +16,24 @@ const dataToSend = originalData.data
         if (isNaN(date.getTime()) || !(typeof price == 'number')) {
             return null;
         }
-        return [date, price];
+        return [
+            date,
+            price,
+            simulationStore.moneyBalances[index],
+            simulationStore.quantitiesOfAssetInPossession[index] * price
+        ];
     })
-    .filter((a) => a) as [Date, number][];
+    .filter((a) => a) as [Date, number, number, number][];
 
 onActivated(async () => {
     await nextTick();
     const graph = new Dygraph(
         document.getElementById('graphDiv')!,
         dataToSend,
-        { labels: ['Date', 'Price'], connectSeparatedPoints: false }
+        {
+            labels: ['Date', 'Price', 'Money left', 'Value of assets'],
+            connectSeparatedPoints: false
+        }
     );
 });
 </script>

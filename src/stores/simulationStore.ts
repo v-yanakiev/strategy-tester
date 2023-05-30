@@ -4,8 +4,7 @@ export enum SimulationState {
     NotStarted = 1,
     StartingCalculations = 2,
     InitialCalculationsFinished = 3,
-    AllCalculationsFinished = 4,
-    TimeSeriesGenerated = 5
+    AllCalculationsFinished = 4
 }
 export const useSimulationStore = defineStore('simulation', () => {
     const initialBalance = ref(null) as Ref<null | number>;
