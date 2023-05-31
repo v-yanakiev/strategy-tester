@@ -21,7 +21,9 @@ const dataToSend = originalData.data
             simulationStore.moneyBalances[index],
             simulationStore.quantitiesOfAssetInPossession[index] * price,
             simulationStore.moneyBalances[index] +
-                simulationStore.quantitiesOfAssetInPossession[index] * price
+                simulationStore.quantitiesOfAssetInPossession[index] * price,
+            simulationStore.maxQuantityThatCouldHaveBeenPurchasedInTheBeginning *
+                price
         ];
     })
     .filter((a) => a) as [Date, number, number, number][];
@@ -68,7 +70,8 @@ async function mountGraph() {
                     'Date',
                     'Money left',
                     'Value of assets',
-                    'Money+asset value'
+                    'Money+asset value',
+                    'All-in strategy'
                 ],
                 ...partOfVisualizationConfig
             }
