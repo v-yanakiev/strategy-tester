@@ -67,9 +67,7 @@ function deleteSelectedCells() {
     markedElement.value = undefined;
 }
 function ensureEdgesCannotBeMovedAround() {
-    graphStore.getGraph().isCellMovable = function (cell) {
-        return isVertex(cell);
-    };
+    graphStore.getGraph().setCellsDisconnectable(false);
 }
 function attachNodeMarking() {
     document.onclick = function (evt) {
