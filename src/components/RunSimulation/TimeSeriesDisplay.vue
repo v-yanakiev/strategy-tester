@@ -18,10 +18,22 @@ const dataToSend = originalData.data
         }
         return [
             date,
-            price,
             simulationStore.moneyBalances[index],
-            simulationStore.quantitiesOfAssetInPossession[index] * price
+            simulationStore.quantitiesOfAssetInPossession[index] * price,
+            simulationStore.moneyBalances[index] +
+                simulationStore.quantitiesOfAssetInPossession[index] * price
         ];
+    })
+    .filter((a) => a) as [Date, number, number, number][];
+const priceData = originalData.data
+    .map((step, index) => {
+        let parsed = Date.parse(step[timeVariableName]);
+        const date = new Date(parsed);
+        const price = step[priceVariableName];
+        if (isNaN(date.getTime()) || !(typeof price == 'number')) {
+            return null;
+        }
+        return [date, price];
     })
     .filter((a) => a) as [Date, number, number, number][];
 let graph: Dygraph | null;
@@ -37,19 +49,46 @@ onDeactivated(async () => {
 });
 async function mountGraph() {
     await nextTick();
-    if (document.getElementById('graphDiv')) {
-        graph = new Dygraph(document.getElementById('graphDiv')!, dataToSend, {
-            labels: ['Date', 'Price', 'Money left', 'Value of assets'],
-            connectSeparatedPoints: true,
-            labelsSeparateLines: true,
-            logscale: true,
-            axisLabelWidth: 200
-        });
+    if (document.getElementById('graphDivPrice')) {
+        graph = new Dygraph(
+            document.getElementById('graphDivPrice')!,
+            priceData,
+            {
+                labels: ['Date', 'Price'],
+                ...partOfVisualizationConfig
+            }
+        );
+    }
+    if (document.getElementById('graphDivSimulation')) {
+        graph = new Dygraph(
+            document.getElementById('graphDivSimulation')!,
+            dataToSend,
+            {
+                labels: [
+                    'Date',
+                    'Money left',
+                    'Value of assets',
+                    'Money+asset value'
+                ],
+                ...partOfVisualizationConfig
+            }
+        );
     }
 }
+const partOfVisualizationConfig = {
+    connectSeparatedPoints: false,
+    labelsSeparateLines: true,
+    logscale: false,
+    axisLabelWidth: 250
+};
 </script>
 <template>
-    <div id="graphDiv"></div>
+    <p>Price of asset:</p>
+    <div id="graphDivPrice"></div>
+    <br />
+    <p>Simulation of strategy:</p>
+
+    <div id="graphDivSimulation"></div>
 </template>
 <style scoped>
 .dygraph-axis-label-y {

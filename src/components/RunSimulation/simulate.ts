@@ -120,7 +120,7 @@ function simulateEvolutionOfBalance(
             } else {
                 outcome = calculationOrResult[stepIndex];
             }
-            if (outcome == true) {
+            if (outcome) {
                 handleAllConnectedNodesInGraph(
                     returnNodeWhichFollowsFromTrue(node)
                 );
