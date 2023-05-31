@@ -20,9 +20,7 @@ const dataToSend = originalData.data
             date,
             price,
             simulationStore.moneyBalances[index],
-            simulationStore.quantitiesOfAssetInPossession[index] * price,
-            simulationStore.maxQuantityThatCouldHaveBeenPurchasedInTheBeginning *
-                price
+            simulationStore.quantitiesOfAssetInPossession[index] * price
         ];
     })
     .filter((a) => a) as [Date, number, number, number][];
@@ -41,17 +39,11 @@ async function mountGraph() {
     await nextTick();
     if (document.getElementById('graphDiv')) {
         graph = new Dygraph(document.getElementById('graphDiv')!, dataToSend, {
-            labels: [
-                'Date',
-                'Price',
-                'Money left',
-                'Value of assets',
-                'Value of assets - all-in strategy'
-            ],
+            labels: ['Date', 'Price', 'Money left', 'Value of assets'],
             connectSeparatedPoints: false,
             labelsSeparateLines: true,
             logscale: true,
-            axisLabelWidth: 400
+            axisLabelWidth: 200
         });
     }
 }

@@ -47,10 +47,15 @@ function attachDeleteFunctionality() {
                 .getGraph()
                 .getSelectionCells()
                 .filter((cell) => !isStart(cell) && !isEnd(cell));
-            graphStore.getGraph().removeCells(selectedCells);
+            graphStore.getGraph().removeCells(selectedCells, true);
+
             selectedCells.forEach((cell) => {
                 graphStore.getGraph().refresh(cell);
+                cell.getEdges().forEach((edge) =>
+                    graphStore.getGraph().refresh(edge)
+                );
             });
+            graphStore.refreshGraph();
             markedNode.value = undefined;
         }
     };
