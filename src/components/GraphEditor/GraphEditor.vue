@@ -24,6 +24,7 @@ onMounted(() => {
     attachDeleteFunctionality();
     attachNodeMarking();
     attachValueLabelNonEquivalence();
+    ensureEdgesCannotBeMovedAround();
     // Adds cells to the model in a single step
     graphStore.getGraph().batchUpdate(() => {
         graphStore.addStart();
@@ -64,6 +65,11 @@ function deleteSelectedCells() {
     });
     graphStore.refreshGraph();
     markedElement.value = undefined;
+}
+function ensureEdgesCannotBeMovedAround() {
+    graphStore.getGraph().isCellMovable = function (cell) {
+        return isVertex(cell);
+    };
 }
 function attachNodeMarking() {
     document.onclick = function (evt) {
