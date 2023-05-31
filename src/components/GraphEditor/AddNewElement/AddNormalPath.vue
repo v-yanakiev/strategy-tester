@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Cell } from '@maxgraph/core';
 import { ref, type Ref } from 'vue';
-import { leadsNowhere, isStart, isEnd } from '@/common/nodeCalculator';
+import { leadsNowhere, isStart, isEnd, isEdge } from '@/common/nodeCalculator';
 interface Props {
     markedNode: Cell | undefined;
 }
@@ -27,7 +27,10 @@ function markPathEnd() {
         @click="markPathEnd"
         v-if="startNode"
         :disabled="
-            !markedNode || markedNode == startNode || isStart(markedNode)
+            !markedNode ||
+            markedNode == startNode ||
+            isStart(markedNode) ||
+            isEdge(markedNode)
         "
     >
         End path
@@ -35,7 +38,7 @@ function markPathEnd() {
     <button
         @click="markPathStart()"
         v-else-if="leadsNowhere(props.markedNode)"
-        :disabled="!markedNode || isEnd(markedNode)"
+        :disabled="!markedNode || isEnd(markedNode) || isEdge(markedNode)"
     >
         Start path
     </button>

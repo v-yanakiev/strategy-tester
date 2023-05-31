@@ -25,6 +25,12 @@ export function isBuy(node: Cell) {
 export function isSell(node: Cell) {
     return node.value.type == NodeType.Sell;
 }
+export function isVertex(element: Cell) {
+    return element.isVertex();
+}
+export function isEdge(element: Cell) {
+    return element.isEdge();
+}
 export function leadsNowhere(node?: Cell) {
     return !node?.getOutgoingEdges().length;
 }

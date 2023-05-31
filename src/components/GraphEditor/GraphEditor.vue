@@ -7,8 +7,9 @@ import AddPath from './AddNewElement/AddPath.vue';
 import { useParsedDataStore } from '@/stores/parsedDataStore';
 import { useGraphStore } from '@/stores/graphStore';
 import CanSimulationBeRan from '../common/CanSimulationBeRan.vue';
-import { isEnd, isStart } from '@/common/nodeCalculator';
-const markedNode: Ref<Cell | undefined> = ref(undefined);
+import { isEnd, isStart, isVertex } from '@/common/nodeCalculator';
+import DeleteElement from './ActionsOnElement/DeleteElement.vue';
+const markedElement: Ref<Cell | undefined> = ref(undefined);
 const parsedDataStore = useParsedDataStore();
 
 const graphStore = useGraphStore();
@@ -42,30 +43,30 @@ function attachDeleteFunctionality() {
     document.onkeydown = function (evt) {
         evt = evt || window.event;
         if (evt.key === 'Delete') {
-            // Get the currently selected cells
-            let selectedCells = graphStore
-                .getGraph()
-                .getSelectionCells()
-                .filter((cell) => !isStart(cell) && !isEnd(cell));
-            graphStore.getGraph().removeCells(selectedCells, true);
-
-            selectedCells.forEach((cell) => {
-                graphStore.getGraph().refresh(cell);
-                cell.getEdges().forEach((edge) =>
-                    graphStore.getGraph().refresh(edge)
-                );
-            });
-            graphStore.refreshGraph();
-            markedNode.value = undefined;
+            deleteSelectedCells();
         }
     };
 }
-
+function deleteSelectedCells() {
+    // Get the currently selected cells
+    let selectedCells = graphStore
+        .getGraph()
+        .getSelectionCells()
+        .filter((cell) => !isStart(cell) && !isEnd(cell) && isVertex(cell));
+    const edges = selectedCells.flatMap((a) => a.getEdges());
+    selectedCells.push(...edges);
+    graphStore.getGraph().removeCells(selectedCells);
+    selectedCells.forEach((cell) => {
+        graphStore.getGraph().refresh(cell);
+    });
+    graphStore.refreshGraph();
+    markedElement.value = undefined;
+}
 function attachNodeMarking() {
     document.onclick = function (evt) {
         evt = evt || window.event;
         let selectedCells = graphStore.getGraph().getSelectionCells();
-        markedNode.value = selectedCells[0];
+        markedElement.value = selectedCells[0];
     };
 }
 </script>
@@ -88,7 +89,14 @@ function attachNodeMarking() {
             statement-label="Sell amount (quantity, not currency) ="
             @finalized="graphStore.addSell"
         />
-        <AddPath :marked-node="markedNode" @pathCreated="graphStore.addPath" />
+        <AddPath
+            :marked-node="markedElement"
+            @pathCreated="graphStore.addPath"
+        />
+        <DeleteElement
+            :marked-element="markedElement"
+            @delete-button-pressed="deleteSelectedCells"
+        />
     </div>
     <br />
     <div id="graph-container"></div>
