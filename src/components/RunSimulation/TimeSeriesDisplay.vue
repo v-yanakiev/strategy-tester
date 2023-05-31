@@ -40,7 +40,7 @@ async function mountGraph() {
     if (document.getElementById('graphDiv')) {
         graph = new Dygraph(document.getElementById('graphDiv')!, dataToSend, {
             labels: ['Date', 'Price', 'Money left', 'Value of assets'],
-            connectSeparatedPoints: false,
+            connectSeparatedPoints: true,
             labelsSeparateLines: true,
             logscale: true,
             axisLabelWidth: 200
