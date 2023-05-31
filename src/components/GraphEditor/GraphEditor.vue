@@ -7,6 +7,7 @@ import AddPath from './AddNewElement/AddPath.vue';
 import { useParsedDataStore } from '@/stores/parsedDataStore';
 import { useGraphStore } from '@/stores/graphStore';
 import CanSimulationBeRan from '../common/CanSimulationBeRan.vue';
+import { isEnd, isStart } from '@/common/nodeCalculator';
 const markedNode: Ref<Cell | undefined> = ref(undefined);
 const parsedDataStore = useParsedDataStore();
 
@@ -42,9 +43,15 @@ function attachDeleteFunctionality() {
         evt = evt || window.event;
         if (evt.key === 'Delete') {
             // Get the currently selected cells
-            let selectedCells = graphStore.getGraph().getSelectionCells();
+            let selectedCells = graphStore
+                .getGraph()
+                .getSelectionCells()
+                .filter((cell) => !isStart(cell) && !isEnd(cell));
             graphStore.getGraph().removeCells(selectedCells);
-            graphStore.refreshGraph();
+            selectedCells.forEach((cell) => {
+                graphStore.getGraph().refresh(cell);
+            });
+            markedNode.value = undefined;
         }
     };
 }
