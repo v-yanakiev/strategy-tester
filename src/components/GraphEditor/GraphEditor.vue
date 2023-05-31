@@ -52,9 +52,12 @@ function deleteSelectedCells() {
     let selectedCells = graphStore
         .getGraph()
         .getSelectionCells()
-        .filter((cell) => !isStart(cell) && !isEnd(cell) && isVertex(cell));
-    const edges = selectedCells.flatMap((a) => a.getEdges());
+        .filter((cell) => !isStart(cell) && !isEnd(cell));
+    const edges = selectedCells.flatMap((a) =>
+        isVertex(a) ? a.getEdges() : []
+    );
     selectedCells.push(...edges);
+
     graphStore.getGraph().removeCells(selectedCells);
     selectedCells.forEach((cell) => {
         graphStore.getGraph().refresh(cell);
