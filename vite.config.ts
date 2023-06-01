@@ -11,5 +11,8 @@ export default defineConfig({
             '@': fileURLToPath(new URL('./src', import.meta.url))
         }
     },
-    base: '/strategy-tester/'
+    optimizeDeps: {
+        exclude: ['mxGraph']
+    },
+    base: '/strategy-tester'
 });
