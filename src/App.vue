@@ -19,7 +19,7 @@ import { RouterLink, RouterView } from 'vue-router';
         </header>
         <router-view v-slot="{ Component }">
             <keep-alive>
-                <component :is="Component" />
+                <component class="component" :is="Component" />
             </keep-alive>
         </router-view>
     </div>
