@@ -25,13 +25,18 @@ const dataToSend = originalData.data
         ];
     })
     .filter((a) => a) as [Date, number, number, number][];
-
-// Splitting data for each variable
-const moneyBalanceData = dataToSend.map((item) => [item[0], item[1]]);
-const assetValueData = dataToSend.map((item) => [item[0], item[2]]);
-const totalValueData = dataToSend.map((item) => [item[0], item[3]]);
-
-let graphs: Dygraph[] = [];
+const priceData = originalData.data
+    .map((step, index) => {
+        let parsed = Date.parse(step[timeVariableName]);
+        const date = new Date(parsed);
+        const price = step[priceVariableName];
+        if (isNaN(date.getTime()) || !(typeof price == 'number')) {
+            return null;
+        }
+        return [date, price];
+    })
+    .filter((a) => a) as [Date, number, number, number][];
+let graph: Dygraph | null;
 onMounted(() => {
     mountGraph();
 });
@@ -40,30 +45,35 @@ onActivated(async () => {
 });
 onDeactivated(async () => {
     await nextTick();
-    graphs.forEach((graph) => graph.destroy());
+    graph?.destroy();
 });
 async function mountGraph() {
     await nextTick();
-    graphs = ['moneyBalance', 'assetValue', 'totalValue'].map((id) => {
-        let data;
-        switch (id) {
-            case 'moneyBalance':
-                data = moneyBalanceData;
-                break;
-            case 'assetValue':
-                data = assetValueData;
-                break;
-            case 'totalValue':
-                data = totalValueData;
-                break;
-            default:
-                throw '';
-        }
-        return new Dygraph(document.getElementById(`graphDiv${id}`)!, data, {
-            labels: ['Дата', id],
-            ...partOfVisualizationConfig
-        });
-    });
+    if (document.getElementById('graphDivPrice')) {
+        graph = new Dygraph(
+            document.getElementById('graphDivPrice')!,
+            priceData,
+            {
+                labels: ['Дата', 'Цена'],
+                ...partOfVisualizationConfig
+            }
+        );
+    }
+    if (document.getElementById('graphDivSimulation')) {
+        graph = new Dygraph(
+            document.getElementById('graphDivSimulation')!,
+            dataToSend,
+            {
+                labels: [
+                    'Дата',
+                    'Останали пари',
+                    'Стойност на притежаваните активите',
+                    'Пари+стойност на активите'
+                ],
+                ...partOfVisualizationConfig
+            }
+        );
+    }
 }
 const partOfVisualizationConfig = {
     connectSeparatedPoints: false,
@@ -73,21 +83,14 @@ const partOfVisualizationConfig = {
     width: 1500
 };
 </script>
-
 <template>
     <p>Цена на актив:</p>
     <div id="graphDivPrice"></div>
     <br />
-    <p>Останали пари:</p>
-    <div id="graphDivmoneyBalance"></div>
-    <br />
-    <p>Стойност на притежаваните активите:</p>
-    <div id="graphDivassetValue"></div>
-    <br />
-    <p>Пари+стойност на активите:</p>
-    <div id="graphDivtotalValue"></div>
-</template>
+    <p>Симулация на стратегия:</p>
 
+    <div id="graphDivSimulation"></div>
+</template>
 <style scoped>
 .dygraph-axis-label-y {
     transform: translateX(10px);
