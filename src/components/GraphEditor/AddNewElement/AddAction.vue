@@ -21,6 +21,6 @@ const finalize = () => {
         <label>{{ statementLabel }} (</label>
         <input v-model="statement" />
         <label>) </label>
-        <button @click="finalize">Finalize</button>
+        <button @click="finalize">Добави</button>
     </div>
 </template>

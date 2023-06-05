@@ -79,7 +79,8 @@ const partOfVisualizationConfig = {
     connectSeparatedPoints: false,
     labelsSeparateLines: true,
     logscale: false,
-    axisLabelWidth: 250
+    axisLabelWidth: 400,
+    width: 1500
 };
 </script>
 <template>

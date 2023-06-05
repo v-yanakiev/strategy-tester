@@ -47,14 +47,14 @@ function falsePathAlreadySelected() {
             isEdge(markedNode)
         "
     >
-        End True path
+        Завършете път - True
     </button>
     <button
         @click="markPathStart(PathChosen.True)"
         v-else-if="!pathChosen && !truePathAlreadySelected()"
         :disabled="!markedNode"
     >
-        Start True path
+        Стартирайте път - True
     </button>
 
     <button
@@ -64,13 +64,13 @@ function falsePathAlreadySelected() {
             !markedNode || markedNode == startNode || isStart(markedNode)
         "
     >
-        End False path
+        Завършете път - False
     </button>
     <button
         @click="markPathStart(PathChosen.False)"
         v-else-if="!pathChosen && !falsePathAlreadySelected()"
         :disabled="!markedNode"
     >
-        Start False path
+        Стартирайте път - False
     </button>
 </template>

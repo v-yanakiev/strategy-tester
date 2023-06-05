@@ -9,7 +9,7 @@ import { RouterLink, RouterView } from 'vue-router';
             <div class="wrapper">
                 <nav>
                     <RouterLink to="/">Home</RouterLink>
-                    <RouterLink to="dataInput">Въвеждане на данни</RouterLink>
+                    <RouterLink to="dataInput">Зареждане на данни</RouterLink>
                     <RouterLink to="graphEditor">Създаване на граф</RouterLink>
                     <RouterLink to="runSimulation"
                         >Пускане на симулация</RouterLink
@@ -19,7 +19,7 @@ import { RouterLink, RouterView } from 'vue-router';
         </header>
         <router-view v-slot="{ Component }">
             <keep-alive>
-                <component class="component" :is="Component" />
+                <component :is="Component" />
             </keep-alive>
         </router-view>
     </div>
