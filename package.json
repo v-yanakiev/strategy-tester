@@ -16,6 +16,7 @@
         "@maxgraph/core": "^0.1.0",
         "@types/papaparse": "^5.3.7",
         "dygraphs": "^2.2.1",
+        "i18n": "^0.15.1",
         "indicatorts": "^1.0.14",
         "mathjs": "^11.8.0",
         "papaparse": "^5.4.1",
