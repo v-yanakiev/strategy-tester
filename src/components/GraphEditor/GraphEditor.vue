@@ -83,17 +83,17 @@ function attachNodeMarking() {
     <div class="elementCreators">
         <ConditionedAdd
             @finalized="graphStore.addIfBlock"
-            click-label="Add If"
+            click-label="Добавете If блок"
             statement-label="if"
         />
         <AddAction
-            click-label="Add Buy Action"
-            statement-label="Buy amount (quantity, not currency) ="
+            click-label="Добавете Действие - Купи"
+            statement-label="Количество (брой, не валута) ="
             @finalized="graphStore.addBuy"
         />
         <AddAction
-            click-label="Add Sell Action"
-            statement-label="Sell amount (quantity, not currency) ="
+            click-label="Добавете Действие - Продай"
+            statement-label="Количество (брой, не валута) ="
             @finalized="graphStore.addSell"
         />
         <AddPath

@@ -26,9 +26,9 @@ function stopSimulation() {
         "
         @click="runSimulation"
     >
-        Run simulation
+        Пусни симулацията
     </button>
-    <button v-else @click="stopSimulation">Stop stimulation</button>
+    <button v-else @click="stopSimulation">Спри симулацията</button>
 
     <TimeSeriesDisplay
         v-if="simulationStore.state == SimulationState.AllCalculationsFinished"

@@ -74,7 +74,7 @@ export const useGraphStore = defineStore('graph', () => {
                 genId(),
                 {
                     value: 'Start',
-                    label: `Start`,
+                    label: `Начало`,
                     type: NodeType.Start
                 },
                 10,
@@ -92,7 +92,7 @@ export const useGraphStore = defineStore('graph', () => {
                 genId(),
                 {
                     value: 'End',
-                    label: `End`,
+                    label: `Край`,
                     type: NodeType.End
                 },
                 800,
@@ -112,7 +112,7 @@ export const useGraphStore = defineStore('graph', () => {
             genId(),
             {
                 value: Number(statement),
-                label: `Buy: ${statement}`,
+                label: `Купи: ${statement}`,
                 type: NodeType.Buy
             },
             250,
@@ -135,7 +135,7 @@ export const useGraphStore = defineStore('graph', () => {
             genId(),
             {
                 value: Number(statement),
-                label: `Sell: ${statement}`,
+                label: `Продай: ${statement}`,
                 type: NodeType.Sell
             },
             250,

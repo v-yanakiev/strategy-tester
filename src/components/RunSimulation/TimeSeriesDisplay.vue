@@ -21,9 +21,7 @@ const dataToSend = originalData.data
             simulationStore.moneyBalances[index],
             simulationStore.quantitiesOfAssetInPossession[index] * price,
             simulationStore.moneyBalances[index] +
-                simulationStore.quantitiesOfAssetInPossession[index] * price,
-            simulationStore.maxQuantityThatCouldHaveBeenPurchasedInTheBeginning *
-                price
+                simulationStore.quantitiesOfAssetInPossession[index] * price
         ];
     })
     .filter((a) => a) as [Date, number, number, number][];
@@ -56,7 +54,7 @@ async function mountGraph() {
             document.getElementById('graphDivPrice')!,
             priceData,
             {
-                labels: ['Date', 'Price'],
+                labels: ['Дата', 'Цена'],
                 ...partOfVisualizationConfig
             }
         );
@@ -67,11 +65,10 @@ async function mountGraph() {
             dataToSend,
             {
                 labels: [
-                    'Date',
-                    'Money left',
-                    'Value of assets',
-                    'Money+asset value',
-                    'All-in strategy'
+                    'Дата',
+                    'Останали пари',
+                    'Стойност на притежаваните активите',
+                    'Пари+стойност на активите'
                 ],
                 ...partOfVisualizationConfig
             }
@@ -86,10 +83,10 @@ const partOfVisualizationConfig = {
 };
 </script>
 <template>
-    <p>Price of asset:</p>
+    <p>Цена на актив:</p>
     <div id="graphDivPrice"></div>
     <br />
-    <p>Simulation of strategy:</p>
+    <p>Симулация на стратегия:</p>
 
     <div id="graphDivSimulation"></div>
 </template>
