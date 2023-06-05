@@ -38,18 +38,18 @@ const preventDefault = (e: any) => {
 </script>
 
 <template>
-    <h1>Here you can drag and drop your time series data:</h1>
+    <h1>Тук можете да пуснете вашите данни във формат .csv:</h1>
     <div
         class="dropzone"
         @dragover.prevent="preventDefault"
         @dragenter.prevent="preventDefault"
         @drop.prevent="onFileChange"
     >
-        Drop your CSV file here
+        Пуснете своя CSV файл тук.
     </div>
     <h2 v-if="parsing">Parsing...</h2>
     <div v-else-if="parsedDataStore.fields">
-        <h2>Data parsed successfully.</h2>
+        <h2>Данните бяха обработени успешно.</h2>
         <br />
         <SelectTimeVariable :field-names="parsedDataStore.fields" />
         <br />

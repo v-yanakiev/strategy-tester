@@ -14,14 +14,14 @@ const onVariableChange = () => {
 </script>
 
 <template>
-    <h2>Enter a value for your initial balance (in currency).</h2>
+    <h2>Задайте стойност на началния си баланс (във валута).</h2>
     <div>
         <input
             type="number"
             v-model="selectedVariableName"
-            placeholder="Enter initial balance (in currency)"
+            placeholder="Въведете начален баланс (във валута)"
         />
-        <button @click="onVariableChange">Set Initial Balance</button>
+        <button @click="onVariableChange">Задайте начален баланс</button>
     </div>
 </template>
 
