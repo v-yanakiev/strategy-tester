@@ -9,9 +9,11 @@ import { RouterLink, RouterView } from 'vue-router';
             <div class="wrapper">
                 <nav>
                     <RouterLink to="/">Home</RouterLink>
-                    <RouterLink to="dataInput">Data Input</RouterLink>
-                    <RouterLink to="graphEditor">Graph Editor</RouterLink>
-                    <RouterLink to="runSimulation">Run Simulation</RouterLink>
+                    <RouterLink to="dataInput">Въвеждане на данни</RouterLink>
+                    <RouterLink to="graphEditor">Създаване на граф</RouterLink>
+                    <RouterLink to="runSimulation"
+                        >Пускане на симулация</RouterLink
+                    >
                 </nav>
             </div>
         </header>
