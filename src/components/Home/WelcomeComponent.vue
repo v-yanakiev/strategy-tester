@@ -1,6 +1,5 @@
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <template>
-    <h1>Hello! Welcome to the Strategy Tester.</h1>
+    <h1>Добре дошли в системата за тестване на инвестиционни стратегии.</h1>
 </template>
