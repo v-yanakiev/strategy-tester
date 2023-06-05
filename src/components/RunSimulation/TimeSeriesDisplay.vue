@@ -59,7 +59,7 @@ async function mountGraph() {
     const names = {
         Price: 'Цена',
         moneyBalance: 'Останали пари',
-        assetValue: 'Стойност на притежаваните активите',
+        assetValue: 'Брой на притежаваните активите',
         totalValue: 'Пари+стойност на активите'
     };
     graphs = ['Price', 'moneyBalance', 'assetValue', 'totalValue'].map((id) => {
