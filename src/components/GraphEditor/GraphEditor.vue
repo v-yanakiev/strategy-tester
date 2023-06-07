@@ -13,7 +13,6 @@ import ExampleStrategies from './ExampleStrategies.vue';
 import GraphEditorInfo from './GraphEditorInfo.vue';
 const markedElement: Ref<Cell | undefined> = ref(undefined);
 const parsedDataStore = useParsedDataStore();
-
 const graphStore = useGraphStore();
 onMounted(() => {
     const container = <HTMLElement>document.getElementById('graph-container');
@@ -78,6 +77,19 @@ function attachNodeMarking() {
         markedElement.value = selectedCells[0];
     };
 }
+function loadStrategy(condition: string) {
+    graphStore.getGraph().batchUpdate(() => {
+        const ifNode = graphStore.addIfBlock(condition);
+        const buyNode = graphStore.addBuy('1');
+        const sellNode = graphStore.addSell('1');
+        graphStore.addPath(graphStore.getStartNode(), ifNode, '');
+        graphStore.addPath(ifNode, buyNode, 'True');
+        graphStore.addPath(ifNode, sellNode, 'False');
+        graphStore.addPath(buyNode, graphStore.getEndNode(), '');
+        graphStore.addPath(sellNode, graphStore.getEndNode(), '');
+    });
+    graphStore.refreshGraph();
+}
 </script>
 
 <template>
@@ -110,7 +122,10 @@ function attachNodeMarking() {
     <br />
     <div id="graph-container"></div>
     <GraphEditorInfo />
-    <ExampleStrategies />
+    <ExampleStrategies
+        @strategy-selected="loadStrategy"
+        v-if="!graphStore.hasBeenInteractedWith"
+    />
 </template>
 <style scoped>
 .elementCreators {
@@ -120,7 +135,7 @@ function attachNodeMarking() {
 #graph-container {
     background-color: white;
     width: 1000px;
-    height: 400px;
+    height: 500px;
     border-color: black;
     border-width: 1px;
     border: 2px solid black;
