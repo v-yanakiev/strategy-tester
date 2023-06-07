@@ -18,6 +18,7 @@ import type { Cell } from '@maxgraph/core';
 import { watch } from 'vue';
 import * as simplestats from 'simple-statistics';
 import * as mathjs from 'mathjs';
+import * as indicatorts from 'indicatorts';
 import * as workerpool from 'workerpool-passable-options';
 import { getValue } from '@maxgraph/core/dist/types/util/Utils';
 
@@ -115,7 +116,8 @@ function simulateEvolutionOfBalance(
                     moneyBalances[stepIndex],
                     moneyBalances,
                     simplestats,
-                    mathjs
+                    mathjs,
+                    indicatorts
                 );
             } else {
                 outcome = calculationOrResult[stepIndex];

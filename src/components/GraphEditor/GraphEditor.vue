@@ -9,6 +9,8 @@ import { useGraphStore } from '@/stores/graphStore';
 import CanSimulationBeRan from '../common/CanSimulationBeRan.vue';
 import { isEnd, isStart, isVertex } from '@/common/nodeCalculator';
 import DeleteElement from './ActionsOnElement/DeleteElement.vue';
+import ExampleStrategies from './ExampleStrategies.vue';
+import GraphEditorInfo from './GraphEditorInfo.vue';
 const markedElement: Ref<Cell | undefined> = ref(undefined);
 const parsedDataStore = useParsedDataStore();
 
@@ -107,6 +109,8 @@ function attachNodeMarking() {
     </div>
     <br />
     <div id="graph-container"></div>
+    <GraphEditorInfo />
+    <ExampleStrategies />
 </template>
 <style scoped>
 .elementCreators {
