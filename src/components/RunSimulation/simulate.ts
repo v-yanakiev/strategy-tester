@@ -19,8 +19,6 @@ import { watch } from 'vue';
 import * as simplestats from 'simple-statistics';
 import * as mathjs from 'mathjs';
 import * as indicatorts from 'indicatorts';
-import * as workerpool from 'workerpool-passable-options';
-import { getValue } from '@maxgraph/core/dist/types/util/Utils';
 
 export async function simulate() {
     const graphStore = useGraphStore();
