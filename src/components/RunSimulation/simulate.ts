@@ -18,8 +18,7 @@ import type { Cell } from '@maxgraph/core';
 import { watch } from 'vue';
 import * as simplestats from 'simple-statistics';
 import * as mathjs from 'mathjs';
-import * as indicatorts from 'indicatorts';
-
+import * as technicalindicators from 'technicalindicators';
 export async function simulate() {
     const graphStore = useGraphStore();
     const simulationStore = useSimulationStore();
@@ -115,7 +114,7 @@ function simulateEvolutionOfBalance(
                     moneyBalances,
                     simplestats,
                     mathjs,
-                    indicatorts
+                    technicalindicators
                 );
             } else {
                 outcome = calculationOrResult[stepIndex];

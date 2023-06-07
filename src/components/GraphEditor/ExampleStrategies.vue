@@ -9,19 +9,19 @@ function emitSMA() {
 function emitEMA() {
     emits(
         'strategySelected',
-        'indicatorts.ema(5).map((a)=>a.Open))[previousSteps.length-1]>currentStep.Open'
+        'technicalindicators.ema({period:5,values:previousSteps.map((a)=>a.Open)}).slice(-1)[0]>>currentStep.Open'
     );
 }
 function emitMACD() {
     emits(
         'strategySelected',
-        'indicatorts.macd(previousSteps).macdLine>currentStep.Open'
+        'technicalindicators.macd(previousSteps).macdLine>30'
     );
 }
 function emitRSI() {
     emits(
         'strategySelected',
-        'indicatorts.rsi(previousSteps)[previousSteps.length-1]>currentStep.Open'
+        'technicalindicators.rsi({period:5,values:previousSteps}).slice(-1)[0]<50'
     );
 }
 </script>

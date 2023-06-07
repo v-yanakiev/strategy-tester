@@ -60,8 +60,8 @@ export function transformConditionValueIntoValueReturningFunction(
         'previousBalances',
         'simplestats',
         'mathjs',
-        'indicatorts',
-        `return ${conditionValue}`
+        'technicalindicators',
+        `return (${conditionValue})`
     ) as ConditionToCalculate;
 }
 export type ConditionToCalculate = (
@@ -71,5 +71,5 @@ export type ConditionToCalculate = (
     previousBalances: any,
     simplestats: any,
     mathjs: any,
-    indicatorts: any
+    technicalindicators: any
 ) => boolean;

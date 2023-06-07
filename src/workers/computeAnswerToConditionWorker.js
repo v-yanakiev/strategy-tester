@@ -1,7 +1,7 @@
 import * as simplestats from 'simple-statistics';
 import * as mathjs from 'mathjs';
 import * as workerpool from 'workerpool-passable-options';
-import * as indicatorts from 'indicatorts';
+import * as technicalindicators from 'technicalindicators';
 import transformConditionValueIntoValueReturningFunction from '../common/nodeCalculator';
 // worker task for calculating condition
 function computeAnswerToCondition(conditionValue, currentStep, previousSteps) {
@@ -14,7 +14,7 @@ function computeAnswerToCondition(conditionValue, currentStep, previousSteps) {
         null,
         simplestats,
         mathjs,
-        indicatorts
+        technicalindicators
     );
 }
 
