@@ -92,7 +92,7 @@ async function mountGraph() {
                 canvas.strokeStyle = 'black';
                 canvas.stroke();
                 const textXPosition = area.x;
-                const textYPosition = finalValueY - 20;
+                const textYPosition = finalValueY + 20;
                 canvas.fillText(
                     `Финална стойност: ${data[data.length - 1][1]}`,
                     textXPosition,

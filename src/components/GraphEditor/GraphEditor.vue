@@ -77,9 +77,9 @@ function attachNodeMarking() {
         markedElement.value = selectedCells[0];
     };
 }
-function loadStrategy(condition: string) {
+function loadStrategy(conditionYes: string, conditionNo: string) {
     graphStore.getGraph().batchUpdate(() => {
-        const ifNode = graphStore.addIfBlock(condition);
+        const ifNode = graphStore.addIfBlock(conditionYes);
         const buyNode = graphStore.addBuy('1');
         const sellNode = graphStore.addSell('1');
         graphStore.addPath(graphStore.getStartNode(), ifNode, '');

@@ -15,13 +15,14 @@ function emitEMA() {
 function emitMACD() {
     emits(
         'strategySelected',
-        'technicalindicators.macd(previousSteps).macdLine>30'
+        'technicalindicators.macd(previousSteps.map((a)=>a.Open)).macdLine>30'
     );
 }
 function emitRSI() {
     emits(
         'strategySelected',
-        'technicalindicators.rsi({period:5,values:previousSteps}).slice(-1)[0]<50'
+        'technicalindicators.rsi({period:5,values:previousSteps.map((a)=>a.Open)}).slice(-1)[0]>70',
+        'technicalindicators.rsi({period:5,values:previousSteps.map((a)=>a.Open)}).slice(-1)[0]<30'
     );
 }
 </script>
