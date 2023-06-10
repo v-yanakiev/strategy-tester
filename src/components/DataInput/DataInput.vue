@@ -58,7 +58,11 @@ const preventDefault = (e: any) => {
         <br />
         <SelectBalanceQuantity />
         <br />
-        <SelectCutOffDates />
+        <SelectCutOffDates
+            v-if="
+                parsedDataStore.parsedData && parsedDataStore.timeVariableName
+            "
+        />
     </div>
 </template>
 

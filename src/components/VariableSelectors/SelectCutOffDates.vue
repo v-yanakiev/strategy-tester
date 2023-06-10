@@ -21,13 +21,15 @@
 <script setup lang="ts">
 import { useParsedDataStore } from '@/stores/parsedDataStore';
 import { useSimulationStore } from '@/stores/simulationStore';
-
+import _ from 'lodash';
 const simulationStore = useSimulationStore();
 const parsedDataStore = useParsedDataStore();
-const earliestDateInDataset =
-    parsedDataStore.parsedData!.data[0][parsedDataStore.timeVariableName!];
-const lastDateInDataset =
-    parsedDataStore.parsedData!.data[
-        parsedDataStore.parsedData!.data.length - 1
-    ][parsedDataStore.timeVariableName!];
+const earliestDateInDataset = _.find(
+    parsedDataStore.parsedData?.data,
+    (value) => value[parsedDataStore.timeVariableName!]
+)[parsedDataStore.timeVariableName!];
+const lastDateInDataset = _.findLast(
+    parsedDataStore.parsedData?.data,
+    (value) => value[parsedDataStore.timeVariableName!]
+)[parsedDataStore.timeVariableName!];
 </script>
