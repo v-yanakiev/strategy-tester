@@ -10,7 +10,8 @@ const simulationStore = useSimulationStore();
 function runSimulation() {
     simulationStore.moneyBalances = [];
     simulationStore.quantitiesOfAssetInPossession = [];
-    simulate();
+    simulationStore.state = SimulationState.StartingCalculations;
+    setTimeout(() => simulate());
 }
 function stopSimulation() {
     simulationStore.moneyBalances = [];
@@ -28,7 +29,7 @@ function stopSimulation() {
     >
         Пусни симулацията
     </button>
-    <button v-else @click="stopSimulation">Спри симулацията</button>
+    <p v-else @click="stopSimulation">Симулация в прогрес...</p>
 
     <TimeSeriesDisplay
         v-if="simulationStore.state == SimulationState.AllCalculationsFinished"

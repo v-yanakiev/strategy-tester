@@ -30,7 +30,6 @@ export async function simulate() {
     // const poolToUse = (workerpool as any).pool(url.toString(), {
     //     type: 'module'
     // });
-    simulationStore.state = SimulationState.StartingCalculations;
 
     const steps = parsedDataStore
         .getNonProxyParsedData()
