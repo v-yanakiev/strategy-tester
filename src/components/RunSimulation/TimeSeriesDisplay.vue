@@ -9,6 +9,7 @@ const originalData = parsedDataStore.getNonProxyParsedData()!;
 const priceVariableName = parsedDataStore.priceVariableName!;
 const timeVariableName = parsedDataStore.timeVariableName!;
 const dataToSend = originalData.data
+
     .map((step, index) => {
         let parsed = Date.parse(step[timeVariableName]);
         const date = new Date(parsed);
