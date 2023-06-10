@@ -82,6 +82,11 @@ function simulateEvolutionOfBalance(
     const simulationStore = useSimulationStore();
     simulationStore.maxQuantityThatCouldHaveBeenPurchasedInTheBeginning =
         Math.floor(moneyBalances[1] / steps[1][priceVariableName]);
+    simulationStore.moneyLeftAfterMaxPurchase =
+        moneyBalances[1] -
+        simulationStore.maxQuantityThatCouldHaveBeenPurchasedInTheBeginning *
+            steps[1][priceVariableName];
+
     for (let stepIndex = 1; stepIndex < steps.length; stepIndex++) {
         handleAllConnectedNodesInGraph(startNode);
         performContinuationOfTimeSeries();

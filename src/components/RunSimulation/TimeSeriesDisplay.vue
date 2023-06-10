@@ -22,10 +22,13 @@ const dataToSend = originalData
             simulationStore.moneyBalances[index],
             simulationStore.quantitiesOfAssetInPossession[index],
             simulationStore.moneyBalances[index] +
-                simulationStore.quantitiesOfAssetInPossession[index] * price
+                simulationStore.quantitiesOfAssetInPossession[index] * price,
+            simulationStore.maxQuantityThatCouldHaveBeenPurchasedInTheBeginning *
+                price +
+                simulationStore.moneyLeftAfterMaxPurchase
         ];
     })
-    .filter((a) => a) as [Date, number, number, number][];
+    .filter((a) => a) as [Date, number, number, number, number][];
 
 const priceData = originalData
     .map((step) => {
@@ -43,6 +46,7 @@ const priceData = originalData
 const moneyBalanceData = dataToSend.map((item) => [item[0], item[1]]);
 const assetValueData = dataToSend.map((item) => [item[0], item[2]]);
 const totalValueData = dataToSend.map((item) => [item[0], item[3]]);
+const maxPurchaseStrategyData = dataToSend.map((item) => [item[0], item[4]]);
 
 let graphs: Dygraph[] = [];
 onMounted(() => {
@@ -61,9 +65,10 @@ async function mountGraph() {
         Price: 'Цена',
         moneyBalance: 'Останали пари',
         assetValue: 'Брой на притежаваните активите',
-        totalValue: 'Пари+стойност на активите'
+        totalValue: 'Пари+стойност на активите',
+        maxPurchaseStrategy: 'Пари+стойност на активите'
     };
-    graphs = ['Price', 'moneyBalance', 'assetValue', 'totalValue'].map((id) => {
+    graphs = Object.keys(names).map((id) => {
         let data: any;
         switch (id) {
             case 'Price':
@@ -78,10 +83,13 @@ async function mountGraph() {
             case 'totalValue':
                 data = totalValueData;
                 break;
+            case 'maxPurchaseStrategy':
+                data = maxPurchaseStrategyData;
+                break;
             default:
                 throw `Unexpected id ${id}`;
         }
-        return new Dygraph(document.getElementById(`graphDiv${id}`)!, data, {
+        return new Dygraph(document.getElementById(`graphDiv_${id}`)!, data, {
             labels: ['Дата', names[id]],
             underlayCallback: function (canvas, area, g) {
                 const finalValueY = g.toDomYCoord(data[data.length - 1][1])!;
@@ -116,15 +124,22 @@ const partOfVisualizationConfig = {
 
 <template>
     <h3>Цена на актив:</h3>
-    <div id="graphDivPrice"></div>
+    <div id="graphDiv_Price"></div>
     <br />
     <h3>Пари+стойност на активите:</h3>
-    <div id="graphDivtotalValue"></div>
+    <div id="graphDiv_totalValue"></div>
+    <br />
+    <h3>
+        Пари+стойност на активите в алтернативната стратегия "купи всичко в
+        началото":
+    </h3>
+    <div id="graphDiv_maxPurchaseStrategy"></div>
+    <br />
     <h3>Останали пари:</h3>
-    <div id="graphDivmoneyBalance"></div>
+    <div id="graphDiv_moneyBalance"></div>
     <br />
     <h3>Брой на притежаваните активите:</h3>
-    <div id="graphDivassetValue"></div>
+    <div id="graphDiv_assetValue"></div>
     <br />
 </template>
 
