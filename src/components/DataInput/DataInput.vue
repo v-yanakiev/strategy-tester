@@ -5,6 +5,7 @@ import { useParsedDataStore } from '@/stores/parsedDataStore';
 import SelectTimeVariable from '../VariableSelectors/SelectTimeVariable.vue';
 import SelectPriceVariable from '../VariableSelectors/SelectPriceVariable.vue';
 import SelectBalanceQuantity from '../VariableSelectors/SelectBalanceQuantity.vue';
+import SelectCutOffDates from '../VariableSelectors/SelectCutOffDates.vue';
 const parsedDataStore = useParsedDataStore();
 const droppedFile: Ref<null | any> = ref(null);
 const parsing = ref(false);
@@ -51,11 +52,13 @@ const preventDefault = (e: any) => {
     <div v-else-if="parsedDataStore.fields">
         <h2>Данните бяха обработени успешно.</h2>
         <br />
-        <SelectTimeVariable :field-names="parsedDataStore.fields" />
+        <SelectTimeVariable />
         <br />
-        <SelectPriceVariable :field-names="parsedDataStore.fields" />
+        <SelectPriceVariable />
         <br />
         <SelectBalanceQuantity />
+        <br />
+        <SelectCutOffDates />
     </div>
 </template>
 
