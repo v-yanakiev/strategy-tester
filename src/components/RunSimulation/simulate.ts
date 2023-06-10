@@ -31,9 +31,28 @@ export async function simulate() {
     //     type: 'module'
     // });
     simulationStore.state = SimulationState.StartingCalculations;
+    const startCutOffDate = simulationStore.startCutOffDate
+        ? new Date(simulationStore.startCutOffDate)
+        : null;
+    const endCutOffDate = simulationStore.endCutOffDate
+        ? new Date(simulationStore.endCutOffDate)
+        : null;
     const steps = parsedDataStore
         .getNonProxyParsedData()!
-        .data.sort((a) => a[parsedDataStore.timeVariableName!]);
+        .data.filter((value) => {
+            if (
+                (startCutOffDate &&
+                    startCutOffDate >
+                        new Date(value[parsedDataStore.timeVariableName!])) ||
+                (endCutOffDate &&
+                    endCutOffDate <
+                        new Date(value[parsedDataStore.timeVariableName!]))
+            ) {
+                return false;
+            }
+            return true;
+        })
+        .sort((a) => a[parsedDataStore.timeVariableName!]);
     simulationStore.moneyBalances = [
         simulationStore.getInitialBalance()!,
         simulationStore.getInitialBalance()!
