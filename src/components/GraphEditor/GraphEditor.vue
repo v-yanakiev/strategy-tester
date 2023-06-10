@@ -77,16 +77,39 @@ function attachNodeMarking() {
         markedElement.value = selectedCells[0];
     };
 }
-function loadStrategy(conditionYes: string, conditionNo: string) {
+function loadStrategy(conditionYes: string, conditionNo?: string) {
     graphStore.getGraph().batchUpdate(() => {
-        const ifNode = graphStore.addIfBlock(conditionYes);
-        const buyNode = graphStore.addBuy('1');
-        const sellNode = graphStore.addSell('1');
-        graphStore.addPath(graphStore.getStartNode(), ifNode, '');
-        graphStore.addPath(ifNode, buyNode, 'True');
-        graphStore.addPath(ifNode, sellNode, 'False');
-        graphStore.addPath(buyNode, graphStore.getEndNode(), '');
-        graphStore.addPath(sellNode, graphStore.getEndNode(), '');
+        if (conditionNo) {
+            const yesConditionIf = graphStore.addIfBlock(conditionYes);
+            const noConditionIf = graphStore.addIfBlock(
+                conditionYes,
+                undefined,
+                yesConditionIf.getGeometry()!.y - 300
+            );
+            const buyNode = graphStore.addBuy('1');
+            const sellNode = graphStore.addSell('1');
+            graphStore.addPath(graphStore.getStartNode(), yesConditionIf, '');
+            graphStore.addPath(graphStore.getStartNode(), noConditionIf, '');
+            graphStore.addPath(yesConditionIf, buyNode, 'True');
+            graphStore.addPath(
+                yesConditionIf,
+                graphStore.getEndNode(),
+                'False'
+            );
+            graphStore.addPath(noConditionIf, sellNode, 'True');
+            graphStore.addPath(noConditionIf, graphStore.getEndNode(), 'False');
+            graphStore.addPath(buyNode, graphStore.getEndNode(), '');
+            graphStore.addPath(sellNode, graphStore.getEndNode(), '');
+        } else {
+            const ifNode = graphStore.addIfBlock(conditionYes);
+            const buyNode = graphStore.addBuy('1');
+            const sellNode = graphStore.addSell('1');
+            graphStore.addPath(graphStore.getStartNode(), ifNode, '');
+            graphStore.addPath(ifNode, buyNode, 'True');
+            graphStore.addPath(ifNode, sellNode, 'False');
+            graphStore.addPath(buyNode, graphStore.getEndNode(), '');
+            graphStore.addPath(sellNode, graphStore.getEndNode(), '');
+        }
     });
     graphStore.refreshGraph();
 }

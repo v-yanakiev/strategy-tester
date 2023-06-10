@@ -65,7 +65,11 @@ export const useGraphStore = defineStore('graph', () => {
         getGraph().refresh();
         getParent().children.forEach((cell) => getGraph().refresh(cell));
     }
-    function addIfBlock(statement: string) {
+    function addIfBlock(
+        statement: string,
+        xCoordinate?: number,
+        yCoordinate?: number
+    ) {
         // let updatedStatement = statement.match(/.{1,50}/g)!.join('\n');
         const ifVertex = getGraph().insertVertex(
             getParent(),
@@ -75,8 +79,8 @@ export const useGraphStore = defineStore('graph', () => {
                 label: `if (${statement})`,
                 type: NodeType.If
             },
-            300,
-            200,
+            xCoordinate || 300,
+            yCoordinate || 200,
             100,
             100,
             <CellStyle>{ deletable: true, fillColor: 'orange' }
