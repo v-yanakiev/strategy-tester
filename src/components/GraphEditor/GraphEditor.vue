@@ -82,9 +82,9 @@ function loadStrategy(conditionYes: string, conditionNo?: string) {
         if (conditionNo) {
             const yesConditionIf = graphStore.addIfBlock(conditionYes);
             const noConditionIf = graphStore.addIfBlock(
-                conditionYes,
+                conditionNo,
                 undefined,
-                yesConditionIf.getGeometry()!.y - 300
+                yesConditionIf.getGeometry()!.y - 250
             );
             const buyNode = graphStore.addBuy('1');
             const sellNode = graphStore.addSell('1');

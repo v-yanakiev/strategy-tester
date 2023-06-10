@@ -21,7 +21,7 @@ const dataToSend = originalData.data
             simulationStore.moneyBalances[index],
             simulationStore.quantitiesOfAssetInPossession[index],
             simulationStore.moneyBalances[index] +
-                simulationStore.quantitiesOfAssetInPossession[index]
+                simulationStore.quantitiesOfAssetInPossession[index] * price
         ];
     })
     .filter((a) => a) as [Date, number, number, number][];

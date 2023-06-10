@@ -80,7 +80,7 @@ export const useGraphStore = defineStore('graph', () => {
                 type: NodeType.If
             },
             xCoordinate || 300,
-            yCoordinate || 200,
+            yCoordinate || 350,
             100,
             100,
             <CellStyle>{ deletable: true, fillColor: 'orange' }
