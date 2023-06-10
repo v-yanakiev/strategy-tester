@@ -8,7 +8,8 @@ const parsedDataStore = useParsedDataStore();
 const originalData = parsedDataStore.getNonProxyParsedData()!;
 const priceVariableName = parsedDataStore.priceVariableName!;
 const timeVariableName = parsedDataStore.timeVariableName!;
-const dataToSend = originalData.data
+const dataToSend = originalData
+
     .map((step, index) => {
         let parsed = Date.parse(step[timeVariableName]);
         const date = new Date(parsed);
@@ -19,16 +20,18 @@ const dataToSend = originalData.data
         return [
             date,
             simulationStore.moneyBalances[index],
-            simulationStore.quantitiesOfAssetInPossession[index] * price,
+            simulationStore.quantitiesOfAssetInPossession[index],
             simulationStore.moneyBalances[index] +
                 simulationStore.quantitiesOfAssetInPossession[index] * price,
             simulationStore.maxQuantityThatCouldHaveBeenPurchasedInTheBeginning *
-                price
+                price +
+                simulationStore.moneyLeftAfterMaxPurchase
         ];
     })
-    .filter((a) => a) as [Date, number, number, number][];
-const priceData = originalData.data
-    .map((step, index) => {
+    .filter((a) => a) as [Date, number, number, number, number][];
+
+const priceData = originalData
+    .map((step) => {
         let parsed = Date.parse(step[timeVariableName]);
         const date = new Date(parsed);
         const price = step[priceVariableName];
@@ -37,8 +40,15 @@ const priceData = originalData.data
         }
         return [date, price];
     })
-    .filter((a) => a) as [Date, number, number, number][];
-let graph: Dygraph | null;
+    .filter((a) => a) as [Date, number][];
+
+// Splitting data for each variable
+const moneyBalanceData = dataToSend.map((item) => [item[0], item[1]]);
+const assetValueData = dataToSend.map((item) => [item[0], item[2]]);
+const totalValueData = dataToSend.map((item) => [item[0], item[3]]);
+const maxPurchaseStrategyData = dataToSend.map((item) => [item[0], item[4]]);
+
+let graphs: Dygraph[] = [];
 onMounted(() => {
     mountGraph();
 });
@@ -47,52 +57,96 @@ onActivated(async () => {
 });
 onDeactivated(async () => {
     await nextTick();
-    graph?.destroy();
+    graphs.forEach((graph) => graph.destroy());
 });
 async function mountGraph() {
     await nextTick();
-    if (document.getElementById('graphDivPrice')) {
-        graph = new Dygraph(
-            document.getElementById('graphDivPrice')!,
-            priceData,
-            {
-                labels: ['Date', 'Price'],
-                ...partOfVisualizationConfig
-            }
-        );
-    }
-    if (document.getElementById('graphDivSimulation')) {
-        graph = new Dygraph(
-            document.getElementById('graphDivSimulation')!,
-            dataToSend,
-            {
-                labels: [
-                    'Date',
-                    'Money left',
-                    'Value of assets',
-                    'Money+asset value',
-                    'All-in strategy'
-                ],
-                ...partOfVisualizationConfig
-            }
-        );
-    }
+    const names = {
+        Price: 'Цена',
+        moneyBalance: 'Останали пари',
+        assetValue: 'Брой на притежаваните активите',
+        totalValue: 'Пари+стойност на активите',
+        maxPurchaseStrategy: 'Пари+стойност на активите'
+    };
+    graphs = Object.keys(names).map((id) => {
+        let data: any;
+        switch (id) {
+            case 'Price':
+                data = priceData;
+                break;
+            case 'moneyBalance':
+                data = moneyBalanceData;
+                break;
+            case 'assetValue':
+                data = assetValueData;
+                break;
+            case 'totalValue':
+                data = totalValueData;
+                break;
+            case 'maxPurchaseStrategy':
+                data = maxPurchaseStrategyData;
+                break;
+            default:
+                throw `Unexpected id ${id}`;
+        }
+        return new Dygraph(document.getElementById(`graphDiv_${id}`)!, data, {
+            labels: ['Дата', names[id]],
+            underlayCallback: function (canvas, area, g) {
+                const finalValueY = g.toDomYCoord(data[data.length - 1][1])!;
+                canvas.beginPath();
+                canvas.font = '20px Arial';
+                canvas.moveTo(area.x, finalValueY);
+                canvas.lineTo(area.x + area.w, finalValueY);
+                canvas.lineWidth = 1;
+                canvas.strokeStyle = 'black';
+                canvas.stroke();
+                const textXPosition = area.x + 10;
+                const textYPosition =
+                    finalValueY + 30 < area.h - 10
+                        ? finalValueY + 30
+                        : finalValueY - 20;
+                canvas.fillText(
+                    `Финална стойност: ${data[data.length - 1][1]}`,
+                    textXPosition,
+                    textYPosition
+                );
+            },
+            ...partOfVisualizationConfig
+        });
+    });
 }
+
 const partOfVisualizationConfig = {
     connectSeparatedPoints: false,
     labelsSeparateLines: true,
     logscale: false,
-    axisLabelWidth: 250
+    axisLabelWidth: 400,
+    width: 1500
 };
 </script>
-<template>
-    <p>Price of asset:</p>
-    <div id="graphDivPrice"></div>
-    <br />
-    <p>Simulation of strategy:</p>
 
-    <div id="graphDivSimulation"></div>
+<template>
+    <h3>Цена на актив:</h3>
+    <div id="graphDiv_Price"></div>
+    <br />
+    <h3>
+        Пари+стойност на активите в алтернативната стратегия "купи всичко в
+        началото":
+    </h3>
+    <div id="graphDiv_maxPurchaseStrategy"></div>
+    <br />
+    <h3>Пари+стойност на активите:</h3>
+    <div id="graphDiv_totalValue"></div>
+    <br />
+    <br />
+    <h3>Останали пари:</h3>
+    <div id="graphDiv_moneyBalance"></div>
+    <br />
+    <h3>Брой на притежаваните активите:</h3>
+    <div id="graphDiv_assetValue"></div>
+    <br />
 </template>
+
 <style scoped>
 .dygraph-axis-label-y {
     transform: translateX(10px);

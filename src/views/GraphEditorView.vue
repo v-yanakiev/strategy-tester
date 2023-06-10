@@ -3,7 +3,7 @@ import GraphEditor from '@/components/GraphEditor/GraphEditor.vue';
 </script>
 
 <template>
-    <h1>You can design your own strategy here:</h1>
+    <h1>Можете да изградите стратегия тук:</h1>
     <br />
     <GraphEditor />
 </template>

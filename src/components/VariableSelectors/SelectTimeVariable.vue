@@ -2,10 +2,6 @@
 import { useParsedDataStore } from '@/stores/parsedDataStore';
 import { ref } from 'vue';
 
-interface Props {
-    fieldNames: string[];
-}
-const props = defineProps<Props>();
 const selectedField = ref('');
 const dataStore = useParsedDataStore();
 const onTimeVariableChange = () => {
@@ -14,8 +10,8 @@ const onTimeVariableChange = () => {
 </script>
 
 <template>
-    <h2>Select the time variable:</h2>
-    <div v-for="(fieldName, index) in fieldNames" :key="index">
+    <h2>Изберете коя е времевата променлива:</h2>
+    <div v-for="(fieldName, index) in dataStore.fields" :key="index">
         <input
             type="radio"
             :value="fieldName"

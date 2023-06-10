@@ -9,19 +9,17 @@ const simulationStore = useSimulationStore();
 const graphStore = useGraphStore();
 </script>
 <template>
-    <h2 v-if="!parsedDataStore.parsedData">You haven't loaded data yet.</h2>
+    <h2 v-if="!parsedDataStore.parsedData">Не сте заредили данни.</h2>
     <h2 v-else-if="!parsedDataStore.timeVariableName">
-        You haven't set your time variable.
+        Не сте задали времева променлива.
     </h2>
     <h2 v-else-if="!parsedDataStore.priceVariableName">
-        You haven't set your price variable.
+        Не сте задали ценова променлива.
     </h2>
     <h2 v-else-if="!simulationStore.getInitialBalance()">
-        You haven't set your initial balance.
+        Не сте задали първоначален баланс.
     </h2>
-    <h2 v-else-if="!graphStore.strategyCanBeGenerated">
-        The graph is not valid.
-    </h2>
+    <h2 v-else-if="!graphStore.strategyCanBeGenerated">Графът не е валиден.</h2>
     <div v-else>
         <!-- <div> -->
         <slot></slot>

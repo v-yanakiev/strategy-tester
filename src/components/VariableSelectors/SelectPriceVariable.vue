@@ -2,10 +2,6 @@
 import { useParsedDataStore } from '@/stores/parsedDataStore';
 import { ref } from 'vue';
 
-interface Props {
-    fieldNames: string[];
-}
-const props = defineProps<Props>();
 const selectedField = ref('');
 const dataStore = useParsedDataStore();
 
@@ -15,8 +11,8 @@ const onVariableChange = () => {
 </script>
 
 <template>
-    <h2>Select the price variable:</h2>
-    <div v-for="(fieldName, index) in fieldNames" :key="index">
+    <h2>Изберете коя е ценовата променлива:</h2>
+    <div v-for="(fieldName, index) in dataStore.fields" :key="index">
         <input
             type="radio"
             :value="fieldName"

@@ -9,9 +9,10 @@ import { useGraphStore } from '@/stores/graphStore';
 import CanSimulationBeRan from '../common/CanSimulationBeRan.vue';
 import { isEnd, isStart, isVertex } from '@/common/nodeCalculator';
 import DeleteElement from './ActionsOnElement/DeleteElement.vue';
+import ExampleStrategies from './ExampleStrategies.vue';
+import GraphEditorInfo from './GraphEditorInfo.vue';
 const markedElement: Ref<Cell | undefined> = ref(undefined);
 const parsedDataStore = useParsedDataStore();
-
 const graphStore = useGraphStore();
 onMounted(() => {
     const container = <HTMLElement>document.getElementById('graph-container');
@@ -76,6 +77,42 @@ function attachNodeMarking() {
         markedElement.value = selectedCells[0];
     };
 }
+function loadStrategy(conditionYes: string, conditionNo?: string) {
+    graphStore.getGraph().batchUpdate(() => {
+        if (conditionNo) {
+            const yesConditionIf = graphStore.addIfBlock(conditionYes);
+            const noConditionIf = graphStore.addIfBlock(
+                conditionNo,
+                undefined,
+                yesConditionIf.getGeometry()!.y - 250
+            );
+            const buyNode = graphStore.addBuy('1');
+            const sellNode = graphStore.addSell('1');
+            graphStore.addPath(graphStore.getStartNode(), yesConditionIf, '');
+            graphStore.addPath(graphStore.getStartNode(), noConditionIf, '');
+            graphStore.addPath(yesConditionIf, buyNode, 'True');
+            graphStore.addPath(
+                yesConditionIf,
+                graphStore.getEndNode(),
+                'False'
+            );
+            graphStore.addPath(noConditionIf, sellNode, 'True');
+            graphStore.addPath(noConditionIf, graphStore.getEndNode(), 'False');
+            graphStore.addPath(buyNode, graphStore.getEndNode(), '');
+            graphStore.addPath(sellNode, graphStore.getEndNode(), '');
+        } else {
+            const ifNode = graphStore.addIfBlock(conditionYes);
+            const buyNode = graphStore.addBuy('1');
+            const sellNode = graphStore.addSell('1');
+            graphStore.addPath(graphStore.getStartNode(), ifNode, '');
+            graphStore.addPath(ifNode, buyNode, 'True');
+            graphStore.addPath(ifNode, sellNode, 'False');
+            graphStore.addPath(buyNode, graphStore.getEndNode(), '');
+            graphStore.addPath(sellNode, graphStore.getEndNode(), '');
+        }
+    });
+    graphStore.refreshGraph();
+}
 </script>
 
 <template>
@@ -83,17 +120,17 @@ function attachNodeMarking() {
     <div class="elementCreators">
         <ConditionedAdd
             @finalized="graphStore.addIfBlock"
-            click-label="Add If"
+            click-label="Добавете If блок"
             statement-label="if"
         />
         <AddAction
-            click-label="Add Buy Action"
-            statement-label="Buy amount (quantity, not currency) ="
+            click-label="Добавете Действие - Купи"
+            statement-label="Количество (брой, не валута) ="
             @finalized="graphStore.addBuy"
         />
         <AddAction
-            click-label="Add Sell Action"
-            statement-label="Sell amount (quantity, not currency) ="
+            click-label="Добавете Действие - Продай"
+            statement-label="Количество (брой, не валута) ="
             @finalized="graphStore.addSell"
         />
         <AddPath
@@ -107,6 +144,11 @@ function attachNodeMarking() {
     </div>
     <br />
     <div id="graph-container"></div>
+    <GraphEditorInfo />
+    <ExampleStrategies
+        @strategy-selected="loadStrategy"
+        v-if="!graphStore.hasBeenInteractedWith"
+    />
 </template>
 <style scoped>
 .elementCreators {
@@ -116,7 +158,7 @@ function attachNodeMarking() {
 #graph-container {
     background-color: white;
     width: 1000px;
-    height: 400px;
+    height: 500px;
     border-color: black;
     border-width: 1px;
     border: 2px solid black;

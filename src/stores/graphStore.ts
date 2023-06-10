@@ -2,14 +2,25 @@ import type { ParseResult } from 'papaparse';
 import { defineStore } from 'pinia';
 import { computed, ref, toRaw, type Ref } from 'vue';
 import { Cell, Graph, type CellStyle, Geometry } from '@maxgraph/core';
-import { NodeType, isCondition, isEnd, isStart } from '@/common/nodeCalculator';
+import {
+    NodeType,
+    PathChosen,
+    isCondition,
+    isEnd,
+    isStart
+} from '@/common/nodeCalculator';
 import { v4 as genId } from 'uuid';
 export const useGraphStore = defineStore('graph', () => {
     const strategyCanBeGenerated = ref(false);
     const startNode = ref(null) as Ref<Cell | null>;
     const endNode = ref(null) as Ref<Cell | null>;
     const graph = ref(null) as Ref<Graph | null>;
-    function addPath(startNode: Cell, endNode: Cell, value: any) {
+    const hasBeenInteractedWith = ref(false);
+    function addPath(
+        startNode: Cell,
+        endNode: Cell,
+        value: keyof typeof PathChosen | ''
+    ) {
         const edge = getGraph().insertEdge(
             getParent(),
             genId(),
@@ -54,18 +65,29 @@ export const useGraphStore = defineStore('graph', () => {
         getGraph().refresh();
         getParent().children.forEach((cell) => getGraph().refresh(cell));
     }
-    function addIfBlock(statement: string) {
+    function addIfBlock(
+        statement: string,
+        xCoordinate?: number,
+        yCoordinate?: number
+    ) {
+        // let updatedStatement = statement.match(/.{1,50}/g)!.join('\n');
         const ifVertex = getGraph().insertVertex(
             getParent(),
             genId(),
-            { value: statement, label: `if (${statement})`, type: NodeType.If },
-            200,
-            200,
+            {
+                value: statement,
+                label: `if (${statement})`,
+                type: NodeType.If
+            },
+            xCoordinate || 300,
+            yCoordinate || 350,
             100,
             100,
             <CellStyle>{ deletable: true, fillColor: 'orange' }
         );
         refreshGraph();
+        hasBeenInteractedWith.value = true;
+        return toRaw(ifVertex);
     }
     function addStart() {
         setStartNode(
@@ -74,7 +96,7 @@ export const useGraphStore = defineStore('graph', () => {
                 genId(),
                 {
                     value: 'Start',
-                    label: `Start`,
+                    label: `Начало`,
                     type: NodeType.Start
                 },
                 10,
@@ -92,11 +114,11 @@ export const useGraphStore = defineStore('graph', () => {
                 genId(),
                 {
                     value: 'End',
-                    label: `End`,
+                    label: `Край`,
                     type: NodeType.End
                 },
-                800,
-                200,
+                850,
+                150,
                 100,
                 100,
                 <CellStyle>{
@@ -106,17 +128,17 @@ export const useGraphStore = defineStore('graph', () => {
             )
         );
     }
-    function addBuy(statement: string) {
+    function addBuy(value: string) {
         const action = getGraph().insertVertex(
             getParent(),
             genId(),
             {
-                value: Number(statement),
-                label: `Buy: ${statement}`,
+                value: Number(value),
+                label: `Купи: ${value}`,
                 type: NodeType.Buy
             },
-            250,
-            250,
+            800,
+            300,
             100,
             100,
             <CellStyle>{
@@ -128,18 +150,20 @@ export const useGraphStore = defineStore('graph', () => {
             }
         );
         refreshGraph();
+        hasBeenInteractedWith.value = true;
+        return toRaw(action);
     }
-    function addSell(statement: string) {
+    function addSell(value: string) {
         const action = getGraph().insertVertex(
             getParent(),
             genId(),
             {
-                value: Number(statement),
-                label: `Sell: ${statement}`,
+                value: Number(value),
+                label: `Продай: ${value}`,
                 type: NodeType.Sell
             },
-            250,
-            250,
+            800,
+            20,
             100,
             100,
             <CellStyle>{
@@ -151,6 +175,8 @@ export const useGraphStore = defineStore('graph', () => {
             }
         );
         refreshGraph();
+        hasBeenInteractedWith.value = true;
+        return toRaw(action);
     }
     function getAllConditions() {
         return getAllNodes().filter((a) => isCondition(a));
@@ -193,6 +219,7 @@ export const useGraphStore = defineStore('graph', () => {
         addIfBlock,
         addBuy,
         addSell,
-        getAllConditions
+        getAllConditions,
+        hasBeenInteractedWith
     };
 });

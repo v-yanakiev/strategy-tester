@@ -33,13 +33,13 @@ function markPathEnd() {
             isEdge(markedNode)
         "
     >
-        End path
+        Завършете път
     </button>
     <button
         @click="markPathStart()"
         v-else-if="leadsNowhere(props.markedNode)"
         :disabled="!markedNode || isEnd(markedNode) || isEdge(markedNode)"
     >
-        Start path
+        Стартирайте път
     </button>
 </template>

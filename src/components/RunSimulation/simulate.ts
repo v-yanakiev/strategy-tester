@@ -18,7 +18,7 @@ import type { Cell } from '@maxgraph/core';
 import { watch } from 'vue';
 import * as simplestats from 'simple-statistics';
 import * as mathjs from 'mathjs';
-
+import * as technicalindicators from 'technicalindicators';
 export async function simulate() {
     const graphStore = useGraphStore();
     const simulationStore = useSimulationStore();
@@ -30,10 +30,10 @@ export async function simulate() {
     // const poolToUse = (workerpool as any).pool(url.toString(), {
     //     type: 'module'
     // });
-    simulationStore.state = SimulationState.StartingCalculations;
+
     const steps = parsedDataStore
-        .getNonProxyParsedData()!
-        .data.sort((a) => a[parsedDataStore.timeVariableName!]);
+        .getNonProxyParsedData()
+        .sort((a) => a[parsedDataStore.timeVariableName!]);
     simulationStore.moneyBalances = [
         simulationStore.getInitialBalance()!,
         simulationStore.getInitialBalance()!
@@ -81,6 +81,11 @@ function simulateEvolutionOfBalance(
     const simulationStore = useSimulationStore();
     simulationStore.maxQuantityThatCouldHaveBeenPurchasedInTheBeginning =
         Math.floor(moneyBalances[1] / steps[1][priceVariableName]);
+    simulationStore.moneyLeftAfterMaxPurchase =
+        moneyBalances[1] -
+        simulationStore.maxQuantityThatCouldHaveBeenPurchasedInTheBeginning *
+            steps[1][priceVariableName];
+
     for (let stepIndex = 1; stepIndex < steps.length; stepIndex++) {
         handleAllConnectedNodesInGraph(startNode);
         performContinuationOfTimeSeries();
@@ -113,7 +118,8 @@ function simulateEvolutionOfBalance(
                     moneyBalances[stepIndex],
                     moneyBalances,
                     simplestats,
-                    mathjs
+                    mathjs,
+                    technicalindicators
                 );
             } else {
                 outcome = calculationOrResult[stepIndex];
