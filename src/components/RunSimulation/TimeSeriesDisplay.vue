@@ -100,8 +100,11 @@ async function mountGraph() {
                 canvas.lineWidth = 1;
                 canvas.strokeStyle = 'black';
                 canvas.stroke();
-                const textXPosition = area.x;
-                const textYPosition = finalValueY + 20;
+                const textXPosition = area.x + 10;
+                const textYPosition =
+                    finalValueY + 30 < area.h - 10
+                        ? finalValueY + 30
+                        : finalValueY - 20;
                 canvas.fillText(
                     `Финална стойност: ${data[data.length - 1][1]}`,
                     textXPosition,
@@ -126,14 +129,15 @@ const partOfVisualizationConfig = {
     <h3>Цена на актив:</h3>
     <div id="graphDiv_Price"></div>
     <br />
-    <h3>Пари+стойност на активите:</h3>
-    <div id="graphDiv_totalValue"></div>
-    <br />
     <h3>
         Пари+стойност на активите в алтернативната стратегия "купи всичко в
         началото":
     </h3>
     <div id="graphDiv_maxPurchaseStrategy"></div>
+    <br />
+    <h3>Пари+стойност на активите:</h3>
+    <div id="graphDiv_totalValue"></div>
+    <br />
     <br />
     <h3>Останали пари:</h3>
     <div id="graphDiv_moneyBalance"></div>
