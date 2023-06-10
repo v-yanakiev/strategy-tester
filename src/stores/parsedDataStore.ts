@@ -41,7 +41,7 @@ export const useParsedDataStore = defineStore('parsedData', () => {
         parsedData.value = parsedDataValue;
     }
     function getNonProxyParsedData() {
-        return toRaw(parsedData.value);
+        return toRaw(filteredData.value);
     }
 
     return {

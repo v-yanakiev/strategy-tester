@@ -8,7 +8,7 @@ const parsedDataStore = useParsedDataStore();
 const originalData = parsedDataStore.getNonProxyParsedData()!;
 const priceVariableName = parsedDataStore.priceVariableName!;
 const timeVariableName = parsedDataStore.timeVariableName!;
-const dataToSend = originalData.data
+const dataToSend = originalData
 
     .map((step, index) => {
         let parsed = Date.parse(step[timeVariableName]);
@@ -27,7 +27,7 @@ const dataToSend = originalData.data
     })
     .filter((a) => a) as [Date, number, number, number][];
 
-const priceData = originalData.data
+const priceData = originalData
     .map((step) => {
         let parsed = Date.parse(step[timeVariableName]);
         const date = new Date(parsed);

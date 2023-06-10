@@ -32,9 +32,9 @@ export async function simulate() {
     // });
     simulationStore.state = SimulationState.StartingCalculations;
 
-    const steps = parsedDataStore.filteredData.sort(
-        (a) => a[parsedDataStore.timeVariableName!]
-    );
+    const steps = parsedDataStore
+        .getNonProxyParsedData()
+        .sort((a) => a[parsedDataStore.timeVariableName!]);
     simulationStore.moneyBalances = [
         simulationStore.getInitialBalance()!,
         simulationStore.getInitialBalance()!
