@@ -47,17 +47,27 @@ export async function simulate() {
     const allConditions = graphStore.getAllConditions();
     watch(
         () => simulationStore.state,
-        () =>
-            simulationStore.state ==
-                SimulationState.InitialCalculationsFinished &&
-            simulateEvolutionOfBalance(
-                graphStore.getStartNode(),
-                nodeAndItsConditionsResultOverTime,
-                steps,
-                simulationStore.moneyBalances,
-                simulationStore.quantitiesOfAssetInPossession,
-                parsedDataStore.priceVariableName!
-            )
+        () => {
+            if (
+                simulationStore.state ==
+                SimulationState.InitialCalculationsFinished
+            ) {
+            }
+            try {
+                simulateEvolutionOfBalance(
+                    graphStore.getStartNode(),
+                    nodeAndItsConditionsResultOverTime,
+                    steps,
+                    simulationStore.moneyBalances,
+                    simulationStore.quantitiesOfAssetInPossession,
+                    parsedDataStore.priceVariableName!
+                );
+            } catch (e) {
+                console.error(e);
+            } finally {
+                simulationStore.state = SimulationState.AllCalculationsFinished;
+            }
+        }
     );
 
     preCalculateWherePossible(
@@ -181,7 +191,6 @@ function simulateEvolutionOfBalance(
             }
         }
     }
-    simulationStore.state = SimulationState.AllCalculationsFinished;
 }
 function preCalculateWherePossible(
     allConditions: Cell[],

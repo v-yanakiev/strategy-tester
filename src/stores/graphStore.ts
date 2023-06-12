@@ -71,12 +71,14 @@ export const useGraphStore = defineStore('graph', () => {
         yCoordinate?: number
     ) {
         // let updatedStatement = statement.match(/.{1,50}/g)!.join('\n');
+        let regex = new RegExp(`([${['>', '<'].join('|')}])`, 'gi');
+        // Split the string
         const ifVertex = getGraph().insertVertex(
             getParent(),
             genId(),
             {
                 value: statement,
-                label: `if (${statement})`,
+                label: `if (${statement.replace(regex, '$1\n')})`,
                 type: NodeType.If
             },
             xCoordinate || 300,

@@ -9,13 +9,14 @@ function emitSMA() {
 function emitEMA() {
     emits(
         'strategySelected',
-        'technicalindicators.ema({period:5,values:previousSteps.map((a)=>a.Open)}).slice(-1)[0]>>currentStep.Open'
+        'technicalindicators.ema({period:5,values:previousSteps.map((a)=>a.Open)}).slice(-1)[0]>currentStep.Open'
     );
 }
 function emitMACD() {
     emits(
         'strategySelected',
-        'technicalindicators.macd(previousSteps.map((a)=>a.Open)).macdLine>30'
+        'technicalindicators.macd({values:previousSteps.map((a)=>a.Open),fastPeriod:5,slowPeriod:8,signalPeriod:3}asany).slice(-1)[0].MACD>technicalindicators.macd({values:previousSteps.map((a)=>a.Open),fastPeriod:5,slowPeriod:8,signalPeriod:3}asany).slice(-1)[0].signal',
+        'technicalindicators.macd({values:previousSteps.map((a)=>a.Open),fastPeriod:5,slowPeriod:8,signalPeriod:3}asany).slice(-1)[0].MACD<technicalindicators.macd({values:previousSteps.map((a)=>a.Open),fastPeriod:5,slowPeriod:8,signalPeriod:3}asany).slice(-1)[0].signal'
     );
 }
 function emitRSI() {
