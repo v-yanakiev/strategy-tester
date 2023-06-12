@@ -62,10 +62,10 @@ export async function simulate() {
                     simulationStore.quantitiesOfAssetInPossession,
                     parsedDataStore.priceVariableName!
                 );
+                simulationStore.state = SimulationState.AllCalculationsFinished;
             } catch (e) {
                 console.error(e);
-            } finally {
-                simulationStore.state = SimulationState.AllCalculationsFinished;
+                simulationStore.state = SimulationState.NotStarted;
             }
         }
     );

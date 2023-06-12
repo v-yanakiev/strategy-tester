@@ -15,8 +15,8 @@ function emitEMA() {
 function emitMACD() {
     emits(
         'strategySelected',
-        'technicalindicators.macd({values:previousSteps.map((a)=>a.Open),fastPeriod:5,slowPeriod:8,signalPeriod:3}).slice(-1)[0].MACD>technicalindicators.macd({values:previousSteps.map((a)=>a.Open),fastPeriod:5,slowPeriod:8,signalPeriod:3}).slice(-1)[0].signal',
-        'technicalindicators.macd({values:previousSteps.map((a)=>a.Open),fastPeriod:5,slowPeriod:8,signalPeriod:3}).slice(-1)[0].MACD<technicalindicators.macd({values:previousSteps.map((a)=>a.Open),fastPeriod:5,slowPeriod:8,signalPeriod:3}).slice(-1)[0].signal'
+        'technicalindicators.macd({values:previousSteps.map((a)=>a.Open),fastPeriod:5,slowPeriod:8,signalPeriod:3}).slice(-1)[0]?.MACD>technicalindicators.macd({values:previousSteps.map((a)=>a.Open),fastPeriod:5,slowPeriod:8,signalPeriod:3}).slice(-1)[0]?.signal',
+        'technicalindicators.macd({values:previousSteps.map((a)=>a.Open),fastPeriod:5,slowPeriod:8,signalPeriod:3}).slice(-1)[0]?.MACD<technicalindicators.macd({values:previousSteps.map((a)=>a.Open),fastPeriod:5,slowPeriod:8,signalPeriod:3}).slice(-1)[0]?.signal'
     );
 }
 function emitRSI() {
