@@ -64,7 +64,7 @@ async function mountGraph() {
     const names = {
         Price: 'Цена',
         moneyBalance: 'Останали пари',
-        assetValue: 'Брой на притежаваните активите',
+        assetValue: 'Брой на притежаваните активи',
         totalValue: 'Пари+стойност на активите',
         maxPurchaseStrategy: 'Пари+стойност на активите'
     };
@@ -142,7 +142,7 @@ const partOfVisualizationConfig = {
     <h3>Останали пари:</h3>
     <div id="graphDiv_moneyBalance"></div>
     <br />
-    <h3>Брой на притежаваните активите:</h3>
+    <h3>Брой на притежаваните активи:</h3>
     <div id="graphDiv_assetValue"></div>
     <br />
 </template>
