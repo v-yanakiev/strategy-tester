@@ -157,16 +157,6 @@ function simulateEvolutionOfBalance(
                     moneyBalances[stepIndex] -=
                         steps[stepIndex][priceVariableName] *
                         getNodeValue(node);
-                } else {
-                    // console.log(
-                    //     `You wanted to buy ${getNodeValue(
-                    //         node
-                    //     )} assets, at a price of ${
-                    //         steps[stepIndex][priceVariableName]
-                    //     } each, but you only had ${
-                    //         moneyBalances[stepIndex]
-                    //     } money`
-                    // );
                 }
             } else if (isSell(node)) {
                 if (
@@ -179,14 +169,6 @@ function simulateEvolutionOfBalance(
                     moneyBalances[stepIndex] +=
                         steps[stepIndex][priceVariableName] *
                         getNodeValue(node);
-                } else {
-                    // console.log(
-                    //     `You wanted to sell ${getNodeValue(
-                    //         node
-                    //     )} assets, but you only had ${
-                    //         quantitiesOfAssetInPossession[stepIndex]
-                    //     }`
-                    // );
                 }
             }
         }
