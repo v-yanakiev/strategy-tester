@@ -70,7 +70,7 @@ export async function simulate() {
         }
     );
 
-    preCalculateWherePossible(
+    transformConditions(
         allConditions,
         nodeAndItsConditionsResultOverTime,
         steps
@@ -174,7 +174,7 @@ function simulateEvolutionOfBalance(
         }
     }
 }
-function preCalculateWherePossible(
+function transformConditions(
     allConditions: Cell[],
     nodeAndItsConditionsResultOverTime: Map<string, Function | boolean[]>,
     steps: any[]
