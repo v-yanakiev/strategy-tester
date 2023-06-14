@@ -19,14 +19,11 @@ onMounted(() => {
     // Disables the built-in context menu
     InternalEvent.disableContextMenu(container);
     graphStore.setGraph(new Graph(container, undefined));
-    graphStore.getGraph().setPanning(true); // Use mouse right button for panning
-    // Gets the default getParent() for inserting new cells. This
-    // is normally the first child of the root (ie. layer 0).
+    graphStore.getGraph().setPanning(true);
     attachDeleteFunctionality();
     attachNodeMarking();
     attachValueLabelNonEquivalence();
     ensureEdgesCannotBeMovedAround();
-    // Adds cells to the model in a single step
     graphStore.getGraph().batchUpdate(() => {
         graphStore.addStart();
         graphStore.addEnd();

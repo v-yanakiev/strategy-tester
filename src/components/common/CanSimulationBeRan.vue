@@ -2,8 +2,6 @@
 import { useGraphStore } from '@/stores/graphStore';
 import { useParsedDataStore } from '@/stores/parsedDataStore';
 import { useSimulationStore } from '@/stores/simulationStore';
-import { onMounted } from 'vue';
-import TimeSeriesDisplay from '../RunSimulation/TimeSeriesDisplay.vue';
 const parsedDataStore = useParsedDataStore();
 const simulationStore = useSimulationStore();
 const graphStore = useGraphStore();
@@ -21,7 +19,6 @@ const graphStore = useGraphStore();
     </h2>
     <h2 v-else-if="!graphStore.strategyCanBeGenerated">Графът не е валиден.</h2>
     <div v-else>
-        <!-- <div> -->
         <slot></slot>
     </div>
 </template>
