@@ -8,6 +8,11 @@ const parsedDataStore = useParsedDataStore();
 const originalData = parsedDataStore.getNonProxyParsedData()!;
 const priceVariableName = parsedDataStore.priceVariableName!;
 const timeVariableName = parsedDataStore.timeVariableName!;
+function roundNumber(num: number, scale = 2): number {
+    let scalePow = Math.pow(10, scale);
+    return Math.round(num * scalePow) / scalePow;
+}
+
 const dataToSend = originalData
 
     .map((step, index) => {
@@ -19,13 +24,17 @@ const dataToSend = originalData
         }
         return [
             date,
-            simulationStore.moneyBalances[index],
-            simulationStore.quantitiesOfAssetInPossession[index],
-            simulationStore.moneyBalances[index] +
-                simulationStore.quantitiesOfAssetInPossession[index] * price,
-            simulationStore.maxQuantityThatCouldHaveBeenPurchasedInTheBeginning *
-                price +
-                simulationStore.moneyLeftAfterMaxPurchase
+            roundNumber(simulationStore.moneyBalances[index]),
+            roundNumber(simulationStore.quantitiesOfAssetInPossession[index]),
+            roundNumber(
+                simulationStore.moneyBalances[index] +
+                    simulationStore.quantitiesOfAssetInPossession[index] * price
+            ),
+            roundNumber(
+                simulationStore.maxQuantityThatCouldHaveBeenPurchasedInTheBeginning *
+                    price +
+                    simulationStore.moneyLeftAfterMaxPurchase
+            )
         ];
     })
     .filter((a) => a) as [Date, number, number, number, number][];
