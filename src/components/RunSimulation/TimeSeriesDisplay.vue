@@ -106,10 +106,20 @@ async function mountGraph() {
                         ? finalValueY + 30
                         : finalValueY - 20;
                 canvas.fillText(
-                    `Финална стойност: ${data[data.length - 1][1]}`,
+                    `Финална стойност: ${data[data.length - 1][1].toString()}`,
                     textXPosition,
                     textYPosition
                 );
+            },
+            axes: {
+                y: {
+                    valueFormatter: function (y) {
+                        return y.toString();
+                    },
+                    axisLabelFormatter: function (y) {
+                        return y.toString();
+                    }
+                }
             },
             ...partOfVisualizationConfig
         });
