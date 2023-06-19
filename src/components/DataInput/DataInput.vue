@@ -48,7 +48,7 @@ const preventDefault = (e: any) => {
     >
         Пуснете своя CSV файл тук.
     </div>
-    <h2 v-if="parsing">Parsing...</h2>
+    <h2 v-if="parsing">Обработване...</h2>
     <div v-else-if="parsedDataStore.fields">
         <h2>Данните бяха обработени успешно.</h2>
         <br />

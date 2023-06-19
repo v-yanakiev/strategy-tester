@@ -15,6 +15,6 @@ function deleteButtonPressed() {
         v-if="markedElement && !isStart(markedElement) && !isEnd(markedElement)"
         @click="deleteButtonPressed"
     >
-        Delete
+        Изтрий
     </button>
 </template>

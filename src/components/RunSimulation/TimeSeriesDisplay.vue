@@ -163,23 +163,23 @@ const partOfVisualizationConfig = {
 </script>
 
 <template>
-    <h2>Цена на актив:</h2>
+    <h1>Цена на актив:</h1>
     <div id="graphDiv_Price"></div>
     <br />
-    <h2>
+    <h1>
         Пари+стойност на активите в алтернативната стратегия "купи всичко в
         началото":
-    </h2>
+    </h1>
     <div id="graphDiv_maxPurchaseStrategy"></div>
     <br />
-    <h2>Пари+стойност на активите:</h2>
+    <h1>Пари+стойност на активите:</h1>
     <div id="graphDiv_totalValue"></div>
     <br />
     <br />
-    <h2>Останали пари:</h2>
+    <h1>Останали пари:</h1>
     <div id="graphDiv_moneyBalance"></div>
     <br />
-    <h2>Брой на притежаваните активи:</h2>
+    <h1>Брой на притежаваните активи:</h1>
     <div id="graphDiv_assetCount"></div>
     <br />
 </template>

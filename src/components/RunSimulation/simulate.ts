@@ -45,14 +45,9 @@ export async function simulate() {
         ConditionToCalculate | boolean[]
     >();
     const allConditions = graphStore.getAllConditions();
-    watch(
+    const destroyWatch = watch(
         () => simulationStore.state,
         () => {
-            if (
-                simulationStore.state ==
-                SimulationState.InitialCalculationsFinished
-            ) {
-            }
             try {
                 simulateEvolutionOfBalance(
                     graphStore.getStartNode(),
@@ -63,6 +58,7 @@ export async function simulate() {
                     parsedDataStore.priceVariableName!
                 );
                 simulationStore.state = SimulationState.AllCalculationsFinished;
+                destroyWatch();
             } catch (e) {
                 console.error(e);
                 simulationStore.state = SimulationState.NotStarted;
@@ -79,7 +75,7 @@ export async function simulate() {
 }
 function simulateEvolutionOfBalance(
     startNode: Cell,
-    nodeAndItsConditionsResultOverTime: Map<
+    nodesAndTheResultOfTheirConditionsOverTime: Map<
         string,
         ConditionToCalculate | boolean[]
     >,
@@ -117,9 +113,8 @@ function simulateEvolutionOfBalance(
             }
         }
         function continueFromConditionNode(node: Cell) {
-            const calculationOrResult = nodeAndItsConditionsResultOverTime.get(
-                node.id!
-            )!;
+            const calculationOrResult =
+                nodesAndTheResultOfTheirConditionsOverTime.get(node.id!)!;
             let outcome: boolean;
             if (calculationOrResult instanceof Function) {
                 outcome = calculationOrResult(
