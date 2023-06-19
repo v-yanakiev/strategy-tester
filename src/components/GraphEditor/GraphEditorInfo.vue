@@ -1,4 +1,11 @@
 <template>
+    <h3>В едитора имате достъп до следните променливи:</h3>
+    <ul>
+        <li>currentStep</li>
+        <li>previousSteps</li>
+        <li>currentBalance</li>
+        <li>previousBalances</li>
+    </ul>
     <h3>В едитора имате достъп до следните допълнителни библиотеки:</h3>
     <ul>
         <li><a href="https://mathjs.org/">mathjs</a></li>
