@@ -53,7 +53,7 @@ const priceData = originalData
 
 // Splitting data for each variable
 const moneyBalanceData = dataToSend.map((item) => [item[0], item[1]]);
-const assetValueData = dataToSend.map((item) => [item[0], item[2]]);
+const assetCountData = dataToSend.map((item) => [item[0], item[2]]);
 const totalValueData = dataToSend.map((item) => [item[0], item[3]]);
 const maxPurchaseStrategyData = dataToSend.map((item) => [item[0], item[4]]);
 
@@ -73,7 +73,7 @@ async function mountGraph() {
     const names = {
         Price: 'Цена',
         moneyBalance: 'Останали пари',
-        assetValue: 'Брой на притежаваните активи',
+        assetCount: 'Брой на притежаваните активи',
         totalValue: 'Пари+стойност на активите',
         maxPurchaseStrategy: 'Пари+стойност на активите'
     };
@@ -86,8 +86,8 @@ async function mountGraph() {
             case 'moneyBalance':
                 data = moneyBalanceData;
                 break;
-            case 'assetValue':
-                data = assetValueData;
+            case 'assetCount':
+                data = assetCountData;
                 break;
             case 'totalValue':
                 data = totalValueData;
@@ -115,7 +115,10 @@ async function mountGraph() {
                         ? finalValueY + 30
                         : finalValueY - 20;
                 canvas.fillText(
-                    `Финална стойност: ${data[data.length - 1][1].toString()}`,
+                    `Финална стойност: ${getFormattedByKey(
+                        data[data.length - 1][1],
+                        id
+                    )}`,
                     textXPosition,
                     textYPosition
                 );
@@ -123,10 +126,10 @@ async function mountGraph() {
             axes: {
                 y: {
                     valueFormatter: function (y) {
-                        return y.toString();
+                        return getFormattedByKey(y, id);
                     },
                     axisLabelFormatter: function (y) {
-                        return y.toString();
+                        return getFormattedByKey(y, id);
                     }
                 }
             },
@@ -134,7 +137,22 @@ async function mountGraph() {
         });
     });
 }
-
+function getFormattedByKey(toBeFormatted: number | Date, id: string) {
+    if (typeof toBeFormatted != 'number') {
+        return toBeFormatted.toString();
+    }
+    switch (id) {
+        case 'Price':
+        case 'moneyBalance':
+        case 'totalValue':
+        case 'maxPurchaseStrategy':
+            return toBeFormatted.toFixed(2).toString();
+        case 'assetCount':
+            return toBeFormatted.toString();
+        default:
+            throw `Unexpected id ${id}`;
+    }
+}
 const partOfVisualizationConfig = {
     connectSeparatedPoints: false,
     labelsSeparateLines: true,
@@ -145,24 +163,24 @@ const partOfVisualizationConfig = {
 </script>
 
 <template>
-    <h3>Цена на актив:</h3>
+    <h2>Цена на актив:</h2>
     <div id="graphDiv_Price"></div>
     <br />
-    <h3>
+    <h2>
         Пари+стойност на активите в алтернативната стратегия "купи всичко в
         началото":
-    </h3>
+    </h2>
     <div id="graphDiv_maxPurchaseStrategy"></div>
     <br />
-    <h3>Пари+стойност на активите:</h3>
+    <h2>Пари+стойност на активите:</h2>
     <div id="graphDiv_totalValue"></div>
     <br />
     <br />
-    <h3>Останали пари:</h3>
+    <h2>Останали пари:</h2>
     <div id="graphDiv_moneyBalance"></div>
     <br />
-    <h3>Брой на притежаваните активи:</h3>
-    <div id="graphDiv_assetValue"></div>
+    <h2>Брой на притежаваните активи:</h2>
+    <div id="graphDiv_assetCount"></div>
     <br />
 </template>
 
