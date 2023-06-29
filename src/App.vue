@@ -8,10 +8,16 @@ import { RouterLink, RouterView } from 'vue-router';
         <header>
             <div class="wrapper">
                 <nav>
-                    <RouterLink to="/">Home</RouterLink>
-                    <RouterLink to="dataInput">Зареждане на данни</RouterLink>
-                    <RouterLink to="graphEditor">Създаване на граф</RouterLink>
-                    <RouterLink to="runSimulation"
+                    <RouterLink to="/" v-test-id="'homeLink'">Home</RouterLink>
+                    <RouterLink to="dataInput" v-test-id="'dataInputLink'"
+                        >Зареждане на данни</RouterLink
+                    >
+                    <RouterLink to="graphEditor" v-test-id="'graphEditorLink'"
+                        >Създаване на граф</RouterLink
+                    >
+                    <RouterLink
+                        to="runSimulation"
+                        v-test-id="'runSimulationLink'"
                         >Пускане на симулация</RouterLink
                     >
                 </nav>

@@ -39,7 +39,9 @@ const preventDefault = (e: any) => {
 </script>
 
 <template>
-    <h1>Тук можете да пуснете вашите данни във формат .csv:</h1>
+    <h1 v-test-id="'dataLoadInfo'">
+        Тук можете да пуснете вашите данни във формат .csv:
+    </h1>
     <div
         class="dropzone"
         @dragover.prevent="preventDefault"
