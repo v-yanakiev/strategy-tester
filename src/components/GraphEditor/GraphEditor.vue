@@ -15,6 +15,7 @@ const markedElement: Ref<Cell | undefined> = ref(undefined);
 const parsedDataStore = useParsedDataStore();
 const graphStore = useGraphStore();
 onMounted(() => {
+    // throw 'test error!';
     const container = <HTMLElement>document.getElementById('graph-container');
     // Disables the built-in context menu
     InternalEvent.disableContextMenu(container);
