@@ -26,3 +26,5 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+nightwatch
+tests_output
