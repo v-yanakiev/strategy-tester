@@ -49,6 +49,12 @@ const preventDefault = (e: any) => {
         @drop.prevent="onFileChange"
     >
         Пуснете своя CSV файл тук.
+        <input
+            v-test-id="'fileInput'"
+            type="file"
+            @change="onFileChange"
+            style="display: none"
+        />
     </div>
     <h2 v-if="parsing">Обработване...</h2>
     <div v-else-if="parsedDataStore.fields">
