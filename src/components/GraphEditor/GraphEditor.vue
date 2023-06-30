@@ -25,7 +25,9 @@ onMounted(() => {
     attachNodeMarking();
     attachValueLabelNonEquivalence();
     ensureEdgesCannotBeMovedAround();
-    ensureIdsAppearInDOM();
+    if (import.meta.env.DEV) {
+        ensureIdsAppearInDOM();
+    }
     graphStore.getGraph().batchUpdate(() => {
         graphStore.addStart();
         graphStore.addEnd();
@@ -43,10 +45,13 @@ function attachValueLabelNonEquivalence() {
 function ensureIdsAppearInDOM() {
     let originalRedraw = graphStore.getGraph().getCellRenderer().redraw;
     graphStore.getGraph().getCellRenderer().redraw = function (state, value) {
-        originalRedraw.call(this, state, value);
+        originalRedraw.call(this, state);
 
         if (state.cell.id && state.text && state.text.node) {
-            state.shape!.node.setAttribute('id', 'shape_' + state.cell.id);
+            state.shape!.node.setAttribute(
+                'id',
+                'graphElement_' + state.cell.id
+            );
         }
     };
 }
@@ -156,7 +161,7 @@ function loadStrategy(conditionYes: string, conditionNo?: string) {
     <GraphEditorInfo />
     <ExampleStrategies
         @strategy-selected="loadStrategy"
-        v-if="!graphStore.hasBeenInteractedWith"
+        v-if="graphStore.interactionCount == 0"
     />
 </template>
 <style scoped>

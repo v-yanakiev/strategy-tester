@@ -15,7 +15,7 @@ export const useGraphStore = defineStore('graph', () => {
     const startNode = ref(null) as Ref<Cell | null>;
     const endNode = ref(null) as Ref<Cell | null>;
     const graph = ref(null) as Ref<Graph | null>;
-    const hasBeenInteractedWith = ref(false);
+    const interactionCount = ref(0);
     function addPath(
         startNode: Cell,
         endNode: Cell,
@@ -23,7 +23,7 @@ export const useGraphStore = defineStore('graph', () => {
     ) {
         const edge = getGraph().insertEdge(
             getParent(),
-            genId(),
+            interactionCount.value,
             value,
             toRaw(startNode),
             toRaw(endNode)
@@ -75,7 +75,7 @@ export const useGraphStore = defineStore('graph', () => {
         // Split the string
         const ifVertex = getGraph().insertVertex(
             getParent(),
-            genId(),
+            interactionCount.value,
             {
                 value: statement,
                 label: `if (${statement.replace(regex, '$1\n')})`,
@@ -88,14 +88,14 @@ export const useGraphStore = defineStore('graph', () => {
             <CellStyle>{ deletable: true, fillColor: 'orange' }
         );
         refreshGraph();
-        hasBeenInteractedWith.value = true;
+        interactionCount.value++;
         return toRaw(ifVertex);
     }
     function addStart() {
         setStartNode(
             getGraph().insertVertex(
                 getParent(),
-                'startNodeId',
+                'startNode',
                 {
                     value: 'Start',
                     label: `Начало`,
@@ -113,7 +113,7 @@ export const useGraphStore = defineStore('graph', () => {
         setEndNode(
             getGraph().insertVertex(
                 getParent(),
-                'endNodeId',
+                'endNode',
                 {
                     value: 'End',
                     label: `Край`,
@@ -133,7 +133,7 @@ export const useGraphStore = defineStore('graph', () => {
     function addBuy(value: string) {
         const action = getGraph().insertVertex(
             getParent(),
-            genId(),
+            interactionCount.value,
             {
                 value: Number(value),
                 label: `Купи: ${value}`,
@@ -152,13 +152,13 @@ export const useGraphStore = defineStore('graph', () => {
             }
         );
         refreshGraph();
-        hasBeenInteractedWith.value = true;
+        interactionCount.value++;
         return toRaw(action);
     }
     function addSell(value: string) {
         const action = getGraph().insertVertex(
             getParent(),
-            genId(),
+            interactionCount.value,
             {
                 value: Number(value),
                 label: `Продай: ${value}`,
@@ -177,7 +177,7 @@ export const useGraphStore = defineStore('graph', () => {
             }
         );
         refreshGraph();
-        hasBeenInteractedWith.value = true;
+        interactionCount.value++;
         return toRaw(action);
     }
     function getAllConditions() {
@@ -222,6 +222,6 @@ export const useGraphStore = defineStore('graph', () => {
         addBuy,
         addSell,
         getAllConditions,
-        hasBeenInteractedWith
+        interactionCount
     };
 });
