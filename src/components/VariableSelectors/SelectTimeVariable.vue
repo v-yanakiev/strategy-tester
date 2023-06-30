@@ -11,7 +11,11 @@ const onTimeVariableChange = () => {
 
 <template>
     <h2>Изберете коя е времевата променлива:</h2>
-    <div v-for="(fieldName, index) in dataStore.fields" :key="index">
+    <div
+        v-for="(fieldName, index) in dataStore.fields"
+        :key="index"
+        v-test-id="'possibleTimeVariables'"
+    >
         <input
             type="radio"
             :value="fieldName"

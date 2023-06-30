@@ -20,8 +20,14 @@ const onVariableChange = () => {
             type="number"
             v-model="selectedVariableName"
             placeholder="Въведете начален баланс (във валута)"
+            v-test-id="'initialBalanceInput'"
         />
-        <button @click="onVariableChange">Задайте начален баланс</button>
+        <button
+            @click="onVariableChange"
+            v-test-id="'initialBalanceConfirmation'"
+        >
+            Задайте начален баланс
+        </button>
     </div>
 </template>
 

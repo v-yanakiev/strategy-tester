@@ -12,7 +12,11 @@ const onVariableChange = () => {
 
 <template>
     <h2>Изберете коя е ценовата променлива:</h2>
-    <div v-for="(fieldName, index) in dataStore.fields" :key="index">
+    <div
+        v-for="(fieldName, index) in dataStore.fields"
+        :key="index"
+        v-test-id="'possiblePriceVariables'"
+    >
         <input
             type="radio"
             :value="fieldName"

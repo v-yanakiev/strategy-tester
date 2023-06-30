@@ -5,6 +5,7 @@
     <input
         type="datetime-local"
         v-model="simulationStore.startCutOffDate"
+        v-test-id="'simulationStartDate'"
         :min="earliestDateInDataset"
         :max="lastDateInDataset"
     />
@@ -14,6 +15,7 @@
     </h2>
     <input
         type="datetime-local"
+        v-test-id="'simulationEndDate'"
         v-model="simulationStore.endCutOffDate"
         :min="earliestDateInDataset"
         :max="lastDateInDataset"
