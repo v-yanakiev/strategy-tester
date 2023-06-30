@@ -1,4 +1,4 @@
-import { appUrl } from './constants';
+import { appUrl } from '../constants';
 
 export async function visitEveryTab() {
     await browser.url(appUrl);

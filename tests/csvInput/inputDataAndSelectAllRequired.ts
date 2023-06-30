@@ -1,7 +1,7 @@
 import * as nightwatch from 'nightwatch';
 import { inputAAPLShortened } from './inputAAPLShortened';
 
-export async function selectAllAfterDropping(
+export async function inputDataAndSelectAllRequired(
     browser: nightwatch.NightwatchBrowser
 ) {
     inputAAPLShortened(browser);
@@ -15,5 +15,4 @@ export async function selectAllAfterDropping(
     // Test price variable selection
     await browser.click(`#possiblePriceVariables input[value="Open"]`);
     await browser.pause(500);
-    await browser.end();
 }

@@ -32,10 +32,16 @@ function emitRSI() {
 
 <template>
     <h1>Може да заредите примерни стратегии:</h1>
-    <button @click="emitSMA">Simple Moving Average (SMA)</button>
-    <button @click="emitEMA">Exponential Moving Average (EMA)</button>
-    <button @click="emitMACD">
+    <button v-test-id="'SMAStrategyButton'" @click="emitSMA">
+        Simple Moving Average (SMA)
+    </button>
+    <button v-test-id="'EMAStrategyButton'" @click="emitEMA">
+        Exponential Moving Average (EMA)
+    </button>
+    <button v-test-id="'MACDStrategyButton'" @click="emitMACD">
         Moving Average Convergence Divergence (MACD)</button
-    ><button @click="emitRSI">Relative Strength Index (RSI)</button>
+    ><button v-test-id="'RSIStrategyButton'" @click="emitRSI">
+        Relative Strength Index (RSI)
+    </button>
 </template>
 <style scoped></style>
