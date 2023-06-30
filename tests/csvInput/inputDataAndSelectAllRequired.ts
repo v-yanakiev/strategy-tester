@@ -4,7 +4,7 @@ import { inputAAPLShortened } from './inputAAPLShortened';
 export async function inputDataAndSelectAllRequired(
     browser: nightwatch.NightwatchBrowser
 ) {
-    inputAAPLShortened(browser);
+    await inputAAPLShortened(browser);
     await browser.waitForElementVisible('#initialBalanceInput', 10000);
     await browser.setValue('#initialBalanceInput', '10000');
     await browser.click('#initialBalanceConfirmation');
