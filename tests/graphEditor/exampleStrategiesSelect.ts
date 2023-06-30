@@ -8,13 +8,13 @@ async function navigateToGraphEditor(browser: NightwatchBrowser) {
 }
 
 export default {
-    before: async function (browser: NightwatchBrowser) {
+    beforeEach: async function (browser: NightwatchBrowser) {
         await inputDataAndSelectAllRequired(browser);
         await navigateToGraphEditor(browser);
     },
 
-    after: function (browser: NightwatchBrowser) {
-        checkForBrowserExceptions(browser);
+    afterEach: async function (browser: NightwatchBrowser) {
+        await checkForBrowserExceptions(browser);
     },
 
     'Select SMA': async function (browser: NightwatchBrowser) {

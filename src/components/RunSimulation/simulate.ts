@@ -60,8 +60,8 @@ export async function simulate() {
                 simulationStore.state = SimulationState.AllCalculationsFinished;
                 destroyWatch();
             } catch (e) {
-                console.error(e);
                 simulationStore.state = SimulationState.NotStarted;
+                throw e;
             }
         }
     );
