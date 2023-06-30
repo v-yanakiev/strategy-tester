@@ -21,6 +21,7 @@ function stopSimulation() {
 </script>
 <template>
     <button
+        v-test-id="'startSimulationButton'"
         v-if="
             simulationStore.state == SimulationState.NotStarted ||
             simulationStore.state == SimulationState.AllCalculationsFinished
