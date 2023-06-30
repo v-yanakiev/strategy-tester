@@ -95,7 +95,7 @@ export const useGraphStore = defineStore('graph', () => {
         setStartNode(
             getGraph().insertVertex(
                 getParent(),
-                genId(),
+                'startNodeId',
                 {
                     value: 'Start',
                     label: `Начало`,
@@ -113,7 +113,7 @@ export const useGraphStore = defineStore('graph', () => {
         setEndNode(
             getGraph().insertVertex(
                 getParent(),
-                genId(),
+                'endNodeId',
                 {
                     value: 'End',
                     label: `Край`,
