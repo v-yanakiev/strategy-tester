@@ -7,7 +7,7 @@ import AddPath from './AddNewElement/AddPath.vue';
 import { useParsedDataStore } from '@/stores/parsedDataStore';
 import { useGraphStore } from '@/stores/graphStore';
 import CanSimulationBeRan from '../common/CanSimulationBeRan.vue';
-import { isEnd, isStart, isVertex } from '@/common/nodeCalculator';
+import { isEdge, isEnd, isStart, isVertex } from '@/common/nodeCalculator';
 import DeleteElement from './ActionsOnElement/DeleteElement.vue';
 import ExampleStrategies from './ExampleStrategies.vue';
 import GraphEditorInfo from './GraphEditorInfo.vue';
@@ -25,6 +25,7 @@ onMounted(() => {
     attachNodeMarking();
     attachValueLabelNonEquivalence();
     ensureEdgesCannotBeMovedAround();
+    ensureIdsAppearInDOM();
     graphStore.getGraph().batchUpdate(() => {
         graphStore.addStart();
         graphStore.addEnd();
@@ -37,6 +38,21 @@ function attachValueLabelNonEquivalence() {
             return cell.value.label;
         }
         return cell.value;
+    };
+}
+function ensureIdsAppearInDOM() {
+    let originalRedrawLabel = graphStore
+        .getGraph()
+        .getCellRenderer().redrawLabel;
+    graphStore.getGraph().getCellRenderer().redrawLabel = function (
+        state,
+        value
+    ) {
+        originalRedrawLabel.call(this, state, value);
+
+        if (state.cell.id && state.text && state.text.node) {
+            state.text.node.setAttribute('id', 'label_' + state.cell.id);
+        }
     };
 }
 function attachDeleteFunctionality() {
