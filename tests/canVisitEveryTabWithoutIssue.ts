@@ -1,8 +1,9 @@
 import * as nightwatch from 'nightwatch';
+import { appUrl } from './functionality/commonFunctionality';
 
 export default {
     'Navigation Test': async (browser: nightwatch.NightwatchBrowser) => {
-        await browser.url('http://localhost:4000/');
+        await browser.url(appUrl);
         await browser.waitForElementVisible('body');
         await browser.click('[test-id="dataInputLink"]');
         await browser.pause(1000);

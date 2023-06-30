@@ -50,7 +50,7 @@ const preventDefault = (e: any) => {
     >
         Пуснете своя CSV файл тук.
         <input
-            v-test-id="'fileInput'"
+            id="fileInput"
             type="file"
             @change="onFileChange"
             style="display: none"
