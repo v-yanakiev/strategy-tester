@@ -3,21 +3,21 @@ import { checkForBrowserExceptions } from '../errorChecking/checkForBrowserExcep
 import { inputDataAndSelectAllRequired } from '../csvInput/inputDataAndSelectAllRequired';
 import * as strategySelection from '../graphEditor/selectExampleStrategies';
 async function navigateToRunSimulation(browser: NightwatchBrowser) {
-    await browser.pause(1000);
+    await browser.pause(500);
     await browser.click('#runSimulationLink');
 }
 async function visitEveryTab() {
     await browser.click('#dataInputLink');
-    await browser.pause(1000);
+    await browser.pause(500);
     await browser.assert.urlContains('/dataInput');
     await browser.click('#graphEditorLink');
-    await browser.pause(1000);
+    await browser.pause(500);
     await browser.assert.urlContains('/graphEditor');
     await browser.click('#runSimulationLink');
-    await browser.pause(1000);
+    await browser.pause(500);
     await browser.assert.urlContains('/runSimulation');
     await browser.click('#homeLink');
-    await browser.pause(1000);
+    await browser.pause(500);
     await browser.assert.urlContains('/');
     await browser.captureBrowserExceptions((event) => {
         browser.assert.ok(false);
@@ -27,10 +27,10 @@ async function visitEveryTab() {
 export default {
     afterEach: async function (browser: NightwatchBrowser) {
         await navigateToRunSimulation(browser);
-        await browser.pause(1000);
+        await browser.pause(500);
         await browser.click('#startSimulationButton');
         await browser.waitForElementVisible('#graphDiv_Price', 60000);
-        await browser.pause(1000);
+        await browser.pause(500);
         await visitEveryTab();
         await checkForBrowserExceptions(browser);
     },

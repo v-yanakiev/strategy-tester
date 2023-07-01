@@ -8,7 +8,7 @@ export async function inputDataAndSelectAllRequired(
     await browser.waitForElementVisible('#initialBalanceInput', 10000);
     await browser.setValue('#initialBalanceInput', '10000');
     await browser.click('#initialBalanceConfirmation');
-    await browser.pause(1000);
+    await browser.pause(500);
     // Test time variable selection
     await browser.click(`#possibleTimeVariables input[value="Date"]`);
     await browser.pause(500);
