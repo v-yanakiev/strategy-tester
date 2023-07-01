@@ -81,11 +81,11 @@ async function finalizeSellAction(browser: NightwatchBrowser) {
     return ++elementCount;
 }
 async function clickStartNode(browser: NightwatchBrowser) {
-    await clickMxGraphElement(browser, '#graphElement_startNode');
+    await clickMxGraphElement(browser, 'graphElement_startNode');
     await browser.pause(500);
 }
 async function clickEndNode(browser: NightwatchBrowser) {
-    await clickMxGraphElement(browser, '#graphElement_endNode');
+    await clickMxGraphElement(browser, 'graphElement_endNode');
     await browser.pause(500);
 }
 async function clickStartNormalPathButton(browser: NightwatchBrowser) {
@@ -97,7 +97,7 @@ async function clickEndNormalPathButton(browser: NightwatchBrowser) {
     await browser.pause(500);
 }
 async function clickNodeWithCertainId(browser: NightwatchBrowser, id: number) {
-    await clickMxGraphElement(browser, '#graphElement_' + id);
+    await clickMxGraphElement(browser, 'graphElement_' + id);
     await browser.pause(500);
 }
 async function clickStartTruePathButton(browser: NightwatchBrowser) {
@@ -120,20 +120,18 @@ async function clickMxGraphElement(
     browser: NightwatchBrowser,
     elementId: string
 ) {
-    browser.execute(
+    const newElementId = await browser.execute(
         function (selector) {
-            const element = document.querySelector(selector);
+            const element = document.querySelector('#' + selector);
             const rect = element!.getBoundingClientRect();
             const centerX = rect.left + rect.width / 2;
             const centerY = rect.top + rect.height / 2;
             const target = document.elementFromPoint(centerX, centerY);
-            const event = new MouseEvent('click', {
-                bubbles: true,
-                cancelable: true,
-                view: window
-            });
-            target!.dispatchEvent(event);
+            const newId = selector + 'text';
+            target!.id = newId;
+            return newId;
         },
         [elementId]
     );
+    await browser.click('#' + newElementId);
 }
