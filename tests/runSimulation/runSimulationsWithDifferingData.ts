@@ -37,7 +37,13 @@ async function inputOtherData(browser: NightwatchBrowser) {
     await browser.click(`#possiblePriceVariables input[value="Open"]`);
     await browser.pause(500);
 }
-
+async function runSeriesOfSimulations(browser: NightwatchBrowser) {
+    await runSimulation(browser);
+    await runSimulation(browser);
+    await inputOtherData(browser);
+    await runSimulation(browser);
+    await checkForBrowserExceptions(browser);
+}
 async function runSimulation(browser: NightwatchBrowser) {
     await navigateToRunSimulation(browser);
     await browser.pause(1000);
@@ -46,36 +52,32 @@ async function runSimulation(browser: NightwatchBrowser) {
     await browser.pause(1000);
 }
 export default {
-    afterEach: async function (browser: NightwatchBrowser) {
-        await runSimulation(browser);
-        await runSimulation(browser);
-        await inputOtherData(browser);
-        await runSimulation(browser);
-        await checkForBrowserExceptions(browser);
-        await browser.pause(2000);
-    },
-
     'Run SMA': async function (browser: NightwatchBrowser) {
         await strategySelection.default.beforeEach(browser);
         await strategySelection.default['Select SMA'](browser);
+        await runSeriesOfSimulations(browser);
     },
 
     'Run EMA': async function (browser: NightwatchBrowser) {
         await strategySelection.default.beforeEach(browser);
         await strategySelection.default['Select EMA'](browser);
+        await runSeriesOfSimulations(browser);
     },
 
     'Run MACD': async function (browser: NightwatchBrowser) {
         await strategySelection.default.beforeEach(browser);
         await strategySelection.default['Select MACD'](browser);
+        await runSeriesOfSimulations(browser);
     },
 
     'Run RSI': async function (browser: NightwatchBrowser) {
         await strategySelection.default.beforeEach(browser);
         await strategySelection.default['Select RSI'](browser);
+        await runSeriesOfSimulations(browser);
     },
 
     'Run Custom Strategy': async function (browser: NightwatchBrowser) {
         await createCustomStrategy(browser);
+        await runSeriesOfSimulations(browser);
     }
 };
