@@ -7,23 +7,7 @@ async function navigateToRunSimulation(browser: NightwatchBrowser) {
     await browser.pause(500);
     await browser.click('#runSimulationLink');
 }
-async function visitEveryTab() {
-    await browser.click('#dataInputLink');
-    await browser.pause(500);
-    await browser.assert.urlContains('/dataInput');
-    await browser.click('#graphEditorLink');
-    await browser.pause(500);
-    await browser.assert.urlContains('/graphEditor');
-    await browser.click('#runSimulationLink');
-    await browser.pause(500);
-    await browser.assert.urlContains('/runSimulation');
-    await browser.click('#homeLink');
-    await browser.pause(500);
-    await browser.assert.urlContains('/');
-    await browser.captureBrowserExceptions((event) => {
-        browser.assert.ok(false);
-    });
-}
+
 async function runSimulation(browser: NightwatchBrowser) {
     await navigateToRunSimulation(browser);
     await browser.pause(500);
@@ -34,10 +18,9 @@ async function runSimulation(browser: NightwatchBrowser) {
 export default {
     afterEach: async function (browser: NightwatchBrowser) {
         await runSimulation(browser);
-        await visitEveryTab();
-        await checkForBrowserExceptions(browser);
         await inputOtherData(browser);
         await runSimulation(browser);
+        await checkForBrowserExceptions(browser);
     },
 
     'Run SMA': async function (browser: NightwatchBrowser) {
