@@ -1,6 +1,6 @@
 import { NightwatchBrowser } from 'nightwatch';
 import { checkForBrowserExceptions } from '../errorChecking/checkForBrowserExceptions';
-import { inputDataAndSelectAllRequired } from '../csvInput/inputDataAndSelectAllRequired';
+import { inputDataAndSelectAllRequired } from '../csvInput/inputDataAndSelectAll';
 
 export default {
     beforeEach: async function (browser: NightwatchBrowser) {
