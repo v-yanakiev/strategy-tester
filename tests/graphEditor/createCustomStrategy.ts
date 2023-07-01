@@ -34,6 +34,19 @@ export async function createCustomStrategy(browser: NightwatchBrowser) {
     await clickStartNormalPathButton(browser);
     await clickEndNode(browser);
     await clickEndNormalPathButton(browser);
+    await clickNodeWithCertainId(browser, sellBlockId);
+    await clickDeleteButton(browser);
+    clickAddSellButton(browser);
+    inputSellCondition(browser);
+    const otherSellBlockId = await finalizeSellAction(browser);
+    await clickNodeWithCertainId(browser, ifBlockId);
+    await clickStartTruePathButton(browser);
+    await clickNodeWithCertainId(browser, otherSellBlockId);
+    await clickEndTruePathButton(browser);
+    await clickNodeWithCertainId(browser, otherSellBlockId);
+    await clickStartNormalPathButton(browser);
+    await clickEndNode(browser);
+    await clickEndNormalPathButton(browser);
 }
 async function clickAddIfBlock(browser: NightwatchBrowser) {
     await browser.click('#addIfBlockButton');
@@ -92,6 +105,7 @@ async function clickStartNormalPathButton(browser: NightwatchBrowser) {
 async function clickEndNormalPathButton(browser: NightwatchBrowser) {
     await browser.click('#endNormalPath');
     await browser.pause(500);
+    return ++elementCount;
 }
 async function clickNodeWithCertainId(browser: NightwatchBrowser, id: number) {
     await browser.click('#graphElement_' + id);
@@ -104,6 +118,7 @@ async function clickStartTruePathButton(browser: NightwatchBrowser) {
 async function clickEndTruePathButton(browser: NightwatchBrowser) {
     await browser.click('#endPathTrue');
     await browser.pause(500);
+    return ++elementCount;
 }
 async function clickStartFalsePathButton(browser: NightwatchBrowser) {
     await browser.click('#startPathFalse');
@@ -111,5 +126,10 @@ async function clickStartFalsePathButton(browser: NightwatchBrowser) {
 }
 async function clickEndFalsePathButton(browser: NightwatchBrowser) {
     await browser.click('#endPathFalse');
+    await browser.pause(500);
+    return ++elementCount;
+}
+async function clickDeleteButton(browser: NightwatchBrowser) {
+    await browser.click('#deleteButton');
     await browser.pause(500);
 }
