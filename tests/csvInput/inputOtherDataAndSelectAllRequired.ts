@@ -1,10 +1,10 @@
 import { NightwatchBrowser } from 'nightwatch';
-import { navigateToDataInputTab } from '../navigation/navigateToDataInputTab';
 import { AAPLEarlyDataFilePath } from '../constants';
 import { checkForBrowserExceptions } from '../errorChecking/checkForBrowserExceptions';
 
 export async function inputOtherData(browser: NightwatchBrowser) {
-    await navigateToDataInputTab(browser);
+    await browser.click('#dataInputLink');
+    await browser.pause(200);
     await browser.execute(function () {
         (document!.querySelector('#fileInput') as HTMLElement)!.style!.display =
             'block';

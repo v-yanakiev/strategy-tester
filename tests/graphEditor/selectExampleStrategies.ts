@@ -1,12 +1,12 @@
 import { NightwatchBrowser } from 'nightwatch';
 import { checkForBrowserExceptions } from '../errorChecking/checkForBrowserExceptions';
 import { inputDataAndSelectAllRequired } from '../csvInput/inputDataAndSelectAllRequired';
-import { navigateToGraphEditor } from '../navigation/navigateToGraphEditorTab';
 
 export default {
     beforeEach: async function (browser: NightwatchBrowser) {
         await inputDataAndSelectAllRequired(browser);
-        await navigateToGraphEditor(browser);
+        await browser.click('#graphEditorLink');
+        await browser.pause(500);
     },
 
     afterEach: async function (browser: NightwatchBrowser) {
