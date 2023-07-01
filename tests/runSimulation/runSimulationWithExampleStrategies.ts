@@ -1,7 +1,7 @@
 import { NightwatchBrowser } from 'nightwatch';
 import { checkForBrowserExceptions } from '../errorChecking/checkForBrowserExceptions';
 import { inputDataAndSelectAllRequired } from '../csvInput/inputDataAndSelectAllRequired';
-import * as strategySelection from '../graphEditor/exampleStrategiesSelect';
+import * as strategySelection from '../graphEditor/selectExampleStrategies';
 async function navigateToRunSimulation(browser: NightwatchBrowser) {
     await browser.pause(1000);
     await browser.click('#runSimulationLink');
