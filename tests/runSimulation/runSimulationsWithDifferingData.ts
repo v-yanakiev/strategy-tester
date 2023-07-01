@@ -15,7 +15,7 @@ const AAPLEarlyDataFilePath = path.resolve(
 
 async function inputOtherData(browser: NightwatchBrowser) {
     await browser.click('#dataInputLink');
-    await browser.pause(200);
+    await browser.pause(1000);
     await browser.execute(function () {
         (document!.querySelector('#fileInput') as HTMLElement)!.style!.display =
             'block';
@@ -40,7 +40,7 @@ async function inputOtherData(browser: NightwatchBrowser) {
 
 async function runSimulation(browser: NightwatchBrowser) {
     await navigateToRunSimulation(browser);
-    await browser.pause(500);
+    await browser.pause(1000);
     await browser.click('#startSimulationButton');
     await browser.waitForElementVisible('#graphDiv_Price', 60000);
     await browser.pause(1000);
@@ -48,14 +48,11 @@ async function runSimulation(browser: NightwatchBrowser) {
 export default {
     afterEach: async function (browser: NightwatchBrowser) {
         await runSimulation(browser);
+        await runSimulation(browser);
         await inputOtherData(browser);
         await runSimulation(browser);
         await checkForBrowserExceptions(browser);
-        await browser.pause(500);
-    },
-
-    'Run Custom Strategy': async function (browser: NightwatchBrowser) {
-        await createCustomStrategy(browser);
+        await browser.pause(2000);
     },
 
     'Run SMA': async function (browser: NightwatchBrowser) {
@@ -76,5 +73,9 @@ export default {
     'Run RSI': async function (browser: NightwatchBrowser) {
         await strategySelection.default.beforeEach(browser);
         await strategySelection.default['Select RSI'](browser);
+    },
+
+    'Run Custom Strategy': async function (browser: NightwatchBrowser) {
+        await createCustomStrategy(browser);
     }
 };
