@@ -32,6 +32,7 @@ function markPathEnd() {
             isStart(markedNode) ||
             isEdge(markedNode)
         "
+        v-test-id="'endNormalPath'"
     >
         Завършете път
     </button>
@@ -39,6 +40,7 @@ function markPathEnd() {
         @click="markPathStart()"
         v-else-if="leadsNowhere(props.markedNode)"
         :disabled="!markedNode || isEnd(markedNode) || isEdge(markedNode)"
+        v-test-id="'startNormalPath'"
     >
         Стартирайте път
     </button>

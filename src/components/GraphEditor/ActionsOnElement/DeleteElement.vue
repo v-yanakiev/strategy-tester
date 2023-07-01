@@ -14,6 +14,7 @@ function deleteButtonPressed() {
     <button
         v-if="markedElement && !isStart(markedElement) && !isEnd(markedElement)"
         @click="deleteButtonPressed"
+        v-test-id="'deleteButton'"
     >
         Изтрий
     </button>

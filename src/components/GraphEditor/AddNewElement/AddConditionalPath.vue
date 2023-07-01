@@ -46,6 +46,7 @@ function falsePathAlreadySelected() {
             isStart(markedNode) ||
             isEdge(markedNode)
         "
+        v-test-id="'endPathTrue'"
     >
         Завършете път - True
     </button>
@@ -53,6 +54,7 @@ function falsePathAlreadySelected() {
         @click="markPathStart(PathChosen.True)"
         v-else-if="!pathChosen && !truePathAlreadySelected()"
         :disabled="!markedNode"
+        v-test-id="'startPathTrue'"
     >
         Стартирайте път - True
     </button>
@@ -63,6 +65,7 @@ function falsePathAlreadySelected() {
         :disabled="
             !markedNode || markedNode == startNode || isStart(markedNode)
         "
+        v-test-id="'endPathFalse'"
     >
         Завършете път - False
     </button>
@@ -70,6 +73,7 @@ function falsePathAlreadySelected() {
         @click="markPathStart(PathChosen.False)"
         v-else-if="!pathChosen && !falsePathAlreadySelected()"
         :disabled="!markedNode"
+        v-test-id="'startPathFalse'"
     >
         Стартирайте път - False
     </button>

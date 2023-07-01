@@ -138,11 +138,13 @@ function loadStrategy(conditionYes: string, conditionNo?: string) {
             statement-label="if"
         />
         <AddAction
+            test-id="'buy'"
             click-label="Добавете Действие - Купи"
             statement-label="Количество (брой, не валута) ="
             @finalized="graphStore.addBuy"
         />
         <AddAction
+            test-id="'sell'"
             click-label="Добавете Действие - Продай"
             statement-label="Количество (брой, не валута) ="
             @finalized="graphStore.addSell"

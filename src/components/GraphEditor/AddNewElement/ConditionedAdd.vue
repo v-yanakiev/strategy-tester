@@ -14,13 +14,19 @@ const finalize = () => {
 };
 </script>
 <template>
-    <button v-if="!menuActivated" @click="menuActivated = true">
+    <button
+        v-if="!menuActivated"
+        @click="menuActivated = true"
+        v-test-id="'addIfBlockButton'"
+    >
         {{ clickLabel }}
     </button>
     <div v-if="menuActivated">
         <label>{{ statementLabel }} (</label>
-        <input v-model="statement" />
+        <input v-model="statement" v-test-id="'ifStatementInput'" />
         <label>) </label>
-        <button @click="finalize">Добави</button>
+        <button @click="finalize" v-test-id="'finalizeIfStatementButton'">
+            Добави
+        </button>
     </div>
 </template>
