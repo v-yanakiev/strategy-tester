@@ -55,7 +55,7 @@ async function clickAddIfBlock(browser: NightwatchBrowser) {
 async function inputIfCondition(browser: NightwatchBrowser) {
     await browser.setValue(
         '#ifStatementInput',
-        'mathjs.mean(previousSteps, slice(previousSteps.length-20, undefined).map(a=> a.Open)) < currentStep.Open'
+        'mathjs.mean(previousSteps.slice(previousSteps.length-20, undefined).map(a=> a.Open)) < currentStep.Open'
     );
     await browser.pause(500);
 }
