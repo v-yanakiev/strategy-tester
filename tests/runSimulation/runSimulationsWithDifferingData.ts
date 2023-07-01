@@ -51,11 +51,13 @@ export default {
         await inputOtherData(browser);
         await runSimulation(browser);
         await checkForBrowserExceptions(browser);
+        await browser.pause(500);
     },
 
     'Run Custom Strategy': async function (browser: NightwatchBrowser) {
         await createCustomStrategy(browser);
     },
+
     'Run SMA': async function (browser: NightwatchBrowser) {
         await strategySelection.default.beforeEach(browser);
         await strategySelection.default['Select SMA'](browser);
