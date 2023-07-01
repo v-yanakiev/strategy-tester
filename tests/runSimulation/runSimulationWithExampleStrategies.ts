@@ -2,6 +2,7 @@ import { NightwatchBrowser } from 'nightwatch';
 import { checkForBrowserExceptions } from '../errorChecking/checkForBrowserExceptions';
 import { inputDataAndSelectAllRequired } from '../csvInput/inputDataAndSelectAllRequired';
 import * as strategySelection from '../graphEditor/selectExampleStrategies';
+import { inputOtherData } from '../csvInput/inputOtherDataAndSelectAllRequired';
 async function navigateToRunSimulation(browser: NightwatchBrowser) {
     await browser.pause(500);
     await browser.click('#runSimulationLink');
@@ -23,16 +24,20 @@ async function visitEveryTab() {
         browser.assert.ok(false);
     });
 }
-
+async function runSimulation(browser: NightwatchBrowser) {
+    await navigateToRunSimulation(browser);
+    await browser.pause(500);
+    await browser.click('#startSimulationButton');
+    await browser.waitForElementVisible('#graphDiv_Price', 60000);
+    await browser.pause(500);
+}
 export default {
     afterEach: async function (browser: NightwatchBrowser) {
-        await navigateToRunSimulation(browser);
-        await browser.pause(500);
-        await browser.click('#startSimulationButton');
-        await browser.waitForElementVisible('#graphDiv_Price', 60000);
-        await browser.pause(500);
+        await runSimulation(browser);
         await visitEveryTab();
         await checkForBrowserExceptions(browser);
+        await inputOtherData(browser);
+        await runSimulation(browser);
     },
 
     'Run SMA': async function (browser: NightwatchBrowser) {
