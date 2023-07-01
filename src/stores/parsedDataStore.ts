@@ -15,11 +15,11 @@ export const useParsedDataStore = defineStore('parsedData', () => {
         if (!parsedData.value || !timeVariableName.value) {
             throw 'You should set time variable name before filtering data.';
         }
-        const startCutOffDate = simulationStore.startCutOffDate
-            ? new Date(simulationStore.startCutOffDate)
+        const startCutOffDate = simulationStore.startCutOffDateString
+            ? new Date(simulationStore.startCutOffDateString)
             : null;
-        const endCutOffDate = simulationStore.endCutOffDate
-            ? new Date(simulationStore.endCutOffDate)
+        const endCutOffDate = simulationStore.endCutOffDateString
+            ? new Date(simulationStore.endCutOffDateString)
             : null;
         return parsedData.value.data.filter((value) => {
             if (!timeVariableName.value) {
