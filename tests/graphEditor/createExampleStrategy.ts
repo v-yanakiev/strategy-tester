@@ -5,8 +5,6 @@ export async function createExampleStrategy(browser: NightwatchBrowser) {
     await inputDataAndSelectAllRequired(browser);
     await browser.click('#graphEditorLink');
     await browser.pause(500);
-    await clickStartNode(browser);
-
     await clickAddIfBlock(browser);
     await inputIfCondition(browser);
     const ifBlockId = await finalizeIfCondition(browser);
@@ -36,7 +34,6 @@ export async function createExampleStrategy(browser: NightwatchBrowser) {
     await clickStartNormalPathButton(browser);
     await clickEndNode(browser);
     await clickEndNormalPathButton(browser);
-    await browser.pause(2000000);
 }
 async function clickAddIfBlock(browser: NightwatchBrowser) {
     await browser.click('#addIfBlockButton');
@@ -81,11 +78,11 @@ async function finalizeSellAction(browser: NightwatchBrowser) {
     return ++elementCount;
 }
 async function clickStartNode(browser: NightwatchBrowser) {
-    await clickMxGraphElement(browser, 'graphElement_startNode');
+    await browser.click('#graphElement_startNode');
     await browser.pause(500);
 }
 async function clickEndNode(browser: NightwatchBrowser) {
-    await clickMxGraphElement(browser, 'graphElement_endNode');
+    await browser.click('#graphElement_endNode');
     await browser.pause(500);
 }
 async function clickStartNormalPathButton(browser: NightwatchBrowser) {
@@ -97,7 +94,7 @@ async function clickEndNormalPathButton(browser: NightwatchBrowser) {
     await browser.pause(500);
 }
 async function clickNodeWithCertainId(browser: NightwatchBrowser, id: number) {
-    await clickMxGraphElement(browser, 'graphElement_' + id);
+    await browser.click('#graphElement_' + id);
     await browser.pause(500);
 }
 async function clickStartTruePathButton(browser: NightwatchBrowser) {
@@ -115,23 +112,4 @@ async function clickStartFalsePathButton(browser: NightwatchBrowser) {
 async function clickEndFalsePathButton(browser: NightwatchBrowser) {
     await browser.click('#endPathFalse');
     await browser.pause(500);
-}
-async function clickMxGraphElement(
-    browser: NightwatchBrowser,
-    elementId: string
-) {
-    const newElementId = await browser.execute(
-        function (selector) {
-            const element = document.querySelector('#' + selector);
-            const rect = element!.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-            const target = document.elementFromPoint(centerX, centerY);
-            const newId = selector + 'text';
-            target!.id = newId;
-            return newId;
-        },
-        [elementId]
-    );
-    await browser.click('#' + newElementId);
 }

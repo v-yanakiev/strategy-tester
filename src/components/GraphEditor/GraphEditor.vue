@@ -43,15 +43,18 @@ function attachValueLabelNonEquivalence() {
     };
 }
 function ensureIdsAppearInDOM() {
-    let originalRedraw = graphStore.getGraph().getCellRenderer().redraw;
-    graphStore.getGraph().getCellRenderer().redraw = function (state, value) {
-        originalRedraw.call(this, state);
+    let originalRedrawLabel = graphStore
+        .getGraph()
+        .getCellRenderer().redrawLabel;
+
+    graphStore.getGraph().getCellRenderer().redrawLabel = function (
+        state,
+        forced
+    ) {
+        originalRedrawLabel.call(this, state, forced);
 
         if (state.cell.id && state.text && state.text.node) {
-            state.shape!.node.setAttribute(
-                'id',
-                'graphElement_' + state.cell.id
-            );
+            state.text.node.setAttribute('id', 'graphElement_' + state.cell.id);
         }
     };
 }
