@@ -15,8 +15,4 @@ export async function inputDataAndSelectAllRequired(
     // Test price variable selection
     await browser.click(`#possiblePriceVariables input[value="Open"]`);
     await browser.pause(500);
-
-    await browser.setValue('#simulationStartDate', ['01', '07', '2005']);
-    await browser.setValue('#simulationEndDate', ['02', '07', '2020']);
-    await browser.pause(10000000);
 }

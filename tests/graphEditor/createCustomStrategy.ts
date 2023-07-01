@@ -1,5 +1,5 @@
 import { NightwatchBrowser } from 'nightwatch';
-import { inputDataAndSelectAllRequired } from '../csvInput/inputDataAndSelectAll';
+import { inputDataAndSelectAllRequired } from '../csvInput/inputDataAndSelectAllRequired';
 let elementCount = 1;
 export async function createCustomStrategy(browser: NightwatchBrowser) {
     await inputDataAndSelectAllRequired(browser);
