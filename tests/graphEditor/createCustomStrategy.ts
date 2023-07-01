@@ -1,7 +1,7 @@
 import { NightwatchBrowser } from 'nightwatch';
 import { inputDataAndSelectAllRequired } from '../csvInput/inputDataAndSelectAllRequired';
 let elementCount = 1;
-export async function createExampleStrategy(browser: NightwatchBrowser) {
+export async function createCustomStrategy(browser: NightwatchBrowser) {
     await inputDataAndSelectAllRequired(browser);
     await browser.click('#graphEditorLink');
     await browser.pause(500);
