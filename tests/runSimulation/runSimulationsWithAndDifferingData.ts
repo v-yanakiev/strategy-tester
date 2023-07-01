@@ -1,8 +1,8 @@
 import { NightwatchBrowser } from 'nightwatch';
-import { checkForBrowserExceptions } from '../errorChecking/checkForBrowserExceptions';
-import { inputDataAndSelectAllRequired } from '../csvInput/inputDataAndSelectAllRequired';
-import * as strategySelection from '../graphEditor/selectExampleStrategies';
 import { inputOtherData } from '../csvInput/inputOtherDataAndSelectAllRequired';
+import { checkForBrowserExceptions } from '../errorChecking/checkForBrowserExceptions';
+import * as strategySelection from '../graphEditor/selectExampleStrategies';
+import { createCustomStrategy } from '../graphEditor/createCustomStrategy';
 async function navigateToRunSimulation(browser: NightwatchBrowser) {
     await browser.pause(500);
     await browser.click('#runSimulationLink');
@@ -22,7 +22,9 @@ export default {
         await runSimulation(browser);
         await checkForBrowserExceptions(browser);
     },
-
+    'Run Custom Strategy': async function (browser: NightwatchBrowser) {
+        await createCustomStrategy(browser);
+    },
     'Run SMA': async function (browser: NightwatchBrowser) {
         await strategySelection.default.beforeEach(browser);
         await strategySelection.default['Select SMA'](browser);

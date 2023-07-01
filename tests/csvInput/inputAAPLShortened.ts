@@ -1,7 +1,12 @@
 import { NightwatchBrowser } from 'nightwatch';
 import { startAppAndNavigateToDataInputTab } from '../navigation/startAppAndNavigateToDataInputTab';
 import { checkForBrowserExceptions } from '../errorChecking/checkForBrowserExceptions';
-import { AAPLShortenedFilePath } from '../constants';
+const path = require('path');
+
+const AAPLShortenedFilePath = path.resolve(
+    __dirname,
+    '../../data/AAPLShortened.csv'
+);
 
 export async function inputAAPLShortened(browser: NightwatchBrowser) {
     await startAppAndNavigateToDataInputTab(browser);

@@ -1,6 +1,11 @@
 import { NightwatchBrowser } from 'nightwatch';
-import { AAPLEarlyDataFilePath } from '../constants';
 import { checkForBrowserExceptions } from '../errorChecking/checkForBrowserExceptions';
+const path = require('path');
+
+const AAPLEarlyDataFilePath = path.resolve(
+    __dirname,
+    '../../data/AAPLEarlyData.csv'
+);
 
 export async function inputOtherData(browser: NightwatchBrowser) {
     await browser.click('#dataInputLink');

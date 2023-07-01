@@ -1,6 +1,5 @@
 import { NightwatchBrowser } from 'nightwatch';
-import { appUrl } from '../constants';
-
+const appUrl = 'http://localhost:4000/';
 export async function startAppAndNavigateToDataInputTab(
     browser: NightwatchBrowser
 ) {
