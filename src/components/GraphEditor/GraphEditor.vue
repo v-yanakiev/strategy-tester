@@ -106,7 +106,6 @@ function loadStrategy(conditionYes: string, conditionNo?: string) {
             const buyNode = graphStore.addBuy('1');
             const sellNode = graphStore.addSell('1');
             graphStore.addPath(graphStore.getStartNode(), yesConditionIf, '');
-            graphStore.addPath(graphStore.getStartNode(), noConditionIf, '');
             graphStore.addPath(yesConditionIf, buyNode, 'True');
             graphStore.addPath(yesConditionIf, noConditionIf, 'False');
             graphStore.addPath(noConditionIf, sellNode, 'True');
