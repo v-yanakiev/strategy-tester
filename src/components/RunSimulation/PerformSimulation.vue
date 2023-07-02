@@ -11,7 +11,7 @@ function runSimulation() {
     simulationStore.moneyBalances = [];
     simulationStore.quantitiesOfAssetInPossession = [];
     simulationStore.state = SimulationState.StartingCalculations;
-    setTimeout(() => simulate());
+    setTimeout(() => simulate(), 100);
 }
 function stopSimulation() {
     simulationStore.moneyBalances = [];
