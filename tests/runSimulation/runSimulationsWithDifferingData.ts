@@ -51,6 +51,10 @@ async function runSimulation(browser: NightwatchBrowser) {
     await browser.pause(1000);
 }
 export default {
+    'Run Custom Strategy': async function (browser: NightwatchBrowser) {
+        await createCustomStrategy(browser);
+        await runSeriesOfSimulations(browser);
+    },
     'Run SMA': async function (browser: NightwatchBrowser) {
         await strategySelection.default.beforeEach(browser);
         await strategySelection.default['Select SMA'](browser);
@@ -72,11 +76,6 @@ export default {
     'Run RSI': async function (browser: NightwatchBrowser) {
         await strategySelection.default.beforeEach(browser);
         await strategySelection.default['Select RSI'](browser);
-        await runSeriesOfSimulations(browser);
-    },
-
-    'Run Custom Strategy': async function (browser: NightwatchBrowser) {
-        await createCustomStrategy(browser);
         await runSeriesOfSimulations(browser);
     }
 };
