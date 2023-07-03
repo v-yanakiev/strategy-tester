@@ -39,7 +39,6 @@ async function inputOtherData(browser: NightwatchBrowser) {
 }
 async function runSeriesOfSimulations(browser: NightwatchBrowser) {
     await runSimulation(browser);
-    await runSimulation(browser);
     await inputOtherData(browser);
     await runSimulation(browser);
     await checkForBrowserExceptions(browser);
