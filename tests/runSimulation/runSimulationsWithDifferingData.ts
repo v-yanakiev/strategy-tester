@@ -48,7 +48,7 @@ async function runSimulation(browser: NightwatchBrowser) {
     await browser.pause(1000);
     await browser.click('#startSimulationButton');
     await browser.waitForElementVisible('#graphDiv_Price', 60000);
-    await browser.pause(1000);
+    await browser.pause(5000);
 }
 export default {
     'Run Custom Strategy': async function (browser: NightwatchBrowser) {
